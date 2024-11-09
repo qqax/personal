@@ -1,23 +1,49 @@
 import Image from "next/image";
-import {copyright} from "valid-copyright";
-import Menu from "@/app/ui/Menu";
 
 export default function Home() {
-  return (
-    <div>
-      <main className="relative flex p-8 sm:p-20 pb-20 flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          src="/portrait.jpg"
-          alt="Alexander Kudryavtsev"
-          width={428}
-          height={725}
-          priority
-        />
-          <Menu/>
-      </main>
-      <footer className="w-full h-20 flex items-center justify-center">
-          <p>{copyright(2024, {owner: "Alexander Kudryavtsev"})}</p>
-      </footer>
-    </div>
-  );
+    return (
+        <main
+            className="flex flex-row m-10 p-8 justify-center bg-black bg-opacity-50">
+            <div className="w-2/3 flex p-8 flex-col gap-2 text-lg leading-tight ">
+                <p>
+                    Alexander was born on July 31, 1987 in Moscow, Russia.
+                </p>
+                <p>
+                    He studied in Prof. T. Zelikman's piano class at the Gnessin School and afterwards at the
+                    Gnessin
+                    Academy. Later he taught at the Gnessin Academy (2016 — 2022). Now he works as a teacher at the
+                    Kyrgyz
+                    National Conservatory named K. Maldybasanov.
+                </p>
+                <p>
+                    Alexander toured Italy, Germany, the Netherlands, the Czech Republic, France, and Russia as a
+                    pianist.
+                    Repeatedly performed solo and played with the orchestra in various halls of Moscow, including
+                    the
+                    Great
+                    Hall of the Moscow Conservatory. Have records on the radio and CDs.
+                </p>
+                <p>
+                    Alexander is the winner of many competitions. Among them is the 1st prize in the radio
+                    competition
+                    "Concertino Prague" (2003), the 1st prize and the medal of the President of Italy of the 4th
+                    international
+                    competition of the association "Dino Ciani" (Verbania, Italy, 2005), the winner of the 1st prize
+                    of
+                    the
+                    1st Stanislav Neuhaus International Piano Competition (2007).
+                </p>
+            </div>
+
+            <div className={"w-96 h-full ml-auto"}>
+                <Image
+                    src="/portrait.jpg"
+                    alt="Alexander Kudryavtsev"
+                    width={1177}
+                    height={1772}
+                    priority
+                />
+            </div>
+        </main>
+    );
 }
