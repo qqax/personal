@@ -1,8 +1,8 @@
 import type {Metadata} from "next";
 import "./globals.css";
 import {Jura} from 'next/font/google';
-import Footer from "@/app/ui/Footer";
 import NavLinks from '@/app/ui/NavLinks';
+import Footer from "@/app/ui/Footer";
 
 const jura = Jura({subsets: ['latin', 'cyrillic']});
 
@@ -20,7 +20,7 @@ export default function RootLayout({
     return (
         <html lang="en">
         <body
-            className={`${jura.className} antialiased bg-[url('../public/keyboard.jpg')] bg-cover text-gray-200`}
+            className={`${jura.className} relative min-h-screen pb-20 antialiased bg-[url('../public/keyboard.jpg')] bg-cover text-gray-200`}
         >
         <NavLinks/>
         {children}

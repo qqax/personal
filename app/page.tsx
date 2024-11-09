@@ -3,8 +3,9 @@ import Image from "next/image";
 export default function Home() {
     return (
         <main
-            className="flex flex-row m-10 p-8 justify-center bg-black bg-opacity-50">
-            <div className="w-2/3 flex p-8 flex-col gap-2 text-lg leading-tight ">
+            className="flex flex-row m-10 p-4 justify-center bg-black bg-opacity-50 border-[1px] border-blue-700">
+            <div className="w-2/3 flex p-8 flex-col gap-4 text-lg leading-tight">
+                <h2 className={"text-2xl"}>Biography</h2>
                 <p>
                     Alexander was born on July 31, 1987 in Moscow, Russia.
                 </p>
@@ -35,7 +36,7 @@ export default function Home() {
                 </p>
             </div>
 
-            <div className={"w-96 h-full ml-auto"}>
+            <div className={"w-96 h-full m-auto"}>
                 <Image
                     src="/portrait.jpg"
                     alt="Alexander Kudryavtsev"
