@@ -12,6 +12,9 @@ const config: Config = {
                 background: "var(--background)",
                 foreground: "var(--foreground)",
             },
+            textColor: {
+                beige: "#a19681",
+            }
         },
     },
     plugins: [],

@@ -1,11 +1,13 @@
 import Image from "next/image";
+import clsx from "clsx";
+import {bgStyle} from "@/app/ui/styles";
 
 export default function Home() {
     return (
         <main
-            className="flex flex-row gap-8 m-10 p-10 justify-center bg-black bg-opacity-50 border-[1px] border-blue-700 backdrop-blur-md">
+            className={clsx("flex flex-row gap-8 max-w-[60rem] p-10 justify-center border-[1px] border-blue-700", bgStyle)}>
             <div className="w-2/3 flex flex-col gap-4 text-lg leading-tight">
-                <h2 className={"text-2xl"}>Biography</h2>
+                <h2 className={"text-2xl text-beige"}>Biography</h2>
                 <p>
                     Alexander was born on July 31, 1987 in Moscow, Russia.
                 </p>

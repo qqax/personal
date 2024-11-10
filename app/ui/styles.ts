@@ -1,0 +1,1 @@
+export const bgStyle: string = "bg-black bg-opacity-50 backdrop-blur-md";
