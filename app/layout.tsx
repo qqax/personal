@@ -22,7 +22,7 @@ export default function RootLayout({
             className={`${jura.className} relative min-h-screen pb-20 antialiased bg-[url('../public/keyboard.jpg')] bg-cover text-gray-200`}
         >
         <NavLinks/>
-        <div className={"flex justify-center p-16"}>
+        <div className={"flex justify-center p-20"}>
             {children}
         </div>
         <Footer/>
