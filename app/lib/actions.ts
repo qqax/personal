@@ -3,7 +3,6 @@
 import {z} from 'zod';
 import {sendMail} from "@/app/lib/sendMail";
 import {revalidatePath} from "next/cache";
-import {toast} from "sonner";
 
 const ContactMailSchema = z.object({
     name: z.string().min(2, {message: 'Please Enter Your Name'}),
@@ -19,7 +18,7 @@ export type State = {
         email?: string[];
         message?: string[];
     };
-    message?: string | null;
+    status?: string | null;
 };
 
 export async function sendContactMail(prevState: State | undefined, formData: FormData) {
@@ -29,15 +28,17 @@ export async function sendContactMail(prevState: State | undefined, formData: Fo
         message: formData.get('message'),
     });
 
+    const state: State = {}
+
     if (!validatedFields.success) {
-        return {
-            errors: validatedFields.error.flatten().fieldErrors,
-            message: 'Missing Fields. Failed to Create Email.',
-        };
+        state.errors = validatedFields.error.flatten().fieldErrors;
+        state.status = 'pending';
+
+        return state;
     }
 
     const {name, email, message} = validatedFields.data;
-    const mailText = `Name: ${name}\n  Email: ${email}\nMessage: ${message}`;
+    const mailText = `Name: ${name}\nEmail: ${email}\nMessage: ${message}`;
 
     const response = await sendMail({
         email: email,
@@ -46,10 +47,12 @@ export async function sendContactMail(prevState: State | undefined, formData: Fo
     });
 
     if (response?.messageId) {
-        toast.info('Email sent successfully.');
+        state.status = "submitted";
     } else {
-        toast.error('Failed to send email.');
+        state.status = "error";
     }
 
     revalidatePath('/contacts');
+
+    return state;
 }

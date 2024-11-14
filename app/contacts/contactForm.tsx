@@ -1,45 +1,46 @@
 'use client'
 
-import {useActionState} from 'react';
+import {FormEvent, startTransition, useActionState, useEffect, useRef} from 'react';
 import {sendContactMail, State} from "@/app/lib/actions";
-import {Input, TextArea} from "@/app/ui/Input";
-import clsx from "clsx";
-import {bgStyle} from "@/app/ui/styles";
+import {Input, InputError, TextArea} from "@/app/ui/Input";
+import {toast} from "sonner";
 
 export default function ContactForm() {
-    const initialState: State = { message: null, errors: {} };
+    const ref = useRef<HTMLFormElement>(null);
+    const initialState: State = { errors: {}, status: null };
     const [state, formAction] = useActionState(sendContactMail, initialState);
 
-    return (<form action={formAction} className={"flex flex-col gap-4"}>
-        <label htmlFor="name">Name:</label>
+    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const fd = new FormData(event.currentTarget);
+        startTransition(async () => {
+            formAction(fd);
+        });
+    }
+
+    useEffect(() => {
+        if (state.status === "submitted") {
+            ref.current?.reset();
+            state.status = null;
+            state.errors = {};
+            toast.success('Email sent successfully.');
+        } else if (state.status === "error") {
+            toast.error('Failed to send email.');
+        }
+    });
+
+    return (<form ref={ref} onSubmit={onSubmit} className={"flex flex-col"}>
+        <label htmlFor="name" className={"mb-2"}>Name:</label>
         <Input id="name" name={"name"} type="text" aria-describedby="name-error" required/>
-        <div id="name-error" aria-live="polite" aria-atomic="true">
-            {state?.errors && state.errors.name &&
-                <p className="text-sm text-red-500" key={state.errors.name.join(" ")}>
-                    {state.errors.name.join(" ")}
-                </p>
-            }
-        </div>
+        <InputError id="name-error" errorMessage={state?.errors?.name?.join(". ")}/>
 
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="email" className={"mb-2"}>Email:</label>
         <Input id="email" name={"email"} type="email" aria-describedby="email-error" required/>
-        <div id="email-error" aria-live="polite" aria-atomic="true">
-            {state?.errors && state.errors.email &&
-                <p className="text-sm text-red-500" key={state.errors.email.join(" ")}>
-                    {state.errors.email.join(" ")}
-                </p>
-            }
-        </div>
+        <InputError id="email-error" errorMessage={state?.errors?.email?.join(". ")}/>
 
-        <label htmlFor="message">Your message:</label>
+        <label htmlFor="message" className={"mb-2"}>Your message:</label>
         <TextArea id="message" name="message" rows={4} cols={50} aria-describedby="message-error" required/>
-        <div id="message-error" aria-live="polite" aria-atomic="true">
-            {state?.errors && state.errors.message &&
-                <p className={clsx("text-sm text-red-500  p-2 bg-opacity-20", bgStyle)} key={state.errors.message.join(" ")}>
-                    {state.errors.message.join(" ")}
-                </p>
-            }
-        </div>
+        <InputError id="message-error" errorMessage={state?.errors?.message?.join(". ")}/>
 
         <button type={"submit"} className={"bg-amber-300 text-black py-1"}>Send message</button>
     </form>);
