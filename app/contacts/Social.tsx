@@ -5,7 +5,7 @@ import youtubeIcon from "../../public/icons/youtube.svg";
 
 const Social = () => {
     return (
-        <div className={"flex"}>
+        <div className={"flex items-center gap-2"}>
             <Link href={"#"}>
                 <Image
                     src={facebookIcon}

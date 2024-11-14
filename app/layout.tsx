@@ -3,6 +3,7 @@ import "./globals.css";
 import {Jura} from 'next/font/google';
 import NavLinks from '@/app/ui/NavLinks';
 import Footer from "@/app/ui/Footer";
+import {Toaster} from "sonner";
 
 const jura = Jura({subsets: ['latin', 'cyrillic']});
 
@@ -24,6 +25,7 @@ export default function RootLayout({
         <NavLinks/>
         <div className={"flex justify-center p-20"}>
             {children}
+            <Toaster />
         </div>
         <Footer/>
         </body>

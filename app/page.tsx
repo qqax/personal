@@ -7,7 +7,7 @@ export default function Home() {
         <main
             className={clsx("flex flex-row gap-8 max-w-[60rem] p-10 justify-center border-[1px] border-blue-700", bgStyle)}>
             <div className="w-2/3 flex flex-col gap-4 text-lg leading-tight">
-                <h2 className={"text-2xl text-beige"}>Biography</h2>
+                <h2 className={"text-3xl text-beige"}>Biography</h2>
                 <p>
                     Alexander was born on July 31, 1987 in Moscow, Russia.
                 </p>
