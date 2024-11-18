@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import {bgStyle} from "@/app/ui/styles";
-import Social from "@/app/contacts/Social";
+import Social from "@/app/components/social";
 import ContactForm from "@/app/contacts/contactForm";
 
 const contacts = {mail: ["alar0@yahoo.com"], tel: ["+996 (700) 386-364"]}

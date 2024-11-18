@@ -1,6 +1,8 @@
 import Image from "next/image";
 import clsx from "clsx";
 import {bgStyle} from "@/app/ui/styles";
+import Social from "@/app/components/social";
+import NewsForm from "@/app/components/newsForm";
 
 export default function Home() {
     return (
@@ -38,7 +40,7 @@ export default function Home() {
                 </p>
             </div>
 
-            <div className={"w-96 h-full "}>
+            <div className={"flex flex-col w-96 h-full gap-8"}>
                 <Image
                     src="/portrait.jpg"
                     alt="Alexander Kudryavtsev"
@@ -46,6 +48,8 @@ export default function Home() {
                     height={1772}
                     priority
                 />
+                <NewsForm/>
+                <Social/>
             </div>
         </main>
     );
