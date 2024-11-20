@@ -3,7 +3,7 @@
 import {z} from 'zod';
 import {sendMail} from "@/app/lib/sendMail";
 import {revalidatePath} from "next/cache";
-import verifyReCaptcha from "@/app/lib/ReCaptcha";
+import verifyReCaptcha from "@/app/lib/reCaptcha";
 
 const tokenValidation = z.string().min(10, {message: 'Unexpected error occurred.'});
 const mailValidation = z.string().email({message: 'Please Enter a Valid Email Address'});

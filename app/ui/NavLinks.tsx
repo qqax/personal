@@ -25,7 +25,7 @@ const NavLinks = () => {
                               "flex justify-center w-24 py-4 border-l-[1px] border-gray-500 hover:bg-opacity-20 hover:bg-gray-500 transition duration-100",
                               {
                                   "border-r-[1px]": index === menuItems.length - 1,
-                                  "text-red-400 bg-gray-500 bg-opacity-40": pathname === href,
+                                  "text-red-600 bg-gray-600 bg-opacity-40": pathname === href,
                                   "bg-opacity-20": pathname !== href,
                               },
                           )}>
