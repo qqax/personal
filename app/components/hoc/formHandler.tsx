@@ -18,11 +18,12 @@ export type CustomThProps = {
     state: StatusState;
 }
 
-export default function FormHandler({Component, action, ...props}: {
+export default function FormHandler({Component, action, reCaptchaAction, ...props}: {
     action: (state: Awaited<StatusState & { errors?: {} }>, payload: FormData) => Promise<StatusState & {
         errors?: {}
     }>,
-    Component: FunctionComponent<CustomThProps>
+    Component: FunctionComponent<CustomThProps>,
+    reCaptchaAction: string
 }) {
     const ref = useRef<HTMLFormElement>(null);
     const initialState: StatusState = {errors: {}, status: null};
@@ -38,7 +39,7 @@ export default function FormHandler({Component, action, ...props}: {
 
         const fd = new FormData(event.currentTarget);
 
-        const token = await executeRecaptcha("contact_form_submit");
+        const token = await executeRecaptcha(reCaptchaAction);
         fd.append("token", token);
 
         startTransition(() => formAction(fd));

@@ -4,7 +4,7 @@ import React from 'react';
 import {sendContactMail} from "@/app/lib/actions";
 import {Input, InputError, TextArea} from "@/app/ui/Input";
 import {WaitButton} from "@/app/ui/Button";
-import FormHandler, {CustomThProps} from "@/app/components/formHandler";
+import FormHandler, {CustomThProps} from "@/app/components/hoc/formHandler";
 
 const ContactFormComponent = ({ref, state, onSubmit, isPending}: CustomThProps) => {
     return (<form ref={ref} onSubmit={onSubmit} className={"flex flex-col"}>
@@ -26,5 +26,5 @@ const ContactFormComponent = ({ref, state, onSubmit, isPending}: CustomThProps) 
 }
 
 export default function ContactForm() {
-    return (<FormHandler action={sendContactMail} Component={ContactFormComponent}/>);
+    return (<FormHandler action={sendContactMail} Component={ContactFormComponent} reCaptchaAction={"contact_form_submit"}/>);
 }

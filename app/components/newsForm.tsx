@@ -4,7 +4,7 @@ import React from "react";
 import {addMailoutEmail} from "@/app/lib/actions";
 import {Input, InputError} from "@/app/ui/Input";
 import {WaitButton} from "@/app/ui/Button";
-import FormHandler, {CustomThProps} from "@/app/components/formHandler";
+import FormHandler, {CustomThProps} from "@/app/components/hoc/formHandler";
 
 const NewsFormComponent = ({ref, state, onSubmit, isPending}: CustomThProps) => {
     return (<form ref={ref} onSubmit={onSubmit} className={"flex flex-col"}>
@@ -17,5 +17,5 @@ const NewsFormComponent = ({ref, state, onSubmit, isPending}: CustomThProps) => 
 }
 
 export default function NewsForm() {
-    return (<FormHandler action={addMailoutEmail} Component={NewsFormComponent}/>);
+    return (<FormHandler action={addMailoutEmail} Component={NewsFormComponent} reCaptchaAction={"news_form_submit"}/>);
 }
