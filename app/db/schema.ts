@@ -14,6 +14,7 @@ export const artistTable = pgTable(
         name: varchar({length: 255}).notNull(),
         last_name: varchar({length: 255}).notNull(),
         biography: text().array().notNull(),
+        profession: text().notNull(),
         name_ru: varchar({length: 255}),
         last_name_ru: varchar({length: 255}),
         biography_ru: text().array(),

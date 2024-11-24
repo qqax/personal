@@ -59,6 +59,7 @@ async function seedArtist(tx: PgTransaction<NodePgQueryResultHKT, Record<string,
         const artist: typeof artistTable.$inferInsert = {
             name: 'Alexander',
             last_name: 'Kudryavtsev',
+            profession: 'pianist',
             biography: ['Alexander was born on July 31, 1987 in Moscow, Russia.',
 
                 'He studied in Prof. T. Zelikman\'s piano class at the Gnessin School and afterwards at the Gnessin ' +
