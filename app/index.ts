@@ -5,7 +5,6 @@ import { migrate } from 'drizzle-orm/node-postgres/migrator';
 const db = drizzle({
     connection: {
         connectionString: process.env.POSTGRES_URL,
-        ssl: true
     }
 });
 

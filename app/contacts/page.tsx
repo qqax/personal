@@ -2,6 +2,7 @@ import clsx from "clsx";
 import {bgStyle} from "@/app/ui/styles";
 import Social from "@/app/components/social";
 import ContactForm from "@/app/components/contactForm";
+import {Suspense} from "react";
 
 const contacts = {mail: ["alar0@yahoo.com"], tel: ["+996 (700) 386-364"]}
 
@@ -21,7 +22,9 @@ export default function ContactsPage() {
                         {contacts.tel.map((item) => <a key={item}
                                                        className={"hover:text-amber-300 transition duration-200"}
                                                        href={`tel: ${item}`}>{item}</a>)}
-                        <Social/>
+                        <Suspense>
+                            <Social/>
+                        </Suspense>
                     </div>
                     <ContactForm/>
                 </div>

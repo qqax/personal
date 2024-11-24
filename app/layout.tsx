@@ -1,17 +1,24 @@
 import type {Metadata} from "next";
 import "./globals.css";
 import {Jura} from 'next/font/google';
-import NavLinks from '@/app/ui/NavLinks';
 import Footer from "@/app/ui/Footer";
+import NavBar from "@/app/ui/NavBar";
 import {Toaster} from "sonner";
 import {ReCaptchaProvider} from "next-recaptcha-v3";
+import {fetchArtistName} from "@/app/db/data";
 
 const jura = Jura({subsets: ['latin', 'cyrillic']});
 
-export const metadata: Metadata = {
-    title: "Alexander Kudryavtsev",
-    description: "pianist",
-};
+async function createMetadata (): Promise<{title: string; description: string}> {
+    const artistName = await fetchArtistName();
+
+    return {
+        title: artistName || "",
+        description: "pianist",
+    }
+}
+
+export const metadata: Metadata = await createMetadata();
 
 export default function RootLayout({
                                        children,
@@ -24,7 +31,7 @@ export default function RootLayout({
             className={`${jura.className} relative min-h-screen pb-20 antialiased bg-[url('../public/keyboard.jpg')] bg-cover text-gray-200`}
         >
         <ReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
-            <NavLinks/>
+            <NavBar/>
             <div className={"flex justify-center p-20"}>
                 {children}
                 <Toaster toastOptions={{

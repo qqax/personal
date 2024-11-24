@@ -1,0 +1,1 @@
+export type Biography = string[] | undefined;

@@ -13,10 +13,10 @@ export const artistTable = pgTable(
         id: boolean().primaryKey().default(true),
         name: varchar({length: 255}).notNull(),
         last_name: varchar({length: 255}).notNull(),
-        biography: text().notNull(),
+        biography: text().array().notNull(),
         name_ru: varchar({length: 255}),
         last_name_ru: varchar({length: 255}),
-        biography_ru: text(),
+        biography_ru: text().array(),
     },
     (table) => ({
         checkConstraint: check("one_row_unique", sql`${table.id}`),
@@ -70,7 +70,7 @@ export const concertsTable = pgTable(
 );
 
 export const recordTypesTable = pgTable(
-    "social",
+    "record_types",
     {
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
         record_type: varchar({length: 255}).notNull().unique(),
