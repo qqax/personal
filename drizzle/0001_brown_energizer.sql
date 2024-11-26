@@ -1,0 +1,1 @@
+ALTER TABLE "artist" ADD COLUMN "profession" text DEFAULT 'pianist' NOT NULL;
