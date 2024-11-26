@@ -11,19 +11,21 @@ import {StatusState} from "@/app/lib/actions";
 import {useReCaptcha} from "next-recaptcha-v3";
 import {toast} from "sonner";
 
-export type CustomThProps = {
+export type FormHandlerProps = {
     ref: RefObject<HTMLFormElement>;
     onSubmit?: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
     isPending: boolean;
     state: StatusState;
+    buttonClassName?: string
 }
 
-export default function FormHandler({Component, action, reCaptchaAction, ...props}: {
+export default function FormHandler({Component, action, reCaptchaAction, buttonClassName}: {
     action: (state: Awaited<StatusState & { errors?: {} }>, payload: FormData) => Promise<StatusState & {
         errors?: {}
     }>,
-    Component: FunctionComponent<CustomThProps>,
-    reCaptchaAction: string
+    Component: FunctionComponent<FormHandlerProps>,
+    reCaptchaAction: string,
+    buttonClassName?: string
 }) {
     const ref = useRef<HTMLFormElement>(null);
     const initialState: StatusState = {errors: {}, status: null};
@@ -67,5 +69,5 @@ export default function FormHandler({Component, action, reCaptchaAction, ...prop
 
     }, [isPending, state.status]);
 
-    return <Component ref={ref} onSubmit={onSubmit} {...props} isPending={isPending} state={state}/>
+    return <Component ref={ref} onSubmit={onSubmit} buttonClassName={buttonClassName} isPending={isPending} state={state}/>
 }

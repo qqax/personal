@@ -4,9 +4,9 @@ import React from 'react';
 import {sendContactMail} from "@/app/lib/actions";
 import {Input, InputError, TextArea} from "@/app/ui/Input";
 import {WaitButton} from "@/app/ui/Button";
-import FormHandler, {CustomThProps} from "@/app/components/hoc/formHandler";
+import FormHandler, {FormHandlerProps} from "@/app/components/hoc/formHandler";
 
-const ContactFormComponent = ({ref, state, onSubmit, isPending}: CustomThProps) => {
+const ContactFormComponent = ({ref, state, onSubmit, isPending}: FormHandlerProps) => {
     return (<form ref={ref} onSubmit={onSubmit} className={"flex flex-col"}>
         <label htmlFor="name" className={"mb-2"}>Name:</label>
         <Input id="name" name={"name"} type="text" disabled={isPending} aria-describedby="name-error" required/>

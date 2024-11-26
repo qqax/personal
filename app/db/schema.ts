@@ -18,6 +18,7 @@ export const artistTable = pgTable(
         name_ru: varchar({length: 255}),
         last_name_ru: varchar({length: 255}),
         biography_ru: text().array(),
+        admin_path: text().notNull().default("admin"),
     },
     (table) => ({
         checkConstraint: check("one_row_unique", sql`${table.id}`),
