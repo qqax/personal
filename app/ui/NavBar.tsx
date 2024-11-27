@@ -2,6 +2,7 @@ import clsx from "clsx";
 import {bgStyle} from "@/app/ui/styles";
 import {fetchArtistName} from "@/app/db/data";
 import Navigation from "@/app/components/navigation";
+import Select from "@/app/ui/Select";
 
 const NavBar = async () => {
     const name = await fetchArtistName();
@@ -11,6 +12,7 @@ const NavBar = async () => {
             <div className={"flex"}>
                 <Navigation/>
             </div>
+            <Select/>
             <h1 className={"text-3xl flex text-beige"}>{name}</h1>
         </nav>
     )

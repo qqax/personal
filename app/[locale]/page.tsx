@@ -2,7 +2,7 @@ import Image from "next/image";
 import clsx from "clsx";
 import {bgStyle} from "@/app/ui/styles";
 import Social from "@/app/components/social";
-import NewsForm from "@/app/components/newsForm";
+import NewsForm from "@/app/components/forms/newsForm";
 import {fetchArtistName, fetchBiography} from "@/app/db/data";
 import {Biography} from "@/app/db/definitions";
 

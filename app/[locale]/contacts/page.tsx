@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import {bgStyle} from "@/app/ui/styles";
 import Social from "@/app/components/social";
-import ContactForm from "@/app/components/contactForm";
+import ContactForm from "@/app/components/forms/contactForm";
 import {Suspense} from "react";
 
 const contacts = {mail: ["alar0@yahoo.com"], tel: ["+996 (700) 386-364"]}

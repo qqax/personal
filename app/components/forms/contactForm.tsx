@@ -4,7 +4,7 @@ import React from 'react';
 import {sendContactMail} from "@/app/lib/actions";
 import {Input, InputError, TextArea} from "@/app/ui/Input";
 import {WaitButton} from "@/app/ui/Button";
-import FormHandler, {FormHandlerProps} from "@/app/components/hoc/formHandler";
+import FormHandler, {FormHandlerProps} from "@/app/components/forms/formHandler";
 
 const ContactFormComponent = ({ref, state, onSubmit, isPending}: FormHandlerProps) => {
     return (<form ref={ref} onSubmit={onSubmit} className={"flex flex-col"}>
