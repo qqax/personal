@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS "artist" (
 	"biography_ru" text[],
 	CONSTRAINT "one_row_unique" CHECK ("artist"."id")
 );
+REVOKE DELETE, TRUNCATE ON public.artist FROM public;
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "concerts" (
 	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "concerts_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),

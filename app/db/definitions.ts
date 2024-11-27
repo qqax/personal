@@ -1,7 +1,3 @@
-export type Biography = string[] | undefined;
+export type Biography = { biography: string[] } | undefined;
 
-export type Repo = {
-    full_name: string
-    biography: string[]
-    profession: string
-}
+export type Name = { name: string } | undefined;

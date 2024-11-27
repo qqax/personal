@@ -4,6 +4,7 @@ import {bgStyle} from "@/app/ui/styles";
 import {connection} from 'next/server'
 import {Suspense} from "react";
 import {fetchArtistName} from "@/app/db/data";
+import {useLocale} from "next-intl";
 
 const Footer = async () => {
     return (
@@ -16,7 +17,8 @@ const Footer = async () => {
 }
 
 const Copyright = async () => {
-    const artistName = await fetchArtistName();
+    const locale = useLocale();
+    const artistName = await fetchArtistName(locale);
     const owner = artistName || "";
 
     await connection();

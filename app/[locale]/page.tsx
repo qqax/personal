@@ -5,9 +5,11 @@ import Social from "@/app/components/social";
 import NewsForm from "@/app/components/forms/newsForm";
 import {fetchArtistName, fetchBiography} from "@/app/db/data";
 import {Biography} from "@/app/db/definitions";
+import {useLocale} from "next-intl";
 
 export default async function Home() {
-    const name = await fetchArtistName();
+    const locale = useLocale();
+    const name = await fetchArtistName(locale);
     const biography: Biography = await fetchBiography();
 
     return (

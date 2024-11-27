@@ -1,5 +1,5 @@
 import {drizzle, NodePgQueryResultHKT} from "drizzle-orm/node-postgres";
-import {count, ExtractTablesWithRelations, sql} from "drizzle-orm";
+import {count, ExtractTablesWithRelations} from "drizzle-orm";
 import {artistTable, recordTypesTable, socialTable} from "@/app/db/schema";
 import {PgTransaction} from "drizzle-orm/pg-core";
 
@@ -8,13 +8,6 @@ const db = drizzle({
         connectionString: process.env.POSTGRES_URL,
     }
 });
-
-async function addConstraintToArtistTable(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
-    const revoke = sql.raw("REVOKE DELETE, TRUNCATE ON public.artist FROM public;");
-    tx.execute(revoke);
-
-    console.log("added revoke constraint to artist table")
-}
 
 async function seedSocial(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
     const socialTableRowNum = await tx.select({count: count()}).from(socialTable);
@@ -57,9 +50,8 @@ async function seedArtist(tx: PgTransaction<NodePgQueryResultHKT, Record<string,
 
     if (artistRowNum[0].count === 0) {
         const artist: typeof artistTable.$inferInsert = {
-            name: 'Alexander',
-            last_name: 'Kudryavtsev',
-            profession: 'pianist',
+            name: 'Alexander Kudryavtsev',
+            profession: 'piano',
             biography: ['Alexander was born on July 31, 1987 in Moscow, Russia.',
 
                 'He studied in Prof. T. Zelikman\'s piano class at the Gnessin School and afterwards at the Gnessin ' +
@@ -87,7 +79,7 @@ async function seedArtist(tx: PgTransaction<NodePgQueryResultHKT, Record<string,
 export async function GET() {
     await db.transaction(async (tx) => {
         try {
-            await addConstraintToArtistTable(tx);
+            // await addConstraintToArtistTable(tx);
             await seedArtist(tx);
             await seedSocial(tx);
             await seedRecordTypes(tx);

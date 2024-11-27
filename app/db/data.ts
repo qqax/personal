@@ -1,10 +1,8 @@
 "use server"
 
 import {drizzle} from "drizzle-orm/node-postgres";
-import {artistTable} from "@/app/db/schema";
-import {sql} from "drizzle-orm";
 import * as schema from "./schema"
-import {Biography} from "@/app/db/definitions";
+import {Biography, Name} from "@/app/db/definitions";
 import {cacheTag} from "next/dist/server/use-cache/cache-tag";
 import facebookIcon from "../../public/icons/facebook.svg";
 import youtubeIcon from "../../public/icons/youtube.svg";
@@ -17,42 +15,71 @@ const db = drizzle({
     schema
 });
 
-async function selectArtistName(): Promise<string | undefined> {
-    const data = await db.query.artistTable.findFirst({
-        extras: {
-            full_name: sql<string>`CONCAT_WS(' ', ${artistTable.name}, ${artistTable.last_name})`.as('full_name'),
-        },
-    });
+const NOT_DEFAULT_LOCALES = ["ru"];
 
-    return data?.full_name;
+function generateLocalePostfix(column: string, locale: string) {
+    if (NOT_DEFAULT_LOCALES.includes(locale)) {
+        return `${column}_${locale}`;
+    }
+    return column;
 }
 
-export async function fetchArtistName() {
+async function selectArtistName(locale: string): Promise<string> {
+    let data: Name;
+
+    const nameColumn = "name";
+    const nameColumnWithLocale = generateLocalePostfix(nameColumn, locale);
+
+    data = await db.query.artistTable.findFirst({
+        columns: {[nameColumnWithLocale]: true}},
+    ) as Name;
+
+    if (!data?.name && NOT_DEFAULT_LOCALES.includes(locale)) {
+        data = await db.query.artistTable.findFirst({
+            columns: {[nameColumn]: true}},
+        ) as Name;
+    }
+
+    return data?.name ?? "";
+}
+
+export async function fetchArtistName(locale: string): Promise<string> {
     'use cache'
     cacheTag('name');
 
     try {
-        return await selectArtistName();
+        return await selectArtistName(locale);
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch the artist name.');
     }
 }
 
-async function selectBiography(): Promise<Biography | undefined> {
-    const data = await db.query.artistTable.findFirst({
-        columns: {"biography": true},
-    });
+async function selectBiography(locale: string): Promise<string[] | undefined> {
+    const column = `biography`;
+    const columnWithLocale = generateLocalePostfix(`biography`, locale);
+
+    let data: Biography | undefined;
+
+    data = await db.query.artistTable.findFirst({
+        columns: {[columnWithLocale]: true},
+    }) as Biography;
+
+    if (!data?.biography && NOT_DEFAULT_LOCALES.includes(locale)) {
+        data = await db.query.artistTable.findFirst({
+            columns: {[column]: true},
+        }) as Biography;
+    }
 
     return data?.biography;
 }
 
-export async function fetchBiography() {
+export async function fetchBiography(locale: string): Promise<string[] | undefined> {
     'use cache'
     cacheTag('biography');
 
     try {
-        return await selectBiography();
+        return await selectBiography(locale);
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch the artist biography.');
