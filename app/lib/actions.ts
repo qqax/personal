@@ -80,7 +80,6 @@ export async function addMailoutEmail(prevState: MailOutState | undefined, formD
     } else {
         state.status = "error";
     }
-    // revalidatePath('/contacts');
 
     return state;
 }
@@ -132,8 +131,6 @@ export async function sendContactMail(prevState: ContactMailState | undefined, f
     } else {
         state.status = "error";
     }
-
-    // revalidatePath('/contacts');
 
     return state;
 }
