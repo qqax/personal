@@ -1,0 +1,1 @@
+ALTER TABLE "artist" DROP COLUMN IF EXISTS "last_name";

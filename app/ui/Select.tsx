@@ -7,7 +7,41 @@ import {useParams} from "next/navigation";
 import clsx from "clsx";
 import {useClickOutside, useScroll} from "@/app/components/hooks";
 
-export default function Select() {
+type Options = {value: string, label: ReactNode}[];
+
+const SimpleSelect = ({options, selectedLabel, onClick, isPending}: {
+    options: Options;
+    selectedLabel: ReactNode,
+    onClick: Function,
+    isPending?: boolean
+}) => {
+    const ref = useRef<HTMLInputElement>(null);
+    const [open, setOpen] = useState(false);
+
+    useClickOutside(ref, () => setOpen(false));
+    useScroll(() => setOpen(false));
+
+    const onSelect = (value: string) => {
+        onClick(value);
+        setOpen(!open);
+    }
+
+    return (
+        <div ref={ref} className={"relative"}>
+            <button type={"button"} className={"flex appearance-none w-16 justify-center py-4"} disabled={isPending}
+                    onClick={() => setOpen(!open)}>{selectedLabel}</button>
+            <div
+                className={clsx("absolute flex bg-gray-900 bg-opacity-50 -bottom-full w-14 justify-center py-4", {"hidden": !open})}>
+                {options.map(({value, label}) => {
+                    return (<button key={value} disabled={isPending} type={"submit"} className={"appearance-none "}
+                                    onClick={() => onSelect(value)}>{label}</button>)
+                })}
+            </div>
+        </div>
+    )
+}
+
+export const LocaleSwitcher = () => {
     const t = useTranslations('LocaleSwitcher');
     const locale = useLocale();
     const router = useRouter();
@@ -15,13 +49,14 @@ export default function Select() {
     const pathname = usePathname();
     const params = useParams();
 
-    const ref = useRef<HTMLInputElement>(null);
-    const [open, setOpen] = useState(false);
-
-    useClickOutside(ref, () => setOpen(false));
-    useScroll(() => setOpen(false));
-
     const [label, setLabel] = useState(t('locale', {locale: locale}))
+
+    const options = routing.locales.reduce((acc: Options, cur) => {
+        if (cur !== locale) {
+            acc.push({value: cur, label: t('locale', {locale: cur})});
+        }
+        return acc;
+    }, []);
 
     const onClick = (nextLocale: Locale) => {
         startTransition(() => {
@@ -34,21 +69,6 @@ export default function Select() {
             );
         });
         setLabel(t('locale', {locale: nextLocale}));
-        setOpen(!open);
     }
-
-    return (
-        <div ref={ref}  className={"relative"}>
-            <button type={"button"} className={"flex appearance-none  w-14 justify-center py-4"} disabled={isPending} onClick={() => setOpen(!open)}>{label}</button>
-            <div className={clsx("absolute flex bg-gray-900 bg-opacity-50 -bottom-full w-14 justify-center py-4", {"hidden": !open})}>
-                {routing.locales.reduce((acc:  ReactNode[], cur) => {
-                    if (cur !== locale) {
-                        acc.push(<button key={cur} disabled={isPending} type={"submit"} className={"appearance-none "}
-                                         onClick={() => onClick(cur)}>{t('locale', {locale: cur})}</button>);
-                    }
-                    return acc;
-                }, [])}
-            </div>
-        </div>
-    )
+    return (<SimpleSelect options={options} onClick={onClick} selectedLabel={label} isPending={isPending}/>)
 }

@@ -4,13 +4,12 @@ import {bgStyle} from "@/app/ui/styles";
 import Social from "@/app/components/social";
 import NewsForm from "@/app/components/forms/newsForm";
 import {fetchArtistName, fetchBiography} from "@/app/db/data";
-import {Biography} from "@/app/db/definitions";
-import {useLocale} from "next-intl";
+import {getLocale} from "next-intl/server";
 
 export default async function Home() {
-    const locale = useLocale();
+    const locale = await getLocale();
     const name = await fetchArtistName(locale);
-    const biography: Biography = await fetchBiography();
+    const biography = await fetchBiography(locale);
 
     return (
         <main

@@ -29,6 +29,13 @@
       "when": 1732749866495,
       "tag": "0003_next_umar",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1732757999825,
+      "tag": "0004_rare_mauler",
+      "breakpoints": true
     }
   ]
 }

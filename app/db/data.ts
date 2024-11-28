@@ -2,7 +2,6 @@
 
 import {drizzle} from "drizzle-orm/node-postgres";
 import * as schema from "./schema"
-import {Biography, Name} from "@/app/db/definitions";
 import {cacheTag} from "next/dist/server/use-cache/cache-tag";
 import facebookIcon from "../../public/icons/facebook.svg";
 import youtubeIcon from "../../public/icons/youtube.svg";
@@ -15,6 +14,15 @@ const db = drizzle({
     schema
 });
 
+async function cacheFetch(query: Function, column: string, locale: string): Promise<any> {
+    try {
+        return await selectWithLocale(query, column, locale);
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error(`Failed to fetch the ${column}.`);
+    }
+}
+
 const NOT_DEFAULT_LOCALES = ["ru"];
 
 function generateLocalePostfix(column: string, locale: string) {
@@ -24,71 +32,56 @@ function generateLocalePostfix(column: string, locale: string) {
     return column;
 }
 
-async function selectArtistName(locale: string): Promise<string> {
-    let data: Name;
+const selectWithLocale = async (query: Function, column: string, locale: string): Promise<any | null> => {
+    const columnWithLocale = generateLocalePostfix(column, locale);
 
-    const nameColumn = "name";
-    const nameColumnWithLocale = generateLocalePostfix(nameColumn, locale);
-
-    data = await db.query.artistTable.findFirst({
-        columns: {[nameColumnWithLocale]: true}},
-    ) as Name;
-
-    if (!data?.name && NOT_DEFAULT_LOCALES.includes(locale)) {
-        data = await db.query.artistTable.findFirst({
-            columns: {[nameColumn]: true}},
-        ) as Name;
+    let data = await query(columnWithLocale);
+    if (!data[columnWithLocale] && NOT_DEFAULT_LOCALES.includes(locale)) {
+        data = await query(column);
+        return data[column];
     }
 
-    return data?.name ?? "";
+    return data[columnWithLocale];
 }
+
+const artistTableQuery = async (column: string) => await db.query.artistTable.findFirst({
+    columns: {[column]: true},
+});
 
 export async function fetchArtistName(locale: string): Promise<string> {
     'use cache'
-    cacheTag('name');
 
-    try {
-        return await selectArtistName(locale);
-    } catch (error) {
-        console.error('Database Error:', error);
-        throw new Error('Failed to fetch the artist name.');
-    }
+    const column = 'name';
+    cacheTag(column);
+
+    const data = await cacheFetch(artistTableQuery, column, locale);
+    return data || "";
 }
 
-async function selectBiography(locale: string): Promise<string[] | undefined> {
-    const column = `biography`;
-    const columnWithLocale = generateLocalePostfix(`biography`, locale);
 
-    let data: Biography | undefined;
+export async function fetchArtistProfession(locale: string): Promise<string> {
+    'use cache'
 
-    data = await db.query.artistTable.findFirst({
-        columns: {[columnWithLocale]: true},
-    }) as Biography;
+    const column = 'profession';
+    cacheTag(column);
 
-    if (!data?.biography && NOT_DEFAULT_LOCALES.includes(locale)) {
-        data = await db.query.artistTable.findFirst({
-            columns: {[column]: true},
-        }) as Biography;
-    }
-
-    return data?.biography;
+    const data = await cacheFetch(artistTableQuery, column, locale);
+    return data || "";
 }
 
 export async function fetchBiography(locale: string): Promise<string[] | undefined> {
     'use cache'
-    cacheTag('biography');
 
-    try {
-        return await selectBiography(locale);
-    } catch (error) {
-        console.error('Database Error:', error);
-        throw new Error('Failed to fetch the artist biography.');
-    }
+    const column = 'biography';
+    cacheTag(column);
+
+    const data = await cacheFetch(artistTableQuery, column, locale);
+    return data || "";
 }
 
 export async function fetchSocial() {
     'use cache'
-    cacheTag('biography');
+    cacheTag('social');
 
     try {
         return [

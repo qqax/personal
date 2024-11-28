@@ -16,8 +16,12 @@ export function useClickOutside(ref: RefObject<Element>, onClickOutside: Functio
     }, [ref]);
 }
 
-export function useScroll(onScroll: Function) {
-    window.onscroll = function (e) {
-        onScroll(e);
-    }
+export function useScroll(onScroll: EventListenerOrEventListenerObject) {
+    useEffect(function mount() {
+        window.addEventListener("scroll", onScroll);
+
+        return function unMount() {
+            window.removeEventListener("scroll", onScroll);
+        };
+    });
 }
