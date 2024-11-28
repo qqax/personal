@@ -2,8 +2,8 @@
 
 import {z} from 'zod';
 import {sendMail} from "@/app/lib/sendMail";
-import {revalidatePath} from "next/cache";
 import verifyReCaptcha from "@/app/lib/reCaptcha";
+import {insertEmail} from "@/app/db/data";
 
 const tokenValidation = z.string().min(10, {message: 'Unexpected error occurred.'});
 const mailValidation = z.string().email({message: 'Please Enter a Valid Email Address'});
@@ -72,8 +72,14 @@ export async function addMailoutEmail(prevState: MailOutState | undefined, formD
     }
 
     const {email} = validatedFields.data;
-    console.log(email)
 
+    const result = await insertEmail(email)
+
+    if (result) {
+        state.status = "success";
+    } else {
+        state.status = "error";
+    }
     // revalidatePath('/contacts');
 
     return state;
@@ -127,8 +133,7 @@ export async function sendContactMail(prevState: ContactMailState | undefined, f
         state.status = "error";
     }
 
-    revalidatePath('/contacts');
+    // revalidatePath('/contacts');
 
     return state;
 }
-

@@ -19,13 +19,21 @@ export type FormHandlerProps = {
     buttonClassName?: string
 }
 
-export default function FormHandler({Component, action, reCaptchaAction, buttonClassName}: {
+export type toastMessages = {
+    success: string,
+    rejected: string,
+    error: string,
+    unexpected: string,
+}
+
+export default function FormHandler({Component, action, reCaptchaAction, buttonClassName, toastMessages}: {
     action: (state: Awaited<StatusState & { errors?: {} }>, payload: FormData) => Promise<StatusState & {
         errors?: {}
     }>,
     Component: FunctionComponent<FormHandlerProps>,
     reCaptchaAction: string,
-    buttonClassName?: string
+    buttonClassName?: string,
+    toastMessages: toastMessages
 }) {
     const ref = useRef<HTMLFormElement>(null);
     const initialState: StatusState = {errors: {}, status: null};
@@ -54,16 +62,16 @@ export default function FormHandler({Component, action, reCaptchaAction, buttonC
                     ref.current?.reset();
                     state.status = null;
                     state.errors = {};
-                    toast.success('Email sent successfully.');
+                    toast.success(toastMessages.success);
                     break;
                 case 'rejected':
-                    toast.error('Wrong form submission.');
+                    toast.error(toastMessages.rejected);
                     break;
                 case 'error':
-                    toast.error('Failed to send email.');
+                    toast.error(toastMessages.error);
                     break;
                 default:
-                    toast.error('Unexpected error.');
+                    toast.error(toastMessages.unexpected);
             }
         }
 

@@ -5,6 +5,7 @@ import * as schema from "./schema"
 import {cacheTag} from "next/dist/server/use-cache/cache-tag";
 import facebookIcon from "../../public/icons/facebook.svg";
 import youtubeIcon from "../../public/icons/youtube.svg";
+import {newsTable} from "./schema";
 
 const db = drizzle({
     connection: {
@@ -91,5 +92,16 @@ export async function fetchSocial() {
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch the artist biography.');
+    }
+}
+
+export async function insertEmail(email: string): Promise<boolean> {
+    try {
+        await db.insert(newsTable).values({ email }).onConflictDoNothing();
+        console.log(email)
+        return true;
+    } catch (error) {
+        console.error('Database Error:', error);
+        return false;
     }
 }

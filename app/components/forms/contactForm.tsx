@@ -4,7 +4,7 @@ import React from 'react';
 import {sendContactMail} from "@/app/lib/actions";
 import {Input, InputError, TextArea} from "@/app/ui/Input";
 import {WaitButton} from "@/app/ui/Button";
-import FormHandler, {FormHandlerProps} from "@/app/components/forms/formHandler";
+import FormHandler, {FormHandlerProps, toastMessages} from "@/app/components/forms/formHandler";
 
 const ContactFormComponent = ({ref, state, onSubmit, isPending}: FormHandlerProps) => {
     return (<form ref={ref} onSubmit={onSubmit} className={"flex flex-col"}>
@@ -25,6 +25,13 @@ const ContactFormComponent = ({ref, state, onSubmit, isPending}: FormHandlerProp
     </form>);
 }
 
+const contactFormMessages: toastMessages = {
+    success: 'Email sent successfully.',
+    rejected: 'Wrong form submission.',
+    error: 'Failed to send email.',
+    unexpected: 'Unexpected error.'
+}
+
 export default function ContactForm() {
-    return (<FormHandler action={sendContactMail} Component={ContactFormComponent} reCaptchaAction={"contact_form_submit"}/>);
+    return (<FormHandler toastMessages={contactFormMessages} action={sendContactMail} Component={ContactFormComponent} reCaptchaAction={"contact_form_submit"}/>);
 }

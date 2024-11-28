@@ -4,7 +4,7 @@ import React from "react";
 import {addMailoutEmail} from "@/app/lib/actions";
 import {Input, InputError} from "@/app/ui/Input";
 import {WaitButton} from "@/app/ui/Button";
-import FormHandler, {FormHandlerProps} from "@/app/components/forms/formHandler";
+import FormHandler, {FormHandlerProps, toastMessages} from "@/app/components/forms/formHandler";
 import {useTranslations} from "next-intl";
 
 const NewsFormComponent = ({ref, state, onSubmit, isPending, buttonClassName}: FormHandlerProps) => {
@@ -19,6 +19,13 @@ const NewsFormComponent = ({ref, state, onSubmit, isPending, buttonClassName}: F
     </form>);
 }
 
+const newsFormMessages: toastMessages = {
+    success: 'Email added to newsletter.',
+    rejected: 'Wrong email.',
+    error: 'Failed to add email to newsletter.',
+    unexpected: 'Unexpected error.'
+}
+
 export default function NewsForm({buttonClassName}: { buttonClassName: string }) {
-    return (<FormHandler action={addMailoutEmail} Component={NewsFormComponent} buttonClassName={buttonClassName} reCaptchaAction={"news_form_submit"}/>);
+    return (<FormHandler toastMessages={newsFormMessages} action={addMailoutEmail} Component={NewsFormComponent} buttonClassName={buttonClassName} reCaptchaAction={"news_form_submit"}/>);
 }
