@@ -1,8 +1,8 @@
 'use server';
 
 import {z} from 'zod';
-import {sendMail} from "@/app/lib/sendMail";
-import verifyReCaptcha from "@/app/lib/reCaptcha";
+import {sendMail} from "@/app/acions/sendMail";
+import verifyReCaptcha from "@/app/acions/reCaptcha";
 import {insertEmail} from "@/app/db/data";
 
 const tokenValidation = z.string().min(10, {message: 'Unexpected error occurred.'});

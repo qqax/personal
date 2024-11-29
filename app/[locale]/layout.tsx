@@ -1,10 +1,9 @@
 import "../globals.css";
 import {Jura} from 'next/font/google';
 import Footer from "@/app/ui/Footer";
-import NavBar from "@/app/ui/NavBar";
+import NavBar from "@/app/components/navbar/NavBar";
 import {Toaster} from "sonner";
 import {ReCaptchaProvider} from "next-recaptcha-v3";
-import {fetchArtistName} from "@/app/db/data";
 import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import {NextIntlClientProvider} from 'next-intl';

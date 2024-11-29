@@ -10,7 +10,7 @@ const menuItems = [
     {name: 'Contacts', href: '/contacts'},
 ]
 
-export default function Navigation() {
+export default function Navigation({className}: { className: string }) {
     const pathname = usePathname();
 
     return (<>
@@ -19,7 +19,8 @@ export default function Navigation() {
                 <Link key={name}
                       href={href}
                       className={clsx(
-                          "flex justify-center w-24 py-4 border-l-[1px] border-gray-500 hover:bg-opacity-20 hover:bg-gray-500 transition duration-100",
+                          className,
+                          "border-l-[1px]",
                           {
                               "border-r-[1px]": index === menuItems.length - 1,
                               "text-red-600 bg-gray-600 bg-opacity-40": pathname === href,

@@ -5,7 +5,7 @@ import nodemailer from 'nodemailer';
 const SMTP_SERVER_HOST = process.env.SMTP_SERVER_HOST;
 const SMTP_SERVER_USERNAME = process.env.SMTP_SERVER_USERNAME;
 const SMTP_SERVER_PASSWORD = process.env.SMTP_SERVER_PASSWORD;
-const SITE_MAIL_RECIEVER = process.env.SITE_MAIL_RECIEVER;
+const SITE_MAIL_RECEIVER = process.env.SITE_MAIL_RECIEVER;
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -39,12 +39,12 @@ export async function sendMail({
     }
     const info = await transporter.sendMail({
         from: email,
-        to: sendTo || SITE_MAIL_RECIEVER,
+        to: sendTo || SITE_MAIL_RECEIVER,
         subject: subject,
         text: text,
         html: html ? html : '',
     });
     console.log('Message Sent', info.messageId);
-    console.log('Mail sent to', SITE_MAIL_RECIEVER);
+    console.log('Mail sent to', SITE_MAIL_RECEIVER);
     return info;
 }

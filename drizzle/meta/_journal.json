@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1732467726686,
-      "tag": "0000_milky_omega_sentinel",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1732470848096,
-      "tag": "0001_brown_energizer",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1732552914546,
-      "tag": "0002_mature_tombstone",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1732749866495,
-      "tag": "0003_next_umar",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1732757999825,
-      "tag": "0004_rare_mauler",
+      "when": 1732777489635,
+      "tag": "0000_flaky_liz_osborn",
       "breakpoints": true
     }
   ]

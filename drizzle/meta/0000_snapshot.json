@@ -1,5 +1,5 @@
 {
-  "id": "a16abab2-0782-472b-b9f6-15ecd70536fd",
+  "id": "352e65fb-b6a5-4325-9af5-769b4f1c545a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -21,26 +21,26 @@
           "primaryKey": false,
           "notNull": true
         },
-        "last_name": {
-          "name": "last_name",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
         "biography": {
           "name": "biography",
           "type": "text[]",
           "primaryKey": false,
           "notNull": true
         },
-        "name_ru": {
-          "name": "name_ru",
-          "type": "varchar(255)",
+        "profession": {
+          "name": "profession",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "profession_ru": {
+          "name": "profession_ru",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
-        "last_name_ru": {
-          "name": "last_name_ru",
+        "name_ru": {
+          "name": "name_ru",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false
@@ -50,6 +50,13 @@
           "type": "text[]",
           "primaryKey": false,
           "notNull": false
+        },
+        "admin_path": {
+          "name": "admin_path",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'admin'"
         }
       },
       "indexes": {},
@@ -88,7 +95,7 @@
         },
         "date": {
           "name": "date",
-          "type": "date",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": true
         },

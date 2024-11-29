@@ -1,4 +1,4 @@
-import {check, boolean, integer, pgTable, text, varchar, customType, date} from "drizzle-orm/pg-core";
+import {check, boolean, integer, pgTable, text, varchar, customType, timestamp} from "drizzle-orm/pg-core";
 import {sql} from "drizzle-orm";
 
 const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
@@ -55,7 +55,7 @@ export const concertsTable = pgTable(
     "concerts",
     {
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        date: date().notNull().unique(),
+        date: timestamp().notNull().unique(),
         place: text().notNull(),
         address: text().notNull(),
         short_description: text(),

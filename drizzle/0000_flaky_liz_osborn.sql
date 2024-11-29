@@ -1,18 +1,19 @@
 CREATE TABLE IF NOT EXISTS "artist" (
 	"id" boolean PRIMARY KEY DEFAULT true NOT NULL,
 	"name" varchar(255) NOT NULL,
-	"last_name" varchar(255) NOT NULL,
 	"biography" text[] NOT NULL,
+	"profession" text NOT NULL,
+	"profession_ru" text,
 	"name_ru" varchar(255),
-	"last_name_ru" varchar(255),
 	"biography_ru" text[],
+	"admin_path" text DEFAULT 'admin' NOT NULL,
 	CONSTRAINT "one_row_unique" CHECK ("artist"."id")
 );
 REVOKE DELETE, TRUNCATE ON public.artist FROM public;
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "concerts" (
 	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "concerts_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
-	"date" date NOT NULL,
+	"date" timestamp NOT NULL,
 	"place" text NOT NULL,
 	"address" text NOT NULL,
 	"short_description" text,
