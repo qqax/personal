@@ -1,4 +1,4 @@
-export type Biography = string | undefined;
+export type Biography = string[] | undefined;
 export type Name = string;
 export type Profession = string;
 export type ArtistData = Name | Biography | Profession;
