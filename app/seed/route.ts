@@ -80,9 +80,9 @@ export async function GET() {
     await db.transaction(async (tx) => {
         try {
             // await addConstraintToArtistTable(tx);
-            await seedArtist(tx);
-            await seedSocial(tx);
-            await seedRecordTypes(tx);
+            // await seedArtist(tx);
+            // await seedSocial(tx);
+            // await seedRecordTypes(tx);
         } catch (err) {
             console.error(err);
             tx.rollback();

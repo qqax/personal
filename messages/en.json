@@ -9,6 +9,6 @@
   },
   "LocaleSwitcher": {
     "label": "Change language",
-    "locale": "{locale, select, ru {\uD83C\uDDF7\uD83C\uDDFA RU} en {🇺🇸 EN} other {Unknown}}"
+    "locale": "{locale, select, ru {\uD83C\uDDF7\uD83C\uDDFA RU} en {\uD83C\uDDEC\uD83C\uDDE7 EN} other {Unknown}}"
   }
 }

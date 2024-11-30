@@ -20,10 +20,8 @@ export default function Navigation({className}: { className: string }) {
                       href={href}
                       className={clsx(
                           className,
-                          "border-l-[1px]",
                           {
-                              "border-r-[1px]": index === menuItems.length - 1,
-                              "text-red-600 bg-gray-600 bg-opacity-40": pathname === href,
+                              "text-red-600 bg-gray-600 bg-opacity-50": pathname === href,
                               "bg-opacity-20": pathname !== href,
                           },
                       )}>

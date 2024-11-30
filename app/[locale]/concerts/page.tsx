@@ -8,6 +8,7 @@ import {fetchConcerts} from "@/app/db/data";
 import {getLocale} from "next-intl/server";
 import {Concerts} from "@/app/db/definitions";
 import {ConcertsCalendar} from "@/app/[locale]/concerts/Calendar";
+import {ConcertsList} from "@/app/[locale]/concerts/concertsList";
 
 
 const getFirstUpcomingDate = (concerts: Concerts): Date | undefined => {
@@ -34,16 +35,11 @@ const ConcertsSection = async () => {
                 <article>
                     <ConcertsCalendar/>
                 </article>
-               {/*<ConcertsList schedule={concerts} firstUpcomingDate={firstUpcomingDate}></ConcertsList>*/}
+               <ConcertsList schedule={concerts} firstUpcomingDate={firstUpcomingDate}></ConcertsList>
             </div>
         </div>
 
     );
 };
-
-const ConcertsListSection = async () => {
-    'use client'
-}
-
 
 export default ConcertsSection;

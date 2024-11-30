@@ -5,7 +5,6 @@ import {LocaleSwitcher} from "@/app/components/navbar/localeSwitcher";
 import Artist from "@/app/components/navbar/artist";
 
 const NavBar = () => {
-
     const navClassName = "flex justify-center py-4 border-gray-500 hover:bg-opacity-20 hover:bg-gray-500 transition duration-100";
     return (
         <nav className={clsx("flex flex-row justify-around items-center z-10 border-b-red-600 border-b-4", bgStyle)}>
