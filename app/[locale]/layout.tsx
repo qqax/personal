@@ -28,7 +28,7 @@ export async function generateMetadata({params}: {params: {locale: string}}) {
 }
 
 export function generateStaticParams() {
-    return routing.locales.map((locale) => ({locale}));
+    return routing.locales.map((locale: string) => ({locale}));
 }
 
 export default async function RootLayout({
