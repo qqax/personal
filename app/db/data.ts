@@ -6,9 +6,10 @@ import {artistTable, concertsTable, newsTable, recordsTable} from "./schema"
 import {cacheTag} from "next/dist/server/use-cache/cache-tag";
 import facebookIcon from "../../public/icons/facebook.svg";
 import youtubeIcon from "../../public/icons/youtube.svg";
-import {ArtistData, Biography, Concerts, Name, Profession} from "@/app/db/definitions";
+import {ArtistData, Biography, Concerts, ConcertsData, Name, Profession} from "@/app/db/definitions";
 import {eq, SQL, sql} from "drizzle-orm";
-import {PgColumn} from "drizzle-orm/pg-core";
+import {PgColumn, PgTableWithColumns} from "drizzle-orm/pg-core";
+import {cacheLife} from "next/dist/server/use-cache/cache-life";
 import Aliased = SQL.Aliased;
 
 const db = drizzle({
@@ -26,29 +27,25 @@ const selectTranslatedString = (column: PgColumn, locale: string): Aliased<strin
     return sql.raw(`coalesce("${localeColumn}", "${column.name}")`).as(column.name) as Aliased<string>;
 }
 
+const selectTranslated = (table: PgTableWithColumns<any>, column: string, locale: string) => {
+    if (NOT_DEFAULT_LOCALES.includes(locale)) {
+        return sql<string>`coalesce
+            (${table[`${column}_${locale}`]}, ${table[column]})`.as(column)
+    }
+    return sql<string>`${table[column]}`.as(column)
+}
+
 const artistTableQuery = async (column: PgColumn, locale: string): Promise<ArtistData> => {
     try {
-        if (NOT_DEFAULT_LOCALES.includes(locale)) {
-            const data =
-                await db.query.artistTable.findFirst({
-                    columns: {[column.name]: true},
-                    extras: {
-                        [column.name]: selectTranslatedString(column, locale),
-                    }
-                });
-
-            return data?.[column.name] as ArtistData;
-        }
-
         const data =
             await db.query.artistTable.findFirst({
-            columns: {[column.name]: true},
-            extras: {
-                [column.name]: sql`${column}`.as(column.name),
-            }
-        });
+                columns: {[column.name]: true},
+                extras: {
+                    [column.name]: selectTranslated(artistTable, column.name, locale),
+                }
+            });
 
-        return data?.[column.name] as ArtistData || "";
+        return data?.[column.name] as ArtistData;
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error(`Failed to fetch the ${column}.`);
@@ -97,25 +94,39 @@ export async function fetchSocial() {
     }
 }
 
+export async function fetchConcerts(locale: string): Promise<ConcertsData> {
+    'use cache'
+    cacheTag('concert');
+    cacheLife('days');
 
-export async function fetchConcerts(locale: string): Promise<Concerts> {
-    return db.select({
+    const concerts: Concerts = await db.select({
+        id: sql<string>`to_char
+            (${concertsTable.date}, 'DD_Mon_YY_HH24:MI')`.as('id'),
         date: concertsTable.date,
-        place: concertsTable.place,
-        address: concertsTable.address,
-        short_description: concertsTable.short_description,
-        description: sql<string>`coalesce(${`"description"`}, ${`"description_"` + locale})`.as(`description`),
+        place: selectTranslated(concertsTable, "place", locale),
+        address: selectTranslated(concertsTable, "address", locale),
+        short_description: selectTranslated(concertsTable, "short_description", locale),
+        description: selectTranslated(concertsTable, "description", locale),
         poster: concertsTable.poster,
         link: concertsTable.link,
         record: recordsTable.link,
     }).from(concertsTable)
         .orderBy(concertsTable.date)
         .fullJoin(recordsTable, eq(recordsTable.id, concertsTable.record_id));
+
+    const firstUpcomingConcertIndex = concerts?.findIndex(({date}) => {
+        return date && date.getTime() > Date.now();
+    });
+
+    return {
+        concerts,
+        firstUpcomingConcertIndex
+    } as ConcertsData;
 }
 
 export async function insertEmail(email: string): Promise<boolean> {
     try {
-        await db.insert(newsTable).values({ email }).onConflictDoNothing();
+        await db.insert(newsTable).values({email}).onConflictDoNothing();
         console.log(email)
         return true;
     } catch (error) {

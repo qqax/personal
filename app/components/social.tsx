@@ -1,13 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import {fetchSocial} from "@/app/db/data";
+import clsx from "clsx";
 
 
-const Social = async () => {
+const Social = async ({className}: {className?: string}) => {
     const socialLinks = await fetchSocial();
 
     return (
-        <div className={"flex items-center gap-4"}>
+        <div className={clsx("flex items-center gap-4", className)}>
             {socialLinks?.map((link) => (
                 <Link key={link.alt} href={link.href}>
                     <Image

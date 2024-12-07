@@ -5,12 +5,12 @@ import {LocaleSwitcher} from "@/app/components/navbar/localeSwitcher";
 import Artist from "@/app/components/navbar/artist";
 
 const NavBar = () => {
-    const navClassName = "flex justify-center py-4 border-gray-500 hover:bg-opacity-20 hover:bg-gray-500 transition duration-100";
+    const navClassName = "flex justify-center pb-4 pt-2 border-gray-500 hover:bg-opacity-20 hover:bg-gray-500 transition duration-100";
     return (
-        <nav className={clsx("flex flex-row justify-around items-center z-10 border-b-red-600 border-b-4", bgStyle)}>
-            <div className={"flex"}>
-                <Navigation className={clsx("w-24", navClassName)}/>
-                <LocaleSwitcher className={clsx("w-16 appearance-none", navClassName)}/>
+        <nav className={clsx("flex flex-row h-[88px] justify-around items-center z-10 border-b-red-600 border-b-4", bgStyle)}>
+            <div className={"flex items-end h-full"}>
+                    <Navigation className={clsx("w-24", navClassName)}/>
+                    <LocaleSwitcher className={clsx("w-16 appearance-none", navClassName)}/>
             </div>
             <Artist/>
         </nav>
