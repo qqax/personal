@@ -6,11 +6,18 @@ import {artistTable, concertsTable, newsTable, recordsTable} from "./schema"
 import {cacheTag} from "next/dist/server/use-cache/cache-tag";
 import facebookIcon from "../../public/icons/facebook.svg";
 import youtubeIcon from "../../public/icons/youtube.svg";
-import {ArtistData, Biography, Concerts, ConcertsData, Name, Profession} from "@/app/db/definitions";
-import {eq, SQL, sql} from "drizzle-orm";
+import {
+    ArtistData,
+    Biography,
+    ConcertDescription,
+    Concerts,
+    ConcertsData,
+    Name,
+    Profession
+} from "@/app/db/definitions";
+import {BinaryOperator, sql} from "drizzle-orm";
 import {PgColumn, PgTableWithColumns} from "drizzle-orm/pg-core";
 import {cacheLife} from "next/dist/server/use-cache/cache-life";
-import Aliased = SQL.Aliased;
 
 const db = drizzle({
     connection: {
@@ -21,11 +28,6 @@ const db = drizzle({
 });
 
 const NOT_DEFAULT_LOCALES = ["ru"];
-
-const selectTranslatedString = (column: PgColumn, locale: string): Aliased<string> => {
-    const localeColumn = column.name + "_" + locale;
-    return sql.raw(`coalesce("${localeColumn}", "${column.name}")`).as(column.name) as Aliased<string>;
-}
 
 const selectTranslated = (table: PgTableWithColumns<any>, column: string, locale: string) => {
     if (NOT_DEFAULT_LOCALES.includes(locale)) {
@@ -104,15 +106,15 @@ export async function fetchConcerts(locale: string): Promise<ConcertsData> {
             (${concertsTable.date}, 'DD_Mon_YY_HH24:MI')`.as('id'),
         date: concertsTable.date,
         place: selectTranslated(concertsTable, "place", locale),
-        address: selectTranslated(concertsTable, "address", locale),
+        // address: selectTranslated(concertsTable, "address", locale),
         short_description: selectTranslated(concertsTable, "short_description", locale),
-        description: selectTranslated(concertsTable, "description", locale),
-        poster: concertsTable.poster,
-        link: concertsTable.link,
-        record: recordsTable.link,
+        // description: selectTranslated(concertsTable, "description", locale),
+        // poster: concertsTable.poster,
+        // link: concertsTable.link,
+        // record: recordsTable.link,
     }).from(concertsTable)
-        .orderBy(concertsTable.date)
-        .fullJoin(recordsTable, eq(recordsTable.id, concertsTable.record_id));
+        .orderBy(concertsTable.date);
+    // .fullJoin(recordsTable, eq(recordsTable.id, concertsTable.record_id));
 
     const firstUpcomingConcertIndex = concerts?.findIndex(({date}) => {
         return date && date.getTime() > Date.now();
@@ -122,6 +124,40 @@ export async function fetchConcerts(locale: string): Promise<ConcertsData> {
         concerts,
         firstUpcomingConcertIndex
     } as ConcertsData;
+}
+
+export async function fetchConcertDescription(id: Date, locale: string): Promise<ConcertDescription> {
+    'use cache'
+    cacheTag('concert_description');
+
+    return await db.query.concertsTable.findFirst({
+        columns: {
+            date: true,
+            link: true,
+            poster: true,
+        },
+        extras: {
+            place: selectTranslated(concertsTable, "place", locale),
+            address: selectTranslated(concertsTable, "address", locale),
+            short_description: selectTranslated(concertsTable, "short_description", locale),
+            description: selectTranslated(concertsTable, "description", locale),
+            // record: recordsTable.link
+        },
+        with: {
+            recordsTable: {
+                columns: {
+                    link: true
+                },
+                extras: {
+                    record: recordsTable.link
+                },
+                where: (recordsTable: PgTableWithColumns<any>, {eq}: {
+                    eq: BinaryOperator
+                }) => eq(recordsTable.id, concertsTable.record_id),
+            }
+        },
+        where: (concertsTable, {eq}) => eq(concertsTable.date, id),
+    })
 }
 
 export async function insertEmail(email: string): Promise<boolean> {
