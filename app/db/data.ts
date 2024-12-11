@@ -15,7 +15,7 @@ import {
     Name,
     Profession
 } from "@/app/db/definitions";
-import {BinaryOperator, sql} from "drizzle-orm";
+import {sql} from "drizzle-orm";
 import {PgColumn, PgTableWithColumns} from "drizzle-orm/pg-core";
 import {cacheLife} from "next/dist/server/use-cache/cache-life";
 
@@ -103,7 +103,7 @@ export async function fetchConcerts(locale: string): Promise<ConcertsData> {
 
     const concerts: Concerts = await db.select({
         id: sql<string>`to_char
-            (${concertsTable.date}, 'DD_Mon_YY_HH24:MI')`.as('id'),
+            (${concertsTable.date}, 'DD_Mon_YY_HH24_MI')`.as('id'),
         date: concertsTable.date,
         place: selectTranslated(concertsTable, "place", locale),
         // address: selectTranslated(concertsTable, "address", locale),
@@ -126,38 +126,38 @@ export async function fetchConcerts(locale: string): Promise<ConcertsData> {
     } as ConcertsData;
 }
 
-export async function fetchConcertDescription(id: Date, locale: string): Promise<ConcertDescription> {
-    'use cache'
-    cacheTag('concert_description');
+export async function fetchConcertDescription(id: string, locale: string): Promise<ConcertDescription> {
+    // 'use cache'
+    // cacheTag('concert_description');
 
-    return await db.query.concertsTable.findFirst({
-        columns: {
-            date: true,
-            link: true,
-            poster: true,
-        },
-        extras: {
-            place: selectTranslated(concertsTable, "place", locale),
-            address: selectTranslated(concertsTable, "address", locale),
-            short_description: selectTranslated(concertsTable, "short_description", locale),
-            description: selectTranslated(concertsTable, "description", locale),
-            // record: recordsTable.link
-        },
-        with: {
-            recordsTable: {
-                columns: {
-                    link: true
+    try {
+        return await db.query.concertsTable.findFirst({
+            columns: {
+                date: true,
+                link: true,
+                poster: true,
+            },
+            with: {
+                recordsTable: {
+                    columns: {
+                        link: true,
+                    },
+                    extras: {
+                        title: selectTranslated(recordsTable, "title", locale),
+                    },
                 },
-                extras: {
-                    record: recordsTable.link
-                },
-                where: (recordsTable: PgTableWithColumns<any>, {eq}: {
-                    eq: BinaryOperator
-                }) => eq(recordsTable.id, concertsTable.record_id),
-            }
-        },
-        where: (concertsTable, {eq}) => eq(concertsTable.date, id),
-    })
+            },
+            extras: {
+                place: selectTranslated(concertsTable, "place", locale),
+                address: selectTranslated(concertsTable, "address", locale),
+                description: selectTranslated(concertsTable, "description", locale),
+            },
+            where: (concertsTable, {eq}) => eq(concertsTable.date, sql.raw(`to_timestamp('${id}', 'DD_Mon_YY_HH24_MI')::timestamp`)),
+        });
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error(`Failed to fetch the concert's description.`);
+    }
 }
 
 export async function insertEmail(email: string): Promise<boolean> {

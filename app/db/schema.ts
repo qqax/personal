@@ -1,5 +1,5 @@
 import {check, boolean, integer, pgTable, text, varchar, customType, timestamp} from "drizzle-orm/pg-core";
-import {sql} from "drizzle-orm";
+import {relations, sql} from "drizzle-orm";
 
 const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
     dataType() {
@@ -69,6 +69,13 @@ export const concertsTable = pgTable(
         record_id: integer().references(() => recordsTable.id, {onDelete: 'cascade'}),
     },
 );
+
+export const concertRelations = relations(concertsTable, ({one}) =>({
+    recordsTable: one(recordsTable, {
+        fields: [concertsTable.record_id],
+        references: [recordsTable.id],
+    }),
+}))
 
 export const recordTypesTable = pgTable(
     "record_types",

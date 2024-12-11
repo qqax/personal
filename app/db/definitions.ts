@@ -24,11 +24,10 @@ export type ConcertDescription = {
     date: Date | null;
     place: string | null;
     address: string | null;
-    short_description?: string | null;
     description?: string | null;
     poster?: Buffer<ArrayBufferLike> | null;
     link?: string | null;
-    record?: string | null;
+    recordsTable: {link: string, title: string} | null;
 } | undefined;
 
 // REVOKE DELETE, TRUNCATE ON public.artist FROM public;
