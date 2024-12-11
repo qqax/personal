@@ -3,17 +3,19 @@ export type Name = string;
 export type Profession = string;
 export type ArtistData = Name | Biography | Profession;
 
-export type Concerts = {
+type ConcertID = {
+    id: string;
+};
+
+type Concert = ConcertID & {
     id: string;
     date: Date | null;
     place: string | null;
-    // address: string | null;
     short_description?: string | null;
-    // description?: string | null;
-    // poster?: Buffer<ArrayBufferLike> | null;
-    // link?: string | null;
-    // record?: string | null;
-}[];
+}
+
+export type ConcertIDs = ConcertID[];
+export type Concerts = Concert[];
 
 export type ConcertsData = {
     concerts: Concerts;

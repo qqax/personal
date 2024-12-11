@@ -1,31 +1,37 @@
-import {fetchConcertDescription} from "@/app/db/data";
+import {fetchConcertDescription, fetchConcertIDs} from "@/app/db/data";
 import {getLocale} from "next-intl/server";
-import {ConcertDate} from "@/app/[locale]/concerts/components/Date";
 import Image from "next/image";
 import clsx from "clsx";
+import {Programme} from "@/app/[locale]/concerts/components/programme";
+import {ConcertDescriptionHeader} from "@/app/[locale]/concerts/components/concertDescriptionHeader";
 
-export default async function ConcertDescription({params}: {params: {concert_id: string}}) {
+//TODO: concert poster & programme
+
+export default async function ConcertDescription({params}: { params: { concert_id: string } }) {
     const locale = await getLocale();
     const {concert_id} = await params;
     const concertDescription = await fetchConcertDescription(concert_id, locale);
+    const concertIDs = await fetchConcertIDs();
 
     if (!concertDescription) {
         return null;
     }
 
     return (<div className={"flex flex-col h-full w-full gap-16"}>
-        <div className={"flex flex-col gap-10"}>
+        <div className={"flex flex-col gap-8"}>
+            <ConcertDescriptionHeader concertIDs={concertIDs} concertID={concert_id} date={concertDescription.date as Date}/>
+
             <div className={"text-center text-2xl text-beige"}>Description</div>
             <div className={"flex w-full gap-4"}>
-                <div className={clsx("relative flex flex-col gap-4", !concertDescription.poster ? "w-2/3" : "w-full")}>
-                    <ConcertDate dateTime={concertDescription.date as Date}/>
+                <div className={clsx("relative flex flex-col gap-4", concertDescription.poster ? "w-2/3" : "w-full")}>
+
                     <div>{concertDescription.place}</div>
                     <div>{concertDescription.address}</div>
                     {concertDescription.link &&
                         <a href={concertDescription.link as string}
-                           className={"w-full text-green-400 truncate"}>{concertDescription.link}</a>}
+                           className={"w-full underline text-green-400 hover:text-green-300 truncate"}>{concertDescription.link}</a>}
                 </div>
-                {!concertDescription.poster &&
+                {concertDescription.poster &&
                     <Image
                         src="/portrait.jpg"
                         alt={"artist_photo"}
@@ -36,9 +42,7 @@ export default async function ConcertDescription({params}: {params: {concert_id:
                     />
                 }
             </div>
-            <div className={"text-center text-2xl text-beige"}>Program</div>
-
-            <div>{concertDescription.description}</div>
+            {concertDescription.description && <Programme programme={concertDescription.description}/>}
         </div>
         {concertDescription.recordsTable &&
             <iframe src={concertDescription.recordsTable.link}

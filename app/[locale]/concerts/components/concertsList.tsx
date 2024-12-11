@@ -4,9 +4,7 @@ import {KeyboardEventHandler, MutableRefObject, RefObject, useEffect, useRef, us
 import {ConcertsData} from "@/app/db/definitions";
 import clsx from "clsx";
 import {usePathname, useRouter} from "@/i18n/routing";
-import {ConcertDate} from "@/app/[locale]/concerts/components/Date";
-
-
+import {ConcertDate} from "@/app/[locale]/concerts/components/concertDate";
 
 export default function ConcertsList({concerts, firstUpcomingConcertIndex}: ConcertsData) {
     const ref: MutableRefObject<Record<string, HTMLButtonElement>> = useRef({});
@@ -19,18 +17,25 @@ export default function ConcertsList({concerts, firstUpcomingConcertIndex}: Conc
         router.push({pathname: path.replace(/(concerts).*$/g, '$1') + "/" + id});
     }
 
-    const scrollToId = (index: number) => {
+    const pushPathByIndex = (index: number) => {
         const id = concerts[index].id;
-        ref.current[id].focus();
         pushPath(id);
-        listRef.current?.scrollTo({top: ref.current[id].offsetTop, behavior: "smooth"});
     };
 
     useEffect(() => {
-        if (firstUpcomingConcertIndex) {
-            scrollToId(firstUpcomingConcertIndex);
+        if (path.endsWith("concerts") && firstUpcomingConcertIndex) {
+            pushPathByIndex(firstUpcomingConcertIndex);
         }
     }, []);
+
+    useEffect(() => {
+        if (!path.endsWith("concerts")) {
+            const segments = path.split("/");
+            const id = segments[segments.length - 1];
+            ref.current[id].focus();
+            listRef.current?.scrollTo({top: ref.current[id].offsetTop, behavior: "smooth"});
+        }
+    }, [path]);
 
     const onClick = (index: number, id: string) => {
         setCursor(index);
@@ -41,13 +46,11 @@ export default function ConcertsList({concerts, firstUpcomingConcertIndex}: Conc
         if (event.key === "ArrowDown") {
             const newCursor = (cursor + 1) % concerts.length;
             setCursor(newCursor);
-            scrollToId(newCursor);
-            pushPath(concerts[newCursor].id);
+            pushPathByIndex(newCursor);
         } else if (event.key === "ArrowUp") {
             const newCursor = cursor === 0 ? concerts.length - 1 : cursor - 1;
             setCursor(newCursor);
-            scrollToId(newCursor);
-            pushPath(concerts[newCursor].id);
+            pushPathByIndex(newCursor);
         }
     };
 
