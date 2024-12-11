@@ -15,18 +15,19 @@ export default function Navigation({className}: { className: string }) {
 
     return (<>
         {
-            menuItems.map(({name, href}, index) => (
-                <Link key={name}
-                      href={href}
-                      className={clsx(
-                          className,
-                          {
-                              "text-red-600 bg-gray-600 bg-opacity-50": pathname === href,
-                              "bg-opacity-20": pathname !== href,
-                          },
-                      )}>
-                    {name}
-                </Link>
-            ))}
+            menuItems.map(({name, href}) => {
+                const regex = new RegExp(String.raw`^${href}(/.*)?$`, "g");
+                return (<Link key={name}
+                              href={href}
+                              className={clsx(
+                                  className,
+                                  regex.test(pathname)
+                                      ? "text-red-600 bg-gray-600 bg-opacity-50"
+                                      : "bg-opacity-20",
+                              )}>
+                        {name}
+                    </Link>
+                )
+            })}
     </>)
 }
