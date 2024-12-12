@@ -22,8 +22,8 @@ export default function Navigation({className}: { className: string }) {
                               className={clsx(
                                   className,
                                   regex.test(pathname)
-                                      ? "text-red-600 bg-gray-600 bg-opacity-50"
-                                      : "bg-opacity-20",
+                                      ? "bg-white bg-opacity-10"
+                                      : "bg-opacity-80",
                               )}>
                         {name}
                     </Link>

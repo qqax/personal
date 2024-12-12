@@ -6,7 +6,7 @@ import {fetchConcerts} from "@/app/db/data";
 import './Calendar.css';
 import {connection} from "next/server";
 
-export const concertSectionButtonColors = "bg-green-700 hover:bg-green-600";
+export const concertSectionButtonColors = "border-green-500 border-[1px] bg-green-900 hover:bg-green-800 bg-opacity-50 hover:bg-opacity-70";
 
 export const MainSection = async () => {
     await connection();

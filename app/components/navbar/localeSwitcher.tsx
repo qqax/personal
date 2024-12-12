@@ -35,6 +35,7 @@ export const LocaleSwitcher = ({className}: { className: string }) => {
                 {pathname, params},
                 {locale: nextLocale}
             );
+
             setLabel(t('locale', {locale: nextLocale}));
             setOpen(false);
         });
