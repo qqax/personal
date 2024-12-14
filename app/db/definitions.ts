@@ -9,8 +9,8 @@ type ConcertID = {
 
 type Concert = ConcertID & {
     id: string;
-    date: Date | null;
-    place: string | null;
+    date: Date;
+    place: string;
     short_description?: string | null;
 }
 

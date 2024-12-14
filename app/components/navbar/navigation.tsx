@@ -3,11 +3,18 @@
 import {Link, usePathname} from "@/i18n/routing";
 import clsx from "clsx";
 
+export const paths = {
+    about: "/",
+    concerts: "/concerts",
+    records: "/records",
+    contacts: "/contacts",
+};
+
 const menuItems = [
-    {name: 'About', href: '/'},
-    {name: 'Concerts', href: '/concerts'},
-    {name: 'Records', href: '/records'},
-    {name: 'Contacts', href: '/contacts'},
+    {name: 'About', href: paths.about},
+    {name: 'Concerts', href: paths.concerts},
+    {name: 'Records', href: paths.records},
+    {name: 'Contacts', href: paths.contacts},
 ]
 
 export default function Navigation({className}: { className: string }) {

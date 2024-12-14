@@ -1,10 +1,10 @@
 'use client'
 
 import clsx from "clsx";
-import {concertSectionButtonColors} from "@/app/[locale]/concerts/components/mainSection";
 import {ConcertDate} from "@/app/[locale]/concerts/components/concertDate";
 import {ConcertIDs} from "@/app/db/definitions";
 import {usePathname, useRouter} from "@/i18n/routing";
+import {concertSectionButtonColors} from "@/app/ui/styles";
 
 export function ConcertDescriptionHeader({concertID, date, concertIDs}: { concertIDs: ConcertIDs, concertID: string, date: Date }) {
     const currentIndex = concertIDs.findIndex(({id}) => id === concertID);
@@ -21,7 +21,7 @@ export function ConcertDescriptionHeader({concertID, date, concertIDs}: { concer
         router.push({pathname: path.replace(/(concerts).*$/g, '$1') + "/" + concertIDs[newIndex].id});
     }
 
-    return (<div className={"flex items-center gap-8"}>
+    return (<div className={"flex items-center gap-5"}>
         <button type={"button"}
                 onClick={prevConcert}
                 className={clsx(concertSectionButtonColors, "p-2 whitespace-nowrap transition duration-150")}>{"< Prev"}</button>

@@ -5,6 +5,9 @@ import {ConcertsData} from "@/app/db/definitions";
 import clsx from "clsx";
 import {usePathname, useRouter} from "@/i18n/routing";
 import {ConcertDate} from "@/app/[locale]/concerts/components/concertDate";
+import {paths} from "@/app/components/navbar/navigation";
+import {pathWithConcertIDHandler} from "@/app/[locale]/concerts/components/concertPathFn";
+import {replaceDynamicSegmentIfExists} from "@/app/utils/pathFuncs";
 
 export default function ConcertsList({concerts, firstUpcomingConcertIndex}: ConcertsData) {
     const ref: MutableRefObject<Record<string, HTMLButtonElement>> = useRef({});
@@ -13,29 +16,26 @@ export default function ConcertsList({concerts, firstUpcomingConcertIndex}: Conc
     const path = usePathname();
 
     const pushPath = (id: string) => {
-        router.push({pathname: path.replace(/(concerts).*$/g, '$1') + "/" + id});
+        replaceDynamicSegmentIfExists(router, path, paths.concerts, id);
     }
 
-    const pushPathByIndex = (index: number) => {
-        const id = concerts[index].id;
-        pushPath(id);
-    };
-
     useEffect(() => {
-        if (path.endsWith("concerts") && firstUpcomingConcertIndex) {
-            pushPathByIndex(firstUpcomingConcertIndex);
+        if (path.endsWith(paths.concerts)) {
+
+            if (firstUpcomingConcertIndex) {
+                pushPath(concerts[firstUpcomingConcertIndex].id);
+            } else if (concerts.length > 0) {
+                pushPath(concerts[concerts.length - 1].id);
+            }
+
         }
     }, []);
 
     useEffect(() => {
-        if (!path.endsWith("concerts")) {
-            const segments = path.split("/");
-            const id = segments[segments.length - 1];
-            ref.current[id].focus();
-        }
+        pathWithConcertIDHandler(path, (id) => ref.current[id].focus());
     }, [path]);
 
-    const onClick = (index: number, id: string) => {
+    const onActiveConcertChange = (index: number, id: string) => {
         setCursor(index);
         pushPath(id);
     };
@@ -43,12 +43,10 @@ export default function ConcertsList({concerts, firstUpcomingConcertIndex}: Conc
     const onKeyDown: KeyboardEventHandler<HTMLUListElement> = (event) => {
         if (event.key === "ArrowDown") {
             const newCursor = (cursor + 1) % concerts.length;
-            setCursor(newCursor);
-            pushPathByIndex(newCursor);
+            onActiveConcertChange(newCursor, concerts[newCursor].id);
         } else if (event.key === "ArrowUp") {
             const newCursor = cursor === 0 ? concerts.length - 1 : cursor - 1;
-            setCursor(newCursor);
-            pushPathByIndex(newCursor);
+            onActiveConcertChange(newCursor, concerts[newCursor].id);
         }
     };
 
@@ -59,7 +57,7 @@ export default function ConcertsList({concerts, firstUpcomingConcertIndex}: Conc
                     <li key={concert.id}>
                         <button
                             id={concert.id}
-                            onClick={() => onClick(index, concert.id)}
+                            onClick={() => onActiveConcertChange(index, concert.id)}
                             type={"button"}
                             ref={element => {
                                 if (element) {

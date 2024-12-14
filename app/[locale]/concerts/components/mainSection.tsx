@@ -5,8 +5,7 @@ import {getLocale} from "next-intl/server";
 import {fetchConcerts} from "@/app/db/data";
 import './Calendar.css';
 import {connection} from "next/server";
-
-export const concertSectionButtonColors = "border-green-500 border-[1px] bg-green-900 hover:bg-green-800 bg-opacity-50 hover:bg-opacity-70";
+import {concertSectionButtonColors} from "@/app/ui/styles";
 
 export const MainSection = async () => {
     await connection();
@@ -15,7 +14,7 @@ export const MainSection = async () => {
     const {concerts, firstUpcomingConcertIndex} = await fetchConcerts(locale);
     return (<div className={"flex gap-4"}>
         <div>
-            <ConcertsCalendar/>
+            <ConcertsCalendar concerts={concerts} firstUpcomingConcertIndex={firstUpcomingConcertIndex}/>
             <NewsForm buttonClassName={concertSectionButtonColors}/>
         </div>
         <ConcertsList concerts={concerts} firstUpcomingConcertIndex={firstUpcomingConcertIndex}/>
