@@ -2,10 +2,10 @@ import {fetchConcertDescription, fetchConcertIDs} from "@/app/db/data";
 import {getLocale} from "next-intl/server";
 import Image from "next/image";
 import clsx from "clsx";
-import {Programme} from "@/app/[locale]/concerts/components/programme";
-import {ConcertDescriptionHeader} from "@/app/[locale]/concerts/components/concertDescriptionHeader";
+import {Programme} from "@/app/[locale]/concerts/@description/[concert_id]/programme";
+import {ConcertDescriptionHeader} from "@/app/[locale]/concerts/@description/[concert_id]/concertDescriptionHeader";
 
-//TODO: concert poster & programme
+//TODO: concert poster
 
 export default async function ConcertDescription({params}: { params: { concert_id: string } }) {
     const locale = await getLocale();

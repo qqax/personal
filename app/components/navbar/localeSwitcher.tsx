@@ -5,10 +5,12 @@ import {Locale, routing, usePathname, useRouter} from "@/i18n/routing";
 import {ReactNode, useState, useTransition} from "react";
 import {useParams} from "next/navigation";
 import {Select} from "@/app/ui/Select";
+import clsx from "clsx";
+import {navClassName} from "@/app/ui/styles";
 
 type Options = {value: string, label: ReactNode}[];
 
-export const LocaleSwitcher = ({className}: { className: string }) => {
+export const LocaleSwitcher = () => {
     const t = useTranslations('LocaleSwitcher');
     const locale = useLocale();
     const router = useRouter();
@@ -40,9 +42,9 @@ export const LocaleSwitcher = ({className}: { className: string }) => {
             setOpen(false);
         });
     }
-    return (<Select className={className} open={open} setOpen={setOpen} selectedLabel={label} isPending={isPending}>
+    return (<Select className={clsx("w-16 appearance-none", navClassName)} open={open} setOpen={setOpen} selectedLabel={label} isPending={isPending}>
             {options.map(({value, label}) => {
-                return (<button key={value} disabled={isPending} type={"submit"} className={className}
+                return (<button key={value} disabled={isPending} type={"submit"} className={clsx("w-16 appearance-none", navClassName)}
                                 onClick={() => onClick(value as Locale)}>{label}</button>)
             })}
         </Select>

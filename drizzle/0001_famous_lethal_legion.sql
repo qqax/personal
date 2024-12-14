@@ -1,0 +1,2 @@
+ALTER TABLE "artist" ALTER COLUMN "biography" SET DATA TYPE text USING (array_to_string(biography, E'\n\n'));--> statement-breakpoint
+ALTER TABLE "artist" ALTER COLUMN "biography_ru" SET DATA TYPE text USING (array_to_string(biography_ru, E'\n\n'));

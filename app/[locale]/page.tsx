@@ -5,6 +5,7 @@ import Social from "@/app/components/social";
 import NewsForm from "@/app/components/forms/newsForm";
 import {fetchArtistName, fetchBiography} from "@/app/db/data";
 import {getLocale} from "next-intl/server";
+import {MDXRemote} from "next-mdx-remote/rsc";
 
 export default async function Home() {
     const locale = await getLocale();
@@ -16,7 +17,7 @@ export default async function Home() {
             className={clsx("flex flex-row gap-8 max-w-[60rem] p-10 justify-center border-[1px] border-white", bgStyle)}>
             <div className="w-2/3 flex flex-col gap-4 text-lg leading-tight">
                 <h2 className={"text-3xl text-beige"}>Biography</h2>
-                {biography?.map((paragraph, index) => <p key={`bio-${index}`}>{paragraph}</p>)}
+                <MDXRemote source={biography}/>
             </div>
 
             <div className={"flex flex-col w-96 h-full gap-8"}>

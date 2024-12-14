@@ -12,11 +12,11 @@ export const artistTable = pgTable(
     {
         id: boolean().primaryKey().default(true),
         name: varchar({length: 255}).notNull(),
-        biography: text().array().notNull(),
+        biography: text().notNull(),
         profession: text().notNull(),
         profession_ru: text(),
         name_ru: varchar({length: 255}),
-        biography_ru: text().array(),
+        biography_ru: text(),
         admin_path: text().notNull().default("admin"),
     },
     (table) => ({

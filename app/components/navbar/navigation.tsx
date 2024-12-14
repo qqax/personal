@@ -2,6 +2,7 @@
 
 import {Link, usePathname} from "@/i18n/routing";
 import clsx from "clsx";
+import {navClassName} from "@/app/ui/styles";
 
 export const paths = {
     about: "/",
@@ -17,7 +18,7 @@ const menuItems = [
     {name: 'Contacts', href: paths.contacts},
 ]
 
-export default function Navigation({className}: { className: string }) {
+export default function Navigation() {
     const pathname = usePathname();
 
     return (<>
@@ -27,7 +28,8 @@ export default function Navigation({className}: { className: string }) {
                 return (<Link key={name}
                               href={href}
                               className={clsx(
-                                  className,
+                                  navClassName,
+                                  "w-24",
                                   regex.test(pathname)
                                       ? "bg-white bg-opacity-10"
                                       : "bg-opacity-80",
