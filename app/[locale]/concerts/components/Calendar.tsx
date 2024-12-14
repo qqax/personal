@@ -2,44 +2,49 @@
 
 import React, {useEffect, useMemo, useState} from "react";
 import Calendar from "react-calendar";
-import {ConcertsData} from "@/app/db/definitions";
+import {Concerts} from "@/app/db/definitions";
 import {useLocale} from "next-intl";
 import {usePathname, useRouter} from "@/i18n/routing";
 import {pathWithConcertIDHandler} from "@/app/[locale]/concerts/components/concertPathFn";
 import {replaceDynamicSegmentIfExists} from "@/app/utils/pathFuncs";
 import {paths} from "@/app/components/navbar/navigation";
+import {shiftFromUTCToLocale} from "@/app/utils/dateFuncs";
 
 type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-export function ConcertsCalendar({concerts, firstUpcomingConcertIndex}: ConcertsData) {
-    const [value, onChange] = useState<Value>(new Date());
+export function ConcertsCalendar({concerts}: { concerts: Concerts }) {
+    const [value, onChange] = useState<Value>(null);
     const minDate = concerts[0].date || undefined;
     const maxDate = concerts[concerts.length - 1].date || undefined;
     const locale = useLocale();
 
-    const concertDates = useMemo(() => new Set(concerts.map(({date}) =>
-            new Date(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate()).getTime())),
-        [concerts]);
+    const concertDates = useMemo(() => new Set(
+        concerts.map(({date}) => shiftFromUTCToLocale(date))), [concerts]);
 
     const router = useRouter();
     const path = usePathname();
 
-    const pushPath = (id: string) => {
-        replaceDynamicSegmentIfExists(router, path, paths.concerts, id);
+    const selectNewDate = (value: Value) => {
+            onChange(value);
+            const concert = concerts.find(({date}) => shiftFromUTCToLocale(date) === (value as ValuePiece)?.getTime());
+
+            concert?.id && replaceDynamicSegmentIfExists(router, path, paths.concerts, concert.id);
     }
 
     useEffect(() => {
         pathWithConcertIDHandler(path, (id) => {
             const concert = concerts.find((concert) => concert.id === id);
+            const activeDate = shiftFromUTCToLocale(concert?.date);
+            onChange(new Date(activeDate));
         });
     }, [path]);
 
     return (
         <Calendar
-            defaultValue={value}
-            onChange={onChange}
+            // defaultValue={value}
+            onChange={selectNewDate}
             value={value}
             locale={locale}
             minDate={minDate}
@@ -48,16 +53,21 @@ export function ConcertsCalendar({concerts, firstUpcomingConcertIndex}: Concerts
             navigationAriaLabel={"Go up"}
             navigationAriaLive={"polite"}
             next2AriaLabel={"Jump forwards"}
+            nextAriaLabel={"Next"}
+            prev2AriaLabel={"Jump backwards"}
+            prevAriaLabel={"Previous"}
             tileDisabled={({activeStartDate, date, view}) => {
                 return !concertDates.has(date.setHours(0, 0, 0, 0));
             }}
-            // tileClassName={({date, view}) => {
-            //     if (view !== "month") return;
-            //
-            //     return schedule
-            //         .map(({date}) => new Date(date).setHours(0, 0, 0, 0))
-            //         .includes(date.setHours(0, 0, 0, 0)) && 'react-calendar__tile--highlight'
-            // }}
+            tileClassName={({date, view}) => {
+                if (view !== "month") return;
+
+                if (date.getTime() === (value as ValuePiece)?.getTime()) {
+                    return 'react-calendar__tile--highlight'
+                }
+
+                return null
+            }}
             className={"w-full h-[391px] p-4"}/>
     );
 }

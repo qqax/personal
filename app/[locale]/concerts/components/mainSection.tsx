@@ -14,7 +14,7 @@ export const MainSection = async () => {
     const {concerts, firstUpcomingConcertIndex} = await fetchConcerts(locale);
     return (<div className={"flex gap-4"}>
         <div>
-            <ConcertsCalendar concerts={concerts} firstUpcomingConcertIndex={firstUpcomingConcertIndex}/>
+            <ConcertsCalendar concerts={concerts}/>
             <NewsForm buttonClassName={concertSectionButtonColors}/>
         </div>
         <ConcertsList concerts={concerts} firstUpcomingConcertIndex={firstUpcomingConcertIndex}/>

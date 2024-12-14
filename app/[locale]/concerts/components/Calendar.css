@@ -137,8 +137,7 @@
 /*}*/
 
 .react-calendar__tile--now {
-    color: #DFD0B8;
-    font-size: larger;
+    border: 1px solid #ff0000;
 }
 
 /*.react-calendar__tile--now:enabled:hover,*/
@@ -175,13 +174,19 @@
 }
 
 .react-calendar__month-view__days__day--weekend.react-calendar__tile--highlight {
-    color: #d10000;
+    /*color: #d10000;*/
 }
 
 .react-calendar__tile--highlight:enabled:hover {
-    background: #756134;
+    background: #88703e;
 }
 
 .react-calendar__tile--highlight:enabled:focus {
-    background: #8f7942;
+    background: #64532c;
+    color: #DFD0B8;
+}
+
+.react-calendar__tile--highlight:enabled:focus:hover {
+    background: #88703e;
+    color: #DFD0B8;
 }
