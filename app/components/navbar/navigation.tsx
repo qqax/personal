@@ -26,14 +26,14 @@ const menuItems = [
 export default function Navigation() {
     const pathname = usePathname();
     const [openMobileMenu, setOpenMobileMenu] = useState(false);
-    const ref = useRef<HTMLDivElement>(null);
-
-    useClickOutside(ref, () => setOpenMobileMenu(false));
+    const ref = useRef<HTMLButtonElement>(null);
+    useClickOutside(ref, () => {setOpenMobileMenu(false)});
+    console.log(openMobileMenu)
 
     return (<div className={"flex items-center"}>
-        <MobileMenuButton openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu}/>
+        <MobileMenuButton ref={ref} openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu}/>
         <Modal show={openMobileMenu}/>
-        <div ref={ref} className={clsx(
+        <div className={clsx(
             "flex absolute transition-all divide-y-[1px] divide-red-900 md:divide-y-0 duration-500 top-[88px] md:static flex-col md:flex-row items-end h-full",
             openMobileMenu ? "left-0" : "-left-full"
         )}>
@@ -42,7 +42,6 @@ export default function Navigation() {
                     const regex = new RegExp(String.raw`^${href}(/.*)?$`, "g");
                     return (<Link key={name}
                                   href={href}
-                                  onClick={() => setOpenMobileMenu(false)}
                                   className={clsx(
                                       navClassName,
                                       regex.test(pathname)
