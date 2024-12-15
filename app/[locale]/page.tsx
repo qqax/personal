@@ -14,7 +14,7 @@ export default async function Home() {
 
     return (
         <main
-            className={clsx("flex flex-row gap-8 max-w-[60rem] p-10 justify-center border-[1px] border-white", bgStyle)}>
+            className={clsx("flex flex-row gap-8 max-w-[60rem] p-10 justify-center md:border-[1px] border-white", bgStyle)}>
             <div className="w-2/3 flex flex-col gap-4 text-lg leading-tight">
                 <h2 className={"text-3xl text-beige"}>Biography</h2>
                 <MDXRemote source={biography}/>

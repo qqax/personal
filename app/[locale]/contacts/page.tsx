@@ -12,7 +12,7 @@ export default function ContactsPage() {
             className="w-full flex flex-row justify-center">
 
             <div
-                className={clsx("p-10 text-lg leading-tight border-[1px] border-amber-300", bgStyle)}>
+                className={clsx("p-10 text-lg leading-tight md:border-[1px] border-amber-300", bgStyle)}>
                 <h2 className={"text-3xl text-beige text-center mb-6"}>Contacts</h2>
                 <div className={"flex gap-10"}>
                     <div className={"flex flex-col gap-4"}>

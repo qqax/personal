@@ -3,6 +3,9 @@
 import {Link, usePathname} from "@/i18n/routing";
 import clsx from "clsx";
 import {navClassName} from "@/app/ui/styles";
+import {LocaleSwitcher} from "@/app/components/navbar/localeSwitcher";
+import {useState} from "react";
+import {MobileMenuButton} from "@/app/ui/Button";
 
 export const paths = {
     about: "/",
@@ -20,23 +23,30 @@ const menuItems = [
 
 export default function Navigation() {
     const pathname = usePathname();
+    const [openMobileMenu, setOpenMobileMenu] = useState(false);
 
-    return (<>
-        {
-            menuItems.map(({name, href}) => {
-                const regex = new RegExp(String.raw`^${href}(/.*)?$`, "g");
-                return (<Link key={name}
-                              href={href}
-                              className={clsx(
-                                  navClassName,
-                                  "w-24",
-                                  regex.test(pathname)
-                                      ? "bg-white bg-opacity-10"
-                                      : "bg-opacity-80",
-                              )}>
-                        {name}
-                    </Link>
-                )
-            })}
-    </>)
+    return (<div className={"flex items-center"}>
+        <MobileMenuButton openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu}/>
+        <div className={clsx(
+            "flex absolute transition-all divide-y-[1px] divide-red-600 md:divide-y-0 duration-500 top-[88px] md:static flex-col md:flex-row items-end h-full",
+            openMobileMenu ? "left-0" : "-left-full"
+        )}>
+            {
+                menuItems.map(({name, href}) => {
+                    const regex = new RegExp(String.raw`^${href}(/.*)?$`, "g");
+                    return (<Link key={name}
+                                  href={href}
+                                  className={clsx(
+                                      navClassName,
+                                      regex.test(pathname)
+                                          ? "bg-white bg-opacity-20"
+                                          : "md:bg-opacity-0",
+                                  )}>
+                            {name}
+                        </Link>
+                    )
+                })}
+            <LocaleSwitcher/>
+        </div>
+    </div>)
 }

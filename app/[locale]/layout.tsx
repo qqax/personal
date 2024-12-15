@@ -1,7 +1,7 @@
 import "../globals.css";
 import {Jura} from 'next/font/google';
 import Footer from "@/app/ui/Footer";
-import NavBar from "@/app/components/navbar/NavBar";
+import NavBar from "@/app/components/navbar/navBar";
 import {Toaster} from "sonner";
 import {ReCaptchaProvider} from "next-recaptcha-v3";
 import {notFound} from 'next/navigation';
@@ -62,7 +62,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
             <ReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
                 <NavBar/>
-                <div className={"flex justify-center p-10"}>
+                <div className={"flex z-0 justify-center p-0 md:p-10"}>
                     {children}
                     <Toaster toastOptions={{
                         unstyled: true,

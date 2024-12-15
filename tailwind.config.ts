@@ -14,7 +14,10 @@ const config: Config = {
             },
             textColor: {
                 beige: "#a19681",
-            }
+            },
+            screens: {
+                'nb': '360px',
+            },
         },
     },
     plugins: [],
