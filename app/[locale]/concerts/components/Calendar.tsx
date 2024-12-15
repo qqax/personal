@@ -43,7 +43,6 @@ export function ConcertsCalendar({concerts}: { concerts: Concerts }) {
 
     return (
         <Calendar
-            // defaultValue={value}
             onChange={selectNewDate}
             value={value}
             locale={locale}

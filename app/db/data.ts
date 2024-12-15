@@ -128,7 +128,7 @@ export async function fetchConcerts(locale: string): Promise<ConcertsData> {
 
 export async function fetchConcertIDs(): Promise<ConcertIDs> {
     'use cache'
-    cacheTag('concert_id');
+    cacheTag('concert');
 
     return db.select({
         id: sql<string>`to_char
@@ -139,7 +139,7 @@ export async function fetchConcertIDs(): Promise<ConcertIDs> {
 
 export async function fetchConcertDescription(id: string, locale: string): Promise<ConcertDescription> {
     'use cache'
-    cacheTag('concert_description');
+    cacheTag('concert');
 
     try {
         return await db.query.concertsTable.findFirst({

@@ -13,7 +13,7 @@ export const MainSection = async () => {
     const locale = await getLocale();
     const {concerts, firstUpcomingConcertIndex} = await fetchConcerts(locale);
     return (<div className={"flex gap-4"}>
-        <div>
+        <div className={"hidden xl:block"}>
             <ConcertsCalendar concerts={concerts}/>
             <NewsForm buttonClassName={concertSectionButtonColors}/>
         </div>

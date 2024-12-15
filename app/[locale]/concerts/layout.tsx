@@ -5,10 +5,10 @@ import {MainSection} from "@/app/[locale]/concerts/components/mainSection";
 
 const ConcertsSection = async ({children, description}: { children: ReactNode, description: ReactNode }) => {
     return (
-        <section className={clsx("flex h-[600px] gap-4 p-10 md:border-[1px] border-green-600", bgStyle)}>
+        <section className={clsx("flex h-svh gap-4 p-4 lg:p-10 md:border-[1px] border-green-600", bgStyle)}>
             <MainSection/>
             {children}
-            <div className={"flex w-96 h-full"}>
+            <div className={"hidden md:flex w-96 h-full"}>
                 {description}
             </div>
         </section>
