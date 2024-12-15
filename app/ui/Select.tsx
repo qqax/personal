@@ -20,7 +20,7 @@ export const Select = ({children, selectedLabel, setOpen, open, isPending, class
             <button type={"button"} className={className} disabled={isPending}
                     onClick={() => setOpen(!open)}>{selectedLabel}</button>
             <div
-                className={clsx("absolute flex bg-gray-900 bg-opacity-70 -bottom-full w-16 justify-center", {"hidden": !open})}>
+                className={clsx("absolute -bottom-full", {"hidden": !open})}>
                 {children}
             </div>
         </div>

@@ -22,7 +22,6 @@
     "react-calendar": "^5.1.0",
     "react-dom": "19.0.0-rc.1",
     "sonner": "^1.7.0",
-    "valid-copyright": "^1.0.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
