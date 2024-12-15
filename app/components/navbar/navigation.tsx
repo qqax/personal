@@ -28,7 +28,6 @@ export default function Navigation() {
     const [openMobileMenu, setOpenMobileMenu] = useState(false);
     const ref = useRef<HTMLButtonElement>(null);
     useClickOutside(ref, () => {setOpenMobileMenu(false)});
-    console.log(openMobileMenu)
 
     return (<div className={"flex items-center"}>
         <MobileMenuButton ref={ref} openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu}/>
