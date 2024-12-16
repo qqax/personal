@@ -15,8 +15,8 @@ export const Modal = ({show, children}: { show: boolean, children?: ReactNode })
                                    onTransitionEnd={() => !show && setVisible(false)}
                                    className={clsx(
                                        `absolute top-0 left-0 flex w-full bg-black transition-all duration-500`,
-                                       {"bg-opacity-0": !(show && visible), "bg-opacity-40": show},
-                                   )}>
+                                       (show && visible) ? "bg-opacity-40" : "bg-opacity-0",
+                                       )}>
             {children}
         </div>}
     </>)
