@@ -62,7 +62,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
             <ReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
                 <NavBar/>
-                <div className={"flex z-0 justify-center p-0 md:p-10"}>
+                <div className={"flex z-0 justify-center pt-[88px] md:pt-[128px] md:px-10 md:pb-10"}>
                     {children}
                     <Toaster toastOptions={{
                         unstyled: true,

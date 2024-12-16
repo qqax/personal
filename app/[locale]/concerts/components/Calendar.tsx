@@ -2,6 +2,7 @@
 
 import React, {useEffect, useMemo, useState} from "react";
 import Calendar from "react-calendar";
+import "./Calendar.css";
 import {Concerts} from "@/app/db/definitions";
 import {useLocale} from "next-intl";
 import {usePathname, useRouter} from "@/i18n/routing";

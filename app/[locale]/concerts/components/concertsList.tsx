@@ -51,7 +51,7 @@ export default function ConcertsList({concerts, firstUpcomingConcertIndex}: Conc
     };
 
     return (
-        <ul className={"relative flex flex-col overflow-auto w-80"} onKeyDown={onKeyDown}>
+        <ul className={"relative flex flex-col overflow-auto w-4/5 max-w-96 sm:w-5/6"} onKeyDown={onKeyDown}>
             {concerts?.map((concert, index) => {
                 return (
                     <li key={concert.id}>
@@ -71,12 +71,13 @@ export default function ConcertsList({concerts, firstUpcomingConcertIndex}: Conc
                                 "flex flex-col gap-1.5 w-full outline-0 p-4 border-[1px] border-opacity-0 border-white focus:border-green-600 focus-visible:border-[1px] focus-visible:border-green-600")}
                         >
                             <ConcertDate dateTime={concert.date as Date}/>
-                            <div>
+                            <p>
                                 {concert.place}
-                            </div>
-                            <div>
+                            </p>
+                            <p>
                                 {concert.short_description}
-                            </div>
+                            </p>
+                            <span className={"text-green-400 ml-auto"}>More...</span>
                         </button>
                     </li>
                 )
