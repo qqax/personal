@@ -10,20 +10,19 @@ import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, getTranslations, setRequestLocale} from "next-intl/server";
 import React from "react";
 import {connection} from "next/server";
+import {fetchArtistName, fetchArtistProfession} from "@/app/db/data";
 
 const jura = Jura({subsets: ['latin', 'cyrillic']});
 
 export async function generateMetadata({params}: {params: {locale: string}}) {
     const { locale } = await params;
-
-    await connection();
-    const t = await getTranslations({locale, namespace: 'Metadata'});
-    // const artistName = await fetchArtistName();
+    const t = await getTranslations('Metadata');
+    const artistName = await fetchArtistName(locale);
+    const profession = await fetchArtistProfession(locale);
 
     return {
-        title: t('title'),
-        // title: artistName || "",
-        description: "pianist",
+        title: artistName,
+        description: t('description', {name: artistName, profession: profession}),
     };
 }
 
