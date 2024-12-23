@@ -21,7 +21,7 @@ export function ConcertDescriptionHeader({concertID, date, concertIDs}: { concer
         router.push({pathname: path.replace(/(concerts).*$/g, '$1') + "/" + concertIDs[newIndex].id});
     }
 
-    return (<div className={"flex items-center gap-3"}>
+    return (<div className={"flex items-center gap-3 w-full"}>
         <button type={"button"}
                 onClick={prevConcert}
                 className={clsx(concertSectionButtonColors, "p-2 whitespace-nowrap transition duration-150")}>{"< Prev"}</button>

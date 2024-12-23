@@ -17,7 +17,7 @@ export default async function ConcertDescription({params}: { params: { concert_i
         return null;
     }
 
-    return (<div className={"flex flex-col h-full w-full gap-16 overflow-auto px-4"}>
+    return (<div className={"flex flex-col h-full w-full gap-16 overflow-auto"}>
         <div className={"flex flex-col gap-8"}>
             <ConcertDescriptionHeader concertIDs={concertIDs} concertID={concert_id} date={concertDescription.date as Date}/>
 
