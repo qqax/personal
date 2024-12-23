@@ -1,6 +1,7 @@
 {
   "Metadata": {
-    "title": "Main"
+    "title": "Biography of artist",
+    "description": "{name} ({profession}) is a professional musician, this is his personal site."
   },
   "NewsForm": {
     "title": "Want to know about new recordings and concerts?",
