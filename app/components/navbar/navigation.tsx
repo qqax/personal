@@ -31,7 +31,7 @@ export default function Navigation() {
 
     return (<div className={"md:h-full md:flex md:items-end"}>
         <Modal show={openMobileMenu}/>
-        <div ref={ref} className={"absolute z-50 md:relative top-0 left-0 flex flex-col items-left"}>
+        <div ref={ref} className={"absolute z-50 md:relative top-0 left-0 items-left"}>
             <MobileMenuButton openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu}/>
             <div className={clsx(
                 "relative flex transition-all divide-y-[1px] divide-red-900 md:divide-y-0 duration-500 top-0 md:static flex-col md:flex-row items-end h-full",

@@ -6,7 +6,7 @@ import Artist from "@/app/components/navbar/artist";
 const NavBar = () => {
     return (
         <nav
-            className={clsx("fixed top-0 left-0 flex flex-row w-full h-[88px] justify-between md:justify-around z-10 border-b-red-600 border-b-4", bgStyle)}>
+            className={clsx("fixed top-0 left-0 flex flex-row w-full h-[88px] justify-between md:justify-around z-50 border-b-red-600 border-b-4", bgStyle)}>
             <Navigation/>
             <Artist/>
         </nav>

@@ -51,7 +51,7 @@ export default function ConcertsList({concerts, firstUpcomingConcertIndex}: Conc
     };
 
     return (
-        <ul className={"relative flex flex-col overflow-auto w-4/5 max-w-96 sm:w-5/6"} onKeyDown={onKeyDown}>
+        <ul className={"relative mx-auto w-full min-w-64 max-w-96 overflow-auto"} onKeyDown={onKeyDown}>
             {concerts?.map((concert, index) => {
                 return (
                     <li key={concert.id}>
@@ -77,7 +77,7 @@ export default function ConcertsList({concerts, firstUpcomingConcertIndex}: Conc
                             <p>
                                 {concert.short_description}
                             </p>
-                            <span className={"text-green-400 ml-auto"}>More...</span>
+                            <span className={"text-green-400 ml-auto md:hidden"}>More...</span>
                         </button>
                     </li>
                 )

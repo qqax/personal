@@ -7,7 +7,7 @@ import {Modal} from "@/app/ui/Modal";
 import {ConcertsCalendar} from "@/app/[locale]/concerts/components/Calendar";
 import {Concerts} from "@/app/db/definitions";
 
-export const ConcertMenu = ({concerts}: { concerts: Concerts }) => {
+export const ConcertMenu = ({concerts, className}: { concerts: Concerts, className: string }) => {
     const [showCalendar, setShowCalendar] = useState(false);
 
     return (<>
@@ -16,20 +16,22 @@ export const ConcertMenu = ({concerts}: { concerts: Concerts }) => {
             <button type={"button"} onClick={() => setShowCalendar(false)}>Close</button>
         </Modal>
         <div
-            className={clsx("fixed top-0 left-0 bg-black bg-opacity-50 backdrop-blur-sm z-10 py-4 xl:hidden flex justify-around w-full text-3xl")}>
+            className={clsx(className, "fixed left-0 bg-black bg-opacity-50 border-b-[1px] border-green-600 backdrop-blur-sm z-10 py-4 justify-around w-full text-3xl")}>
             <button type={"button"}
                     onClick={() => setShowCalendar(!showCalendar)}
-                    className={clsx(concertSectionButtonColors, "text-base p-2 whitespace-nowrap transition duration-150")}>
+                    className={clsx(concertSectionButtonColors, "xl:hidden text-base p-2 whitespace-nowrap transition duration-150")}>
                 Calendar
             </button>
-            <h2 className={"align-middle"}>Concerts:</h2>
-            <button type={"button"} className={"px-2 h-full text-beige"}>
-                upcoming
-            </button>
-            /
-            <button type={"button"} className={"px-2 h-full"}>
-                forgoing
-            </button>
+            <div className={"flex justify-between w-full max-w-[500px]"}>
+                <h2 className={"align-middle"}>Concerts:</h2>
+                <button type={"button"} className={"px-2 h-full text-beige"}>
+                    upcoming
+                </button>
+                /
+                <button type={"button"} className={"px-2 h-full"}>
+                    forgoing
+                </button>
+            </div>
         </div>
     </>)
 }

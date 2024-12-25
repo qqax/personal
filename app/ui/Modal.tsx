@@ -30,10 +30,12 @@ export const Modal = ({show, children}: { show: boolean, children?: ReactNode })
             style={{height: `${document.documentElement.scrollHeight}px`}}
             onTransitionEnd={() => !show && setVisible(false)}
             className={clsx(
-                `absolute z-40 top-0 left-0 flex h-screen w-full bg-black transition-all duration-500`,
-                (show && visible) ? "opacity-40" : "opacity-0",
+                `absolute z-40 top-0 left-0 flex h-full w-full bg-black transition-all duration-500`,
+                (show && visible) ? "opacity-100 bg-opacity-40" : "opacity-0 bg-opacity-0",
             )}>
-            {children}
+            <div className={"flex w-full justify-center opacity-100"}>
+                {children}
+            </div>
         </div>}
     </>)
 }
