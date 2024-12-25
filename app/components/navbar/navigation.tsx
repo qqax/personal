@@ -27,33 +27,38 @@ export default function Navigation() {
     const pathname = usePathname();
     const [openMobileMenu, setOpenMobileMenu] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
-    useClickOutside(ref, () => {setOpenMobileMenu(false)});
+    const buttonRef = useRef<HTMLButtonElement>(null);
+
+    useClickOutside([ref, buttonRef], () => {
+        setOpenMobileMenu(false)
+    });
 
     return (<div className={"md:h-full md:flex md:items-end"}>
         <Modal show={openMobileMenu}/>
-        <div ref={ref} className={"absolute z-50 md:relative top-0 left-0 items-left"}>
-            <MobileMenuButton openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu}/>
-            <div className={clsx(
-                "relative flex transition-all divide-y-[1px] divide-red-900 md:divide-y-0 duration-500 top-0 md:static flex-col md:flex-row items-end h-full",
-                openMobileMenu ? "left-0" : "-left-full"
-            )}>
-                {
-                    menuItems.map(({name, href}) => {
-                        const regex = new RegExp(String.raw`^${href}(/.*)?$`, "g");
-                        return (<Link key={name}
-                                      href={href}
-                                      className={clsx(
-                                          navClassName,
-                                          regex.test(pathname)
-                                              ? "bg-red-950 md:bg-white md:bg-opacity-20"
-                                              : "md:bg-opacity-0",
-                                      )}>
-                                {name}
-                            </Link>
-                        )
-                    })}
-                <LocaleSwitcher/>
-            </div>
+        <MobileMenuButton ref={buttonRef} openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu}/>
+
+        <div ref={ref} className={clsx(
+            "relative z-50 flex w-full transition-all divide-y-[1px] divide-red-900 md:divide-y-0 duration-500 top-0 md:static flex-col md:flex-row items-end h-full",
+            openMobileMenu ? "left-0" : "-left-full"
+        )}>
+            {
+                menuItems.map(({name, href}) => {
+                    const regex = new RegExp(String.raw`^${href}(/.*)?$`, "g");
+                    return (<Link key={name}
+                                  href={href}
+                                  onClick={() => setOpenMobileMenu(false)}
+                                  className={clsx(
+                                      navClassName,
+                                      regex.test(pathname)
+                                          ? "bg-red-950 md:bg-white md:bg-opacity-20"
+                                          : "md:bg-opacity-0",
+                                  )}>
+                            {name}
+                        </Link>
+                    )
+                })}
+            <LocaleSwitcher/>
         </div>
+        {/*</div>*/}
     </div>)
 }
