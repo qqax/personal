@@ -4,10 +4,10 @@ import {Link, usePathname} from "@/i18n/routing";
 import clsx from "clsx";
 import {navClassName} from "@/app/ui/styles";
 import {LocaleSwitcher} from "@/app/components/navbar/localeSwitcher";
-import {useRef, useState} from "react";
+import {RefObject, useEffect, useRef, useState} from "react";
 import {MobileMenuButton} from "@/app/ui/Button";
 import {useClickOutside} from "@/app/components/hooks";
-import {Modal} from "@/app/ui/Modal";
+import Modal from "@/app/ui/Modal";
 
 export const paths = {
     about: "/",
@@ -24,7 +24,6 @@ const menuItems = [
 ]
 
 export default function Navigation() {
-    const pathname = usePathname();
     const [openMobileMenu, setOpenMobileMenu] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -34,19 +33,27 @@ export default function Navigation() {
     });
 
     return (<div className={"md:h-full md:flex md:items-end"}>
-        <Modal show={openMobileMenu}/>
-        <MobileMenuButton ref={buttonRef} openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu}/>
+        <Modal show={openMobileMenu} element={<MobileMenuButton ref={buttonRef} openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu}/>}>
+            <MobileMenuItems ref={ref} openMobileMenu={openMobileMenu} onClick={() => setOpenMobileMenu(false)}/>
+        </Modal>
 
-        <div ref={ref} className={clsx(
-            "relative z-50 flex w-full transition-all divide-y-[1px] divide-red-900 md:divide-y-0 duration-500 top-0 md:static flex-col md:flex-row items-end h-full",
-            openMobileMenu ? "left-0" : "-left-full"
-        )}>
+        <div ref={ref} className={"hidden md:flex z-50 flex-row items-end h-full w-full transition-all duration-500"}>
+           <MenuItems/>
+        </div>
+    </div>)
+}
+
+const MenuItems = ({onClick}: {onClick?: Function}) => {
+    const pathname = usePathname();
+
+    return (
+        <>
             {
                 menuItems.map(({name, href}) => {
                     const regex = new RegExp(String.raw`^${href}(/.*)?$`, "g");
                     return (<Link key={name}
                                   href={href}
-                                  onClick={() => setOpenMobileMenu(false)}
+                                  onClick={() => onClick && onClick(false)}
                                   className={clsx(
                                       navClassName,
                                       regex.test(pathname)
@@ -58,7 +65,30 @@ export default function Navigation() {
                     )
                 })}
             <LocaleSwitcher/>
+        </>
+    )
+}
+
+const MobileMenuItems = ({ref, openMobileMenu, onClick}:
+                         {
+                             ref: RefObject<HTMLDivElement>,
+                             openMobileMenu: boolean,
+                             onClick: Function
+                         }) => {
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        if (openMobileMenu) {
+            setVisible(true);
+        }
+    }, [openMobileMenu]);
+
+    return (
+        <div ref={ref} className={clsx(
+            "relative md:hidden z-50 top-[88px] h-min items-end divide-y-[1px] divide-red-900 transition-all duration-500",
+            (openMobileMenu && visible) ? "left-0" : "-left-full"
+        )}>
+            <MenuItems onClick={onClick}/>
         </div>
-        {/*</div>*/}
-    </div>)
+    )
 }

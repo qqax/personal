@@ -11,11 +11,14 @@ import {getMessages, getTranslations, setRequestLocale} from "next-intl/server";
 import React from "react";
 import {connection} from "next/server";
 import {fetchArtistName, fetchArtistProfession} from "@/app/db/data";
+// import {NextScript} from "next/document";
 
 const jura = Jura({subsets: ['latin', 'cyrillic']});
 
-export async function generateMetadata({params}: {params: {locale: string}}) {
-    const { locale } = await params;
+export async function generateMetadata({params}: { params: { locale: string } }) {
+    await connection();
+
+    const {locale} = await params;
     const t = await getTranslations('Metadata');
     const artistName = await fetchArtistName(locale);
     const profession = await fetchArtistProfession(locale);
@@ -38,7 +41,7 @@ export default async function RootLayout({
     params: { locale: string };
 }>) {
 
-    const { locale } = await params;
+    const {locale} = await params;
 
     // Ensure that the incoming `locale` is valid
     if (!routing.locales.includes(locale as any)) {
@@ -56,26 +59,31 @@ export default async function RootLayout({
     return (
         <html lang={locale}>
         <body
-            className={`${jura.className} relative min-h-screen pb-20 antialiased bg-[url('../public/keyboard.jpg')] bg-cover text-gray-200`}
+            className={`${jura.className} relative min-h-screen pb-20 antialiased  text-gray-200`}
         >
-        <NextIntlClientProvider messages={messages}>
-            <ReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
-                <NavBar/>
-                <div className={"flex z-0 justify-center pt-[88px] md:pt-[128px] md:px-10 md:pb-10"}>
-                    {children}
-                    <Toaster toastOptions={{
-                        unstyled: true,
-                        classNames: {
-                            error: 'p-4 flex items-center gap-2 border-[1px] border-white bg-red-400',
-                            success: 'p-4 flex items-center gap-2 border-[1px] border-white bg-green-600',
-                            warning: 'p-4 flex items-center gap-2 border-[1px] border-white bg-yellow-400',
-                            info: 'p-4 flex items-center gap-2 border-[1px] border-white bg-blue-400',
-                        },
-                    }}/>
-                </div>
-                <Footer/>
-            </ReCaptchaProvider>
-        </NextIntlClientProvider>
+        <div className={"bg-[url('../public/keyboard.jpg')] bg-cover"}>
+            <NextIntlClientProvider messages={messages}>
+                <ReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
+                    <NavBar/>
+                    <div className={"flex z-0 justify-center pt-[88px] md:pt-[128px] md:px-10 md:pb-10"}>
+                        {children}
+                        <Toaster toastOptions={{
+                            unstyled: true,
+                            classNames: {
+                                error: 'p-4 flex items-center gap-2 border-[1px] border-white bg-red-400',
+                                success: 'p-4 flex items-center gap-2 border-[1px] border-white bg-green-600',
+                                warning: 'p-4 flex items-center gap-2 border-[1px] border-white bg-yellow-400',
+                                info: 'p-4 flex items-center gap-2 border-[1px] border-white bg-blue-400',
+                            },
+                        }}/>
+                    </div>
+                    <Footer/>
+                    <div id="modal-root" className={"z-50"}/>
+                    {/*<NextScript/>*/}
+                </ReCaptchaProvider>
+            </NextIntlClientProvider>
+        </div>
+
         </body>
         </html>
     );

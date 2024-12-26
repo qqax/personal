@@ -1,41 +1,59 @@
-'use client'
-
-import {ReactNode, useEffect, useState} from "react";
+import React, {ReactNode, useEffect, useState} from "react";
+import ReactDOM from "react-dom";
 import clsx from "clsx";
 
-export const Modal = ({show, children}: { show: boolean, children?: ReactNode }) => {
+const Modal = ({show, element, children}: {
+    show: boolean;
+    element?: ReactNode;
+    children?: ReactNode;
+}) => {
+
     const [visible, setVisible] = useState(false);
-    const documentWidth = document.documentElement.clientWidth;
-    const windowWidth = window.innerWidth;
-    const scrollBarWidth = windowWidth - documentWidth;
+    const [scrollTop, setScrollTop] = useState(0)
+    const [domReady, setDomReady] = useState(false)
+    useEffect(() => {
+        setDomReady(true)
+    }, []);
 
     useEffect(() => {
         if (show) {
             setVisible(true);
-            document.body.style.overflowY = "hidden";
-            document.body.style.paddingRight = `${scrollBarWidth}px`;
+            setScrollTop(document.documentElement.scrollTop)
+            console.log(document.documentElement.scrollTop)
+
+            document.body.style.overflowY = "scroll";
+            document.body.style.top = `-${document.documentElement.scrollTop}px`;
+            document.body.style.inlineSize = "100%";
+            document.body.style.position = `fixed`;
         } else {
             document.body.style.overflowY = "auto";
-            document.body.style.paddingRight = `0px`;
-        }
-
-        return () => {
-            document.body.style.overflowY = "auto";
-            document.body.style.paddingRight = `0px`;
+            document.body.style.position = `relative`;
+            document.body.style.top = `0px`;
+            window.scrollTo(0, scrollTop)
         }
     }, [show]);
 
-    return (<>
-        {(show || visible) && <div
-            style={{height: `${document.documentElement.scrollHeight}px`}}
-            onTransitionEnd={() => !show && setVisible(false)}
-            className={clsx(
-                `absolute z-40 top-0 left-0 flex h-full w-full bg-black transition-all duration-500`,
-                (show && visible) ? "opacity-100 bg-opacity-40" : "opacity-0 bg-opacity-0",
-            )}>
-            <div className={"flex w-full justify-center opacity-100"}>
-                {children}
-            </div>
-        </div>}
-    </>)
-}
+    const modalContent = (
+        <>
+            {element}
+            {(show || visible) &&
+                <div
+                    onTransitionEnd={() => !show && setVisible(false)}
+                    className={clsx(
+                        `fixed z-40 top-0 left-0 flex h-full w-full bg-black transition-all duration-500`,
+                        (show && visible) ? "opacity-100 bg-opacity-40" : "opacity-0 bg-opacity-0",
+                    )}>
+                    {children}
+                </div>}
+        </>
+    );
+
+    return domReady
+        ? ReactDOM.createPortal(
+            modalContent,
+            document.getElementById("modal-root") as Element | DocumentFragment,
+        )
+        : null
+};
+
+export default Modal;

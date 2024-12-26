@@ -3,9 +3,9 @@
 import {useState} from "react";
 import clsx from "clsx";
 import {concertSectionButtonColors} from "@/app/ui/styles";
-import {Modal} from "@/app/ui/Modal";
 import {ConcertsCalendar} from "@/app/[locale]/concerts/components/Calendar";
 import {Concerts} from "@/app/db/definitions";
+import Modal from "@/app/ui/Modal";
 
 export const ConcertMenu = ({concerts, className}: { concerts: Concerts, className: string }) => {
     const [showCalendar, setShowCalendar] = useState(false);
