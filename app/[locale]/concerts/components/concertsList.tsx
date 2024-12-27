@@ -32,7 +32,12 @@ export default function ConcertsList({concerts, firstUpcomingConcertIndex}: Conc
     }, []);
 
     useEffect(() => {
-        pathWithConcertIDHandler(path, (id) => ref.current[id].focus());
+        pathWithConcertIDHandler(path, (id) => {
+            ref.current[id].focus();
+            ref.current[id].scrollTo({
+                top: 0,
+            })
+        });
     }, [path]);
 
     const onActiveConcertChange = (index: number, id: string) => {
@@ -68,7 +73,7 @@ export default function ConcertsList({concerts, firstUpcomingConcertIndex}: Conc
                             }}
                             className={clsx(
                                 {"bg-green-950 bg-opacity-40": index % 2},
-                                "flex flex-col gap-1.5 w-full outline-0 p-4 border-[1px] border-opacity-0 border-white focus:border-green-600 focus-visible:border-[1px] focus-visible:border-green-600")}
+                                "flex flex-col gap-1.5 w-full text-left outline-0 p-4 border-[1px] border-opacity-0 border-white focus:border-green-600 focus-visible:border-[1px] focus-visible:border-green-600")}
                         >
                             <ConcertDate dateTime={concert.date as Date}/>
                             <p>
