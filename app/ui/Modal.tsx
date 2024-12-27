@@ -1,6 +1,10 @@
+'use client'
+
 import React, {ReactNode, useEffect, useState} from "react";
 import ReactDOM from "react-dom";
 import clsx from "clsx";
+
+let modalCount = 0;
 
 const Modal = ({show, element, children}: {
     show: boolean;
@@ -19,17 +23,23 @@ const Modal = ({show, element, children}: {
         if (show) {
             setVisible(true);
             setScrollTop(document.documentElement.scrollTop)
-            console.log(document.documentElement.scrollTop)
 
-            document.body.style.overflowY = "scroll";
-            document.body.style.top = `-${document.documentElement.scrollTop}px`;
-            document.body.style.inlineSize = "100%";
-            document.body.style.position = `fixed`;
+            if (++modalCount === 1) {
+                document.body.style.overflowY = "scroll";
+                document.body.style.top = `-${document.documentElement.scrollTop}px`;
+                document.body.style.inlineSize = "100%";
+                document.body.style.position = `fixed`;
+            }
+
         } else {
-            document.body.style.overflowY = "auto";
-            document.body.style.position = `relative`;
-            document.body.style.top = `0px`;
-            window.scrollTo(0, scrollTop)
+
+            if (modalCount-- === 1) {
+                document.body.style.overflowY = "auto";
+                document.body.style.position = `relative`;
+                document.body.style.top = `0px`;
+                window.scrollTo(0, scrollTop)
+            }
+
         }
     }, [show]);
 

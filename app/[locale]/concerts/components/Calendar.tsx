@@ -68,6 +68,6 @@ export function ConcertsCalendar({concerts}: { concerts: Concerts }) {
 
                 return null
             }}
-            className={"w-full h-[391px] p-4 bg-red-600"}/>
+            className={"w-full h-[330px] p-4"}/>
     );
 }

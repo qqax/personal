@@ -11,7 +11,6 @@ import {getMessages, getTranslations, setRequestLocale} from "next-intl/server";
 import React from "react";
 import {connection} from "next/server";
 import {fetchArtistName, fetchArtistProfession} from "@/app/db/data";
-// import {NextScript} from "next/document";
 
 const jura = Jura({subsets: ['latin', 'cyrillic']});
 

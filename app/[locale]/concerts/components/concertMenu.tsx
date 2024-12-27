@@ -1,19 +1,29 @@
 'use client'
 
-import {useState} from "react";
+import {useRef, useState} from "react";
 import clsx from "clsx";
 import {concertSectionButtonColors} from "@/app/ui/styles";
 import {ConcertsCalendar} from "@/app/[locale]/concerts/components/Calendar";
 import {Concerts} from "@/app/db/definitions";
 import Modal from "@/app/ui/Modal";
+import {useClickOutside} from "@/app/components/hooks";
 
 export const ConcertMenu = ({concerts, className}: { concerts: Concerts, className: string }) => {
     const [showCalendar, setShowCalendar] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+
+    useClickOutside(ref, () => {
+        setShowCalendar(false)
+    });
 
     return (<>
         <Modal show={showCalendar}>
-            <ConcertsCalendar concerts={concerts}/>
-            <button type={"button"} onClick={() => setShowCalendar(false)}>Close</button>
+            <div className={"flex w-full items-center justify-center"}>
+                <div ref={ref} className={"bg-black border-[1px] border-white"}>
+                    <button type={"button"} className={"block text-3xl pt-2 px-4 ml-auto mr-0"} onClick={() => setShowCalendar(false)}>X</button>
+                    <ConcertsCalendar concerts={concerts}/>
+                </div>
+            </div>
         </Modal>
         <div
             className={clsx(className, "fixed z-10 left-0 bg-black bg-opacity-50 border-b-[1px] border-green-600 backdrop-blur-sm py-4 justify-around w-full text-lg md:text-2xl")}>
