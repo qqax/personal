@@ -8,8 +8,14 @@ import {Concerts} from "@/app/db/definitions";
 import Modal from "@/app/ui/Modal";
 import {useClickOutside} from "@/app/components/hooks";
 
-export const ConcertMenu = ({concerts, className}: { concerts: Concerts, className: string }) => {
+export const ConcertMenu = ({concerts, className, isCurrentUpcoming, isUpcomingConcertPresented}: {
+    concerts: Concerts,
+    className: string,
+    isCurrentUpcoming: boolean,
+    isUpcomingConcertPresented: boolean
+}) => {
     const [showCalendar, setShowCalendar] = useState(false);
+
     const ref = useRef<HTMLDivElement>(null);
 
     useClickOutside(ref, () => {
@@ -20,7 +26,9 @@ export const ConcertMenu = ({concerts, className}: { concerts: Concerts, classNa
         <Modal show={showCalendar}>
             <div className={"flex w-full items-center justify-center"}>
                 <div ref={ref} className={"bg-black border-[1px] border-white"}>
-                    <button type={"button"} className={"block text-3xl pt-2 px-4 ml-auto mr-0"} onClick={() => setShowCalendar(false)}>X</button>
+                    <button type={"button"} className={"block text-3xl pt-2 px-4 ml-auto mr-0"}
+                            onClick={() => setShowCalendar(false)}>X
+                    </button>
                     <ConcertsCalendar concerts={concerts}/>
                 </div>
             </div>
@@ -34,13 +42,17 @@ export const ConcertMenu = ({concerts, className}: { concerts: Concerts, classNa
             </button>
             <div className={"flex justify-between w-full max-w-[300px] md:max-w-[400px] items-center"}>
                 <h2 className={"align-middle"}>Concerts:</h2>
-                <button type={"button"} className={"px-2 h-full text-beige"}>
-                    upcoming
-                </button>
-                /
-                <button type={"button"} className={"px-2 h-full"}>
-                    forgoing
-                </button>
+                {isUpcomingConcertPresented &&
+                    <>
+                        <button type={"button"} className={clsx("px-2 h-full", {"text-beige": isCurrentUpcoming})}>
+                            upcoming
+                        </button>
+                        /
+                        <button type={"button"} className={clsx("px-2 h-full", {"text-beige": !isCurrentUpcoming})}>
+                            forgoing
+                        </button>
+                    </>
+                }
             </div>
         </div>
     </>)

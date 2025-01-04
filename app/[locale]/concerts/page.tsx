@@ -1,3 +1,3 @@
-export default function ConcertPage  () {
-    return null;
+export default function Page () {
+    return null
 };
