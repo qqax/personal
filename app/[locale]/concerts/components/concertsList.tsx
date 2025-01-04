@@ -31,6 +31,8 @@ export default function ConcertsList({concerts, firstUpcomingConcertIndex}: Conc
     }
 
     useEffect(() => {
+        window.history.scrollRestoration = 'manual';
+
         if (path.endsWith(paths.concerts) && concerts.length > 0) {
             const id =  !!firstUpcomingConcertIndex
                 ? concerts[firstUpcomingConcertIndex].id
@@ -42,6 +44,10 @@ export default function ConcertsList({concerts, firstUpcomingConcertIndex}: Conc
                 const offsetTop = ref.current[id].offsetTop;
                 window.scrollTo({top: offsetTop});
             }
+        }
+
+        return () => {
+            window.history.scrollRestoration = 'auto';
         }
     }, []);
 
