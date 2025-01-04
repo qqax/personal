@@ -1,6 +1,6 @@
 'use client'
 
-import {KeyboardEventHandler, MutableRefObject, useEffect, useRef, useState} from "react";
+import {KeyboardEventHandler, MutableRefObject, RefObject, useEffect, useRef, useState} from "react";
 import {ConcertsData} from "@/app/db/definitions";
 import clsx from "clsx";
 import {usePathname, useRouter} from "@/i18n/routing";
@@ -8,9 +8,11 @@ import {ConcertDate} from "@/app/[locale]/concerts/components/concertDate";
 import {paths} from "@/app/components/navbar/navigation";
 import {pathWithConcertIDHandler} from "@/app/[locale]/concerts/components/concertPathFn";
 import {replaceDynamicSegmentIfExists} from "@/app/utils/pathFuncs";
+import useWindowDimensions from "@/app/components/hooks";
 
 export default function ConcertsList({concerts, firstUpcomingConcertIndex}: ConcertsData) {
     const ref: MutableRefObject<Record<string, HTMLButtonElement>> = useRef({});
+    const ulRef: RefObject<HTMLUListElement> = useRef(null);
     const [cursor, setCursor] = useState(firstUpcomingConcertIndex ?? 0);
     const router = useRouter();
     const path = usePathname();
@@ -19,26 +21,33 @@ export default function ConcertsList({concerts, firstUpcomingConcertIndex}: Conc
         replaceDynamicSegmentIfExists(router, path, paths.concerts, id);
     }
 
+    const {width} = useWindowDimensions();
+    const isMd = width >= 768
+
+    const focusOnConcert = (id: string) => {
+        ref.current[id].focus();
+        const offsetTop = ref.current[id].offsetTop;
+        ulRef.current?.scrollTo({top: offsetTop});
+    }
+
     useEffect(() => {
-        if (path.endsWith(paths.concerts)) {
-
-            if (firstUpcomingConcertIndex) {
-                pushPath(concerts[firstUpcomingConcertIndex].id);
-            } else if (concerts.length > 0) {
-                pushPath(concerts[concerts.length - 1].id);
+        if (path.endsWith(paths.concerts) && concerts.length > 0) {
+            const id =  !!firstUpcomingConcertIndex
+                ? concerts[firstUpcomingConcertIndex].id
+                : concerts[concerts.length - 1].id;
+            if (isMd) {
+                pushPath(id);
+            } else {
+                ref.current[id].focus();
+                const offsetTop = ref.current[id].offsetTop;
+                window.scrollTo({top: offsetTop});
             }
-
         }
     }, []);
 
     useEffect(() => {
-        pathWithConcertIDHandler(path, (id) => {
-            ref.current[id].focus();
-            ref.current[id].scrollTo({
-                top: 0,
-            })
-        });
-    }, [path]);
+        isMd && pathWithConcertIDHandler(path, focusOnConcert);
+    }, [isMd, path]);
 
     const onActiveConcertChange = (index: number, id: string) => {
         setCursor(index);
@@ -56,7 +65,7 @@ export default function ConcertsList({concerts, firstUpcomingConcertIndex}: Conc
     };
 
     return (
-        <ul className={"relative mx-auto w-full min-w-64 max-w-96 overflow-auto"} onKeyDown={onKeyDown}>
+        <ul ref={ulRef}  className={"relative mx-auto w-full min-w-64 max-w-96 overflow-auto"} onKeyDown={onKeyDown}>
             {concerts?.map((concert, index) => {
                 return (
                     <li key={concert.id}>

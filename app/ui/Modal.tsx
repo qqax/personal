@@ -15,6 +15,7 @@ const Modal = ({show, element, children}: {
     const [visible, setVisible] = useState(false);
     const [scrollTop, setScrollTop] = useState(0)
     const [domReady, setDomReady] = useState(false)
+
     useEffect(() => {
         setDomReady(true)
     }, []);

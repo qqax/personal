@@ -1,4 +1,4 @@
-import {RefObject, useEffect} from "react";
+import {RefObject, useEffect, useState} from "react";
 
 export function useClickOutside(ref: RefObject<Element> | RefObject<Element>[], onClickOutside: Function) {
     useEffect(() => {
@@ -29,4 +29,27 @@ export function useScroll(onScroll: EventListenerOrEventListenerObject) {
             window.removeEventListener("scroll", onScroll);
         };
     });
+}
+
+function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+        width,
+        height
+    };
+}
+
+export default function useWindowDimensions() {
+    const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+    useEffect(() => {
+        function handleResize() {
+            setWindowDimensions(getWindowDimensions());
+        }
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    return windowDimensions;
 }
