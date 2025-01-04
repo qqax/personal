@@ -27,7 +27,7 @@ export type ConcertDescription = {
     place: string | null;
     address: string | null;
     description?: string | null;
-    poster?: Buffer<ArrayBufferLike> | null;
+    poster?: Buffer | null;
     link?: string | null;
     recordsTable: {link: string, title: string} | null;
 } | undefined;

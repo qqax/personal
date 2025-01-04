@@ -8,11 +8,13 @@ import {Concerts} from "@/app/db/definitions";
 import Modal from "@/app/ui/Modal";
 import {useClickOutside} from "@/app/components/hooks";
 
-export const ConcertMenu = ({concerts, className, isCurrentUpcoming, isUpcomingConcertPresented}: {
+export const ConcertMenu = ({concerts, className, isCurrentUpcoming, isUpcomingConcertPresented, firstUpcomingConcertIndex, setCursor}: {
     concerts: Concerts,
     className: string,
     isCurrentUpcoming: boolean,
-    isUpcomingConcertPresented: boolean
+    isUpcomingConcertPresented: boolean,
+    setCursor: Function,
+    firstUpcomingConcertIndex: number
 }) => {
     const [showCalendar, setShowCalendar] = useState(false);
 
@@ -44,12 +46,14 @@ export const ConcertMenu = ({concerts, className, isCurrentUpcoming, isUpcomingC
                 <h2 className={"align-middle"}>Concerts:</h2>
                 {isUpcomingConcertPresented &&
                     <>
-                        <button type={"button"} className={clsx("px-2 h-full", {"text-beige": isCurrentUpcoming})}>
-                            upcoming
+                        <button type={"button"} onClick={() => setCursor(0)}
+                                className={clsx("px-2 h-full", {"text-beige": !isCurrentUpcoming})}>
+                            forgoing
                         </button>
                         /
-                        <button type={"button"} className={clsx("px-2 h-full", {"text-beige": !isCurrentUpcoming})}>
-                            forgoing
+                        <button type={"button"} onClick={() => setCursor(firstUpcomingConcertIndex)}
+                                className={clsx("px-2 h-full", {"text-beige": isCurrentUpcoming})}>
+                            upcoming
                         </button>
                     </>
                 }
