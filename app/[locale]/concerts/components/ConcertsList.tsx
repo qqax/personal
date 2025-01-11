@@ -1,78 +1,75 @@
 'use client'
 
-import {KeyboardEventHandler, MutableRefObject, RefObject, UIEventHandler, useEffect, useRef} from "react";
+import {KeyboardEventHandler, MutableRefObject, RefObject, UIEventHandler, useEffect, useRef, useState} from "react";
 import {Concerts} from "@/app/db/definitions";
 import clsx from "clsx";
 import {usePathname, useRouter} from "@/i18n/routing";
 import {ConcertDate} from "@/app/[locale]/concerts/components/concertDate";
 import {paths} from "@/app/components/navbar/navigation";
-import {pathWithConcertIDHandler} from "@/app/[locale]/concerts/components/concertPathFn";
-import {replaceDynamicSegmentIfExists} from "@/app/utils/pathFuncs";
+import {getLastSegment, replaceDynamicSegmentIfExists} from "@/app/utils/pathFuncs";
 import {useScroll} from "@/app/components/hooks";
-
-const onKeyDownHandler = (cursor: number, len: number, setCursor: (number: number) => void): KeyboardEventHandler<HTMLUListElement> =>
-    (event) => {
-        if (event.key === "ArrowDown") {
-            const newCursor = (cursor + 1) % len;
-            setCursor(newCursor);
-        } else if (event.key === "ArrowUp") {
-            const newCursor = cursor === 0 ? len - 1 : cursor - 1;
-            setCursor(newCursor);
-        }
-    };
 
 export function SmConcertsList({
                                    concerts,
                                    cursor,
                                    setCursor,
                                    setIsCurrentUpcoming,
-                                   initialConcertID
                                }: {
     concerts: Concerts,
     cursor: number,
-    setCursor: (index: number) => void,
-    initialConcertID: string,
+    setCursor: (cursor: number) => void,
     setIsCurrentUpcoming: Function
 }) {
     const ref: MutableRefObject<Record<string, HTMLButtonElement>> = useRef({});
 
-    const setNewActiveConcert = (id: string) => {
-        ref.current[id].focus();
+    const [preventScroll, setPreventScroll] = useState(false);
+
+    const scrollWindow = (id: string) => {
         const offsetTop = ref.current[id].offsetTop;
         window.scrollTo({top: offsetTop});
     }
 
+    const setNewActiveConcert = (cursor: number) => {
+        const {id} = concerts[cursor];
+
+        ref.current[id].focus();
+
+        preventScroll ? setPreventScroll(false) : scrollWindow(id);
+    }
+
+    const initialConcertID = useRef(concerts[cursor].id);
+
     useScroll(() => {
-        setIsCurrentUpcoming(Math.round(window.scrollY) >= ref.current[initialConcertID].offsetTop);
+        if (concerts.length > 0) {
+            setIsCurrentUpcoming(
+                Math.round(window.scrollY) >= ref.current[initialConcertID.current].offsetTop
+            );
+        }
     })
 
     useEffect(() => {
         if (concerts.length > 0) {
-            setNewActiveConcert(initialConcertID)
+            setNewActiveConcert(cursor);
         }
     }, []);
 
     useEffect(() => {
-        setNewActiveConcert(concerts[cursor].id);
+        setNewActiveConcert(cursor);
     }, [cursor]);
 
-    const onKeyDown: KeyboardEventHandler<HTMLUListElement> = onKeyDownHandler(cursor, concerts.length, setCursor);
-
-    return (<ConcertView ref={ref} concerts={concerts}
-                         setCursor={setCursor} onKeyDown={onKeyDown}/>)
+    return (<ConcertView ref={ref} concerts={concerts} index={cursor} setCursor={setCursor}
+                         setPreventScroll={(bool) => setPreventScroll(bool)}/>)
 }
 
-export function ConcertsList({
-                                 concerts,
-                                 cursor,
-                                 setCursor,
-                                 setIsCurrentUpcoming,
-                                 initialConcertID
-                             }: {
+export function MdConcertsList({
+                                   concerts,
+                                   cursor,
+                                   setCursor,
+                                   setIsCurrentUpcoming,
+                               }: {
     concerts: Concerts,
     cursor: number,
-    setCursor: (index: number) => void,
-    initialConcertID: string,
+    setCursor: (cursor: number) => void,
     setIsCurrentUpcoming: Function
 }) {
     const ref: MutableRefObject<Record<string, HTMLButtonElement>> = useRef({});
@@ -81,64 +78,87 @@ export function ConcertsList({
     const router = useRouter();
     const path = usePathname();
 
-    const pushPath = (id: string) => {
-        replaceDynamicSegmentIfExists(router, path, paths.concerts, id);
-    }
+    const [preventScroll, setPreventScroll] = useState(false);
+
+    const initialConcertID = useRef(concerts[cursor].id);
 
     const onUlScroll: UIEventHandler<HTMLUListElement> = (e) => {
-        setIsCurrentUpcoming(Math.round((e.target as HTMLElement).scrollTop) >= ref.current[initialConcertID].offsetTop);
+        setIsCurrentUpcoming(
+            Math.round((e.target as HTMLElement).scrollTop) >= ref.current[initialConcertID.current].offsetTop);
     }
 
-    const focusOnConcert = (id: string) => {
-        ref.current[id].focus();
+    const scrollUl = (id: string) => {
         const offsetTop = ref.current[id].offsetTop;
         ulRef.current?.scrollTo({top: offsetTop});
     }
 
     useEffect(() => {
         if (path.endsWith(paths.concerts) && concerts.length > 0) {
-            pushPath(initialConcertID);
+            const {id} = concerts[cursor];
+            replaceDynamicSegmentIfExists(router, path, paths.concerts, id);
         }
     }, []);
 
     useEffect(() => {
-        pathWithConcertIDHandler(path, focusOnConcert);
+        if (!path.endsWith(paths.concerts)) {
+            const id = getLastSegment(path);
+            ref.current[id].focus();
+
+            preventScroll ? setPreventScroll(false) : scrollUl(id);
+        }
     }, [path]);
 
     useEffect(() => {
-        pushPath(concerts[cursor].id);
+        const {id} = concerts[cursor];
+        replaceDynamicSegmentIfExists(router, path, paths.concerts, id);
     }, [cursor]);
 
-    const onKeyDown: KeyboardEventHandler<HTMLUListElement> = onKeyDownHandler(cursor, concerts.length, setCursor);
-
-    return (<ConcertView ref={ref} ulRef={ulRef} concerts={concerts} onUlScroll={onUlScroll}
-                         setCursor={setCursor} onKeyDown={onKeyDown}/>)
+    return (<ConcertView ref={ref} ulRef={ulRef} concerts={concerts} onUlScroll={onUlScroll} index={cursor}
+                         setCursor={setCursor} setPreventScroll={(bool) => setPreventScroll(bool)}/>)
 }
 
 const ConcertView = ({
                          ulRef,
                          onUlScroll,
-                         onKeyDown,
                          concerts,
+                         index,
                          setCursor,
+                         setPreventScroll,
                          ref
                      }: {
     ref: MutableRefObject<Record<string, HTMLButtonElement>>
     ulRef?: RefObject<HTMLUListElement>,
     onUlScroll?: UIEventHandler<HTMLUListElement>,
-    onKeyDown: KeyboardEventHandler<HTMLUListElement>,
     concerts: Concerts,
-    setCursor: (index: number) => void,
+    index: number,
+    setCursor: (cursor: number) => void,
+    setPreventScroll: (v: boolean) => void
 }) => {
+
+    const onKeyDown: KeyboardEventHandler<HTMLUListElement> = (event) => {
+        const {length} = concerts;
+        if (event.key === "ArrowDown") {
+            const newCursor = (index + 1) % length;
+            setCursor(newCursor);
+        } else if (event.key === "ArrowUp") {
+            const newCursor = index === 0 ? length - 1 : index - 1;
+            setCursor(newCursor);
+        }
+    };
+
     return (
-        <ul ref={ulRef} onScroll={onUlScroll} className={"relative mx-auto w-full min-w-64 max-w-96 overflow-auto"}
+        <ul ref={ulRef} onScroll={onUlScroll}
+            className={"relative scroll-smooth mx-auto w-full min-w-64 max-w-96 overflow-auto"}
             onKeyDown={onKeyDown}>
             {concerts?.map((concert, index) => {
                 return (
                     <li key={concert.id}>
                         <button
                             id={concert.id}
-                            onClick={() => setCursor(index)}
+                            onClick={() => {
+                                setCursor(index)
+                                setPreventScroll(true);
+                            }}
                             type={"button"}
                             ref={element => {
                                 if (element) {

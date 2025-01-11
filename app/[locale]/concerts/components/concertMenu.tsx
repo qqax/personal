@@ -36,7 +36,7 @@ export const ConcertMenu = ({concerts, className, isCurrentUpcoming, isUpcomingC
             </div>
         </Modal>
         <div
-            className={clsx(className, "fixed z-10 left-0 bg-black bg-opacity-50 border-b-[1px] border-green-600 backdrop-blur-sm py-4 justify-around w-full text-lg md:text-2xl")}>
+            className={clsx(className, "fixed z-10 left-0 py-4 justify-around w-full text-lg md:text-2xl")}>
             <button type={"button"}
                     onClick={() => setShowCalendar(!showCalendar)}
                     className={clsx(concertSectionButtonColors, "xl:hidden text-base p-2 whitespace-nowrap transition duration-150")}>
