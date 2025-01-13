@@ -8,6 +8,9 @@ import Modal from "@/app/ui/Modal";
 import {useClickOutside} from "@/app/components/hooks";
 import {ConcertContextType, useConcertContext} from "@/app/[locale]/concerts/concertPage";
 
+const buttonStyle = "px-2 h-full";
+const selectedButtonStyle = "text-beige underline";
+
 export const ConcertMenu = ({className, isCurrentUpcoming, isUpcomingConcertPresented, firstUpcomingConcertIndex}: {
     className: string,
     isCurrentUpcoming: boolean,
@@ -47,12 +50,12 @@ export const ConcertMenu = ({className, isCurrentUpcoming, isUpcomingConcertPres
                 {isUpcomingConcertPresented &&
                     <>
                         <button type={"button"} onClick={() => setCursor(0)}
-                                className={clsx("px-2 h-full", {"text-beige": !isCurrentUpcoming})}>
+                                className={clsx(buttonStyle, {[selectedButtonStyle]: !isCurrentUpcoming})}>
                             forgoing
                         </button>
                         /
                         <button type={"button"} onClick={() => setCursor(firstUpcomingConcertIndex)}
-                                className={clsx("px-2 h-full", {"text-beige": isCurrentUpcoming})}>
+                                className={clsx(buttonStyle, {[selectedButtonStyle]: isCurrentUpcoming})}>
                             upcoming
                         </button>
                     </>

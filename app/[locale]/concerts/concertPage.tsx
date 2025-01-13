@@ -7,16 +7,20 @@ import {ConcertsCalendar} from "@/app/[locale]/concerts/components/Calendar";
 import NewsForm from "@/app/components/forms/newsForm";
 import {SmConcertsList, MdConcertsList} from "@/app/[locale]/concerts/components/concertsList";
 import {Concerts} from "@/app/db/definitions";
-import {Dispatch, ReactNode, SetStateAction, useCallback, useContext, useState} from "react";
+import {Dispatch, ReactNode, SetStateAction, useCallback, useContext, useEffect, useMemo, useState} from "react";
 import useWindowDimensions from "@/app/components/hooks";
 import {createContext} from "react";
+import {usePathname, useRouter} from "@/i18n/routing";
+import {paths} from "@/app/components/navbar/navigation";
+import {replaceDynamicSegmentIfExists} from "@/app/utils/pathFuncs";
 
 export type ConcertContextType = {
     concerts: Concerts,
-    getCurrConcertID: () => string,
-    areConcertsPresented: () => boolean,
+    currConcertID: string,
+    areConcertsPresented: boolean,
 
     currentConcertHandler: (isPresented: boolean) => void,
+    setConcertPath: () => void,
 
     cursor: number,
     setCursor: Dispatch<SetStateAction<number>>,
@@ -44,27 +48,44 @@ export default function ConcertPage({children, description, concerts, firstUpcom
     }, [isCurrentUpcoming]);
 
     const {width} = useWindowDimensions();
+    const path = usePathname();
+    const router = useRouter();
     const isMd = width >= 768;
 
     const [cursor, setCursor] = useState(firstUpcomingConcertIndex > 0 ? firstUpcomingConcertIndex : 0);
     const setCursorToNext = useCallback(() => {
-        const newCursor = (cursor + 1) % length;
+        const newCursor = (cursor + 1) % concerts.length;
         setCursor(newCursor);
-    }, [setCursor, cursor]);
+    }, [setCursor, cursor, concerts]);
     const setCursorToPrev = useCallback(() => {
-        const newCursor = cursor === 0 ? length - 1 : cursor - 1;
+        const newCursor = cursor === 0 ? concerts.length - 1 : cursor - 1;
         setCursor(newCursor);
-    }, [setCursor, cursor]);
-    const getCurrConcertID = useCallback(() => {
+    }, [setCursor, cursor, concerts]);
+    const currConcertID = useMemo(() => {
         return concerts[cursor].id
     }, [concerts, cursor]);
-    const areConcertsPresented = useCallback(() => {
+    const areConcertsPresented = useMemo(() => {
         return concerts.length > 0;
     }, [concerts]);
+    const setConcertPath = () => {
+        areConcertsPresented && replaceDynamicSegmentIfExists(router, path, paths.concerts, currConcertID);
+    }
+
+    useEffect(() => {
+        if (isMd && path.endsWith(paths.concerts)) {
+            setConcertPath();
+        }
+    }, []);
+
+    useEffect(() => {
+        if (isMd || !path.endsWith(paths.concerts)) {
+            setConcertPath();
+        }
+    }, [cursor]);
 
     return (
-        <ConcertContext.Provider value={{concerts, areConcertsPresented, currentConcertHandler, cursor, setCursor, setCursorToNext, setCursorToPrev, getCurrConcertID}}>
-            <ConcertMenu className={"top-[88px] flex md:hidden"} firstUpcomingConcertIndex={firstUpcomingConcertIndex} isCurrentUpcoming={isCurrentUpcoming}
+        <ConcertContext.Provider value={{concerts, areConcertsPresented, setConcertPath, currentConcertHandler, cursor, setCursor, setCursorToNext, setCursorToPrev, currConcertID}}>
+            <ConcertMenu className={"top-[88px] flex md:hidden backdrop-blur-lg"} firstUpcomingConcertIndex={firstUpcomingConcertIndex} isCurrentUpcoming={isCurrentUpcoming}
                          isUpcomingConcertPresented={isUpcomingConcertPresented}/>
             <section
                 className={clsx("relative flex md:overflow-auto pt-[73px] w-full md:h-svh xl:gap-8", bgStyle)}>

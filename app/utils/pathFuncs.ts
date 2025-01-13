@@ -13,6 +13,8 @@ export function getLastSegment(path: string): string {
 }
 
 export const replaceDynamicSegmentIfExists = (router: Router, fullPath: string, staticPath: string, segment: string) => {
-    const regExp = new RegExp(String.raw`(${staticPath}).*$`, "g");
-    router.push({pathname: fullPath.replace(regExp, '$1') + "/" + segment});
+    if (!fullPath.endsWith(segment)) {
+        const regExp = new RegExp(String.raw`(${staticPath}).*$`, "g");
+        router.push({pathname: fullPath.replace(regExp, '$1') + "/" + segment});
+    }
 }

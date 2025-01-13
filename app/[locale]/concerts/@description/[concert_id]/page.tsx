@@ -18,7 +18,6 @@ export default async function ConcertDescription({params}: { params: { concert_i
 
     return (<div className={"flex flex-col w-full h-full gap-4 p-4 overflow-auto"}>
         <ConcertDescriptionHeader date={concertDescription.date as Date}/>
-
         <div className={"text-center text-2xl text-beige"}>Description</div>
         <div className={"flex w-full gap-4"}>
             <div className={clsx("relative flex flex-col gap-4", concertDescription.poster ? "w-2/3" : "w-full")}>
