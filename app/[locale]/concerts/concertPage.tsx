@@ -5,13 +5,24 @@ import clsx from "clsx";
 import {bgStyle, concertSectionButtonColors} from "@/app/ui/styles";
 import {ConcertsCalendar} from "@/app/[locale]/concerts/components/Calendar";
 import NewsForm from "@/app/components/forms/newsForm";
-import {SmConcertsList, MdConcertsList} from "@/app/[locale]/concerts/components/ConcertsList";
+import {SmConcertsList, MdConcertsList} from "@/app/[locale]/concerts/components/concertsList";
 import {Concerts} from "@/app/db/definitions";
 import {Dispatch, ReactNode, SetStateAction, useCallback, useContext, useState} from "react";
 import useWindowDimensions from "@/app/components/hooks";
 import {createContext} from "react";
 
-export type ConcertContextType = { cursor: number, setCursor: Dispatch<SetStateAction<number>> };
+export type ConcertContextType = {
+    concerts: Concerts,
+    getCurrConcertID: () => string,
+    areConcertsPresented: () => boolean,
+
+    currentConcertHandler: (isPresented: boolean) => void,
+
+    cursor: number,
+    setCursor: Dispatch<SetStateAction<number>>,
+    setCursorToNext: () => void,
+    setCursorToPrev: () => void,
+};
 
 export const ConcertContext = createContext<ConcertContextType | null>(null)
 
@@ -36,9 +47,23 @@ export default function ConcertPage({children, description, concerts, firstUpcom
     const isMd = width >= 768;
 
     const [cursor, setCursor] = useState(firstUpcomingConcertIndex > 0 ? firstUpcomingConcertIndex : 0);
+    const setCursorToNext = useCallback(() => {
+        const newCursor = (cursor + 1) % length;
+        setCursor(newCursor);
+    }, [setCursor, cursor]);
+    const setCursorToPrev = useCallback(() => {
+        const newCursor = cursor === 0 ? length - 1 : cursor - 1;
+        setCursor(newCursor);
+    }, [setCursor, cursor]);
+    const getCurrConcertID = useCallback(() => {
+        return concerts[cursor].id
+    }, [concerts, cursor]);
+    const areConcertsPresented = useCallback(() => {
+        return concerts.length > 0;
+    }, [concerts]);
 
     return (
-        <ConcertContext.Provider value={{cursor, setCursor}}>
+        <ConcertContext.Provider value={{concerts, areConcertsPresented, currentConcertHandler, cursor, setCursor, setCursorToNext, setCursorToPrev, getCurrConcertID}}>
             <ConcertMenu className={"top-[88px] flex md:hidden"} concerts={concerts}
                          firstUpcomingConcertIndex={firstUpcomingConcertIndex} isCurrentUpcoming={isCurrentUpcoming}
                          isUpcomingConcertPresented={isUpcomingConcertPresented}/>
@@ -52,8 +77,8 @@ export default function ConcertPage({children, description, concerts, firstUpcom
                     <NewsForm buttonClassName={concertSectionButtonColors}/>
                 </div>
                 {isMd
-                    ? <MdConcertsList concerts={concerts} setIsCurrentUpcoming={currentConcertHandler}/>
-                    : <SmConcertsList concerts={concerts} setIsCurrentUpcoming={currentConcertHandler}/>}
+                    ? <MdConcertsList/>
+                    : <SmConcertsList/>}
                 <div className={"hidden md:block w-full"}>
                     {description}
                 </div>
