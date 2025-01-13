@@ -3,18 +3,13 @@ export type Name = string;
 export type Profession = string;
 export type ArtistData = Name | Biography | Profession;
 
-type ConcertID = {
-    id: string;
-};
-
-type Concert = ConcertID & {
+type Concert = {
     id: string;
     date: Date;
     place: string;
     short_description?: string | null;
 }
 
-export type ConcertIDs = ConcertID[];
 export type Concerts = Concert[];
 
 export type ConcertsData = {

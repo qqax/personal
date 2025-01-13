@@ -9,7 +9,7 @@ import youtubeIcon from "../../public/icons/youtube.svg";
 import {
     ArtistData,
     Biography,
-    ConcertDescription, ConcertIDs,
+    ConcertDescription,
     Concerts,
     ConcertsData,
     Name,
@@ -124,17 +124,6 @@ export async function fetchConcerts(locale: string): Promise<ConcertsData> {
         concerts,
         firstUpcomingConcertIndex
     } as ConcertsData;
-}
-
-export async function fetchConcertIDs(): Promise<ConcertIDs> {
-    'use cache'
-    cacheTag('concert');
-
-    return db.select({
-        id: sql<string>`to_char
-            (${concertsTable.date}, 'DD_Mon_YY_HH24_MI')`.as('id'),
-    }).from(concertsTable)
-        .orderBy(concertsTable.date);
 }
 
 export async function fetchConcertDescription(id: string, locale: string): Promise<ConcertDescription> {

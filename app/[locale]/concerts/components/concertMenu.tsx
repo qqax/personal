@@ -4,13 +4,11 @@ import {useRef, useState} from "react";
 import clsx from "clsx";
 import {concertSectionButtonColors} from "@/app/ui/styles";
 import {ConcertsCalendar} from "@/app/[locale]/concerts/components/Calendar";
-import {Concerts} from "@/app/db/definitions";
 import Modal from "@/app/ui/Modal";
 import {useClickOutside} from "@/app/components/hooks";
 import {ConcertContextType, useConcertContext} from "@/app/[locale]/concerts/concertPage";
 
-export const ConcertMenu = ({concerts, className, isCurrentUpcoming, isUpcomingConcertPresented, firstUpcomingConcertIndex}: {
-    concerts: Concerts,
+export const ConcertMenu = ({className, isCurrentUpcoming, isUpcomingConcertPresented, firstUpcomingConcertIndex}: {
     className: string,
     isCurrentUpcoming: boolean,
     isUpcomingConcertPresented: boolean,
@@ -33,7 +31,7 @@ export const ConcertMenu = ({concerts, className, isCurrentUpcoming, isUpcomingC
                     <button type={"button"} className={"block text-3xl pt-2 px-4 ml-auto mr-0"}
                             onClick={() => setShowCalendar(false)}>X
                     </button>
-                    <ConcertsCalendar concerts={concerts}/>
+                    <ConcertsCalendar/>
                 </div>
             </div>
         </Modal>

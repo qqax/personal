@@ -1,4 +1,4 @@
-import {fetchConcertDescription, fetchConcertIDs} from "@/app/db/data";
+import {fetchConcertDescription} from "@/app/db/data";
 import {getLocale} from "next-intl/server";
 import Image from "next/image";
 import clsx from "clsx";
@@ -11,15 +11,14 @@ export default async function ConcertDescription({params}: { params: { concert_i
     const locale = await getLocale();
     const {concert_id} = await params;
     const concertDescription = await fetchConcertDescription(concert_id, locale);
-    const concertIDs = await fetchConcertIDs();
+    // const concertIDs = await fetchConcertIDs();
 
     if (!concertDescription) {
         return null;
     }
 
     return (<div className={"flex flex-col w-full h-full gap-4 p-4 overflow-auto"}>
-        <ConcertDescriptionHeader concertIDs={concertIDs} concertID={concert_id}
-                                  date={concertDescription.date as Date}/>
+        <ConcertDescriptionHeader date={concertDescription.date as Date}/>
 
         <div className={"text-center text-2xl text-beige"}>Description</div>
         <div className={"flex w-full gap-4"}>

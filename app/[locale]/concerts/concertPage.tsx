@@ -64,16 +64,14 @@ export default function ConcertPage({children, description, concerts, firstUpcom
 
     return (
         <ConcertContext.Provider value={{concerts, areConcertsPresented, currentConcertHandler, cursor, setCursor, setCursorToNext, setCursorToPrev, getCurrConcertID}}>
-            <ConcertMenu className={"top-[88px] flex md:hidden"} concerts={concerts}
-                         firstUpcomingConcertIndex={firstUpcomingConcertIndex} isCurrentUpcoming={isCurrentUpcoming}
+            <ConcertMenu className={"top-[88px] flex md:hidden"} firstUpcomingConcertIndex={firstUpcomingConcertIndex} isCurrentUpcoming={isCurrentUpcoming}
                          isUpcomingConcertPresented={isUpcomingConcertPresented}/>
             <section
                 className={clsx("relative flex md:overflow-auto pt-[73px] w-full md:h-svh xl:gap-8", bgStyle)}>
-                <ConcertMenu className={"hidden md:flex top-0"} concerts={concerts}
-                             isCurrentUpcoming={isCurrentUpcoming} firstUpcomingConcertIndex={firstUpcomingConcertIndex}
+                <ConcertMenu className={"hidden md:flex top-0"} isCurrentUpcoming={isCurrentUpcoming} firstUpcomingConcertIndex={firstUpcomingConcertIndex}
                              isUpcomingConcertPresented={isUpcomingConcertPresented}/>
                 <div className={"hidden xl:block pl-2"}>
-                    <ConcertsCalendar concerts={concerts}/>
+                    <ConcertsCalendar/>
                     <NewsForm buttonClassName={concertSectionButtonColors}/>
                 </div>
                 {isMd
