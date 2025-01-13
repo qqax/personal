@@ -7,8 +7,17 @@ import {ConcertsCalendar} from "@/app/[locale]/concerts/components/Calendar";
 import NewsForm from "@/app/components/forms/newsForm";
 import {SmConcertsList, MdConcertsList} from "@/app/[locale]/concerts/components/ConcertsList";
 import {Concerts} from "@/app/db/definitions";
-import {ReactNode, useCallback, useState} from "react";
+import {Dispatch, ReactNode, SetStateAction, useCallback, useContext, useState} from "react";
 import useWindowDimensions from "@/app/components/hooks";
+import {createContext} from "react";
+
+export type ConcertContextType = { cursor: number, setCursor: Dispatch<SetStateAction<number>> };
+
+export const ConcertContext = createContext<ConcertContextType | null>(null)
+
+export function useConcertContext() {
+    return useContext(ConcertContext);
+}
 
 export default function ConcertPage({children, description, concerts, firstUpcomingConcertIndex}: {
     children: ReactNode,
@@ -27,34 +36,29 @@ export default function ConcertPage({children, description, concerts, firstUpcom
     const isMd = width >= 768;
 
     const [cursor, setCursor] = useState(firstUpcomingConcertIndex > 0 ? firstUpcomingConcertIndex : 0);
-    const cursorHandler = (cursor: number) => setCursor(cursor);
 
     return (
-        <>
-            <ConcertMenu className={"top-[88px] flex md:hidden"} concerts={concerts} setCursor={cursorHandler}
+        <ConcertContext.Provider value={{cursor, setCursor}}>
+            <ConcertMenu className={"top-[88px] flex md:hidden"} concerts={concerts}
                          firstUpcomingConcertIndex={firstUpcomingConcertIndex} isCurrentUpcoming={isCurrentUpcoming}
                          isUpcomingConcertPresented={isUpcomingConcertPresented}/>
             <section
                 className={clsx("relative flex md:overflow-auto pt-[73px] w-full md:h-svh xl:gap-8", bgStyle)}>
                 <ConcertMenu className={"hidden md:flex top-0"} concerts={concerts}
-                             isCurrentUpcoming={isCurrentUpcoming} setCursor={cursorHandler}
-                             firstUpcomingConcertIndex={firstUpcomingConcertIndex}
+                             isCurrentUpcoming={isCurrentUpcoming} firstUpcomingConcertIndex={firstUpcomingConcertIndex}
                              isUpcomingConcertPresented={isUpcomingConcertPresented}/>
                 <div className={"hidden xl:block pl-2"}>
                     <ConcertsCalendar concerts={concerts}/>
                     <NewsForm buttonClassName={concertSectionButtonColors}/>
                 </div>
                 {isMd
-                    ?
-                    <MdConcertsList concerts={concerts} cursor={cursor} setCursor={cursorHandler}
-                                    setIsCurrentUpcoming={currentConcertHandler}/>
-                    : <SmConcertsList concerts={concerts} cursor={cursor} setCursor={cursorHandler}
-                                      setIsCurrentUpcoming={currentConcertHandler}/>}
+                    ? <MdConcertsList concerts={concerts} setIsCurrentUpcoming={currentConcertHandler}/>
+                    : <SmConcertsList concerts={concerts} setIsCurrentUpcoming={currentConcertHandler}/>}
                 <div className={"hidden md:block w-full"}>
                     {description}
                 </div>
                 {children}
             </section>
-        </>
+        </ConcertContext.Provider>
     );
 };

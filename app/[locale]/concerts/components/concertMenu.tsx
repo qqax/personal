@@ -7,15 +7,17 @@ import {ConcertsCalendar} from "@/app/[locale]/concerts/components/Calendar";
 import {Concerts} from "@/app/db/definitions";
 import Modal from "@/app/ui/Modal";
 import {useClickOutside} from "@/app/components/hooks";
+import {ConcertContextType, useConcertContext} from "@/app/[locale]/concerts/concertPage";
 
-export const ConcertMenu = ({concerts, className, isCurrentUpcoming, isUpcomingConcertPresented, firstUpcomingConcertIndex, setCursor}: {
+export const ConcertMenu = ({concerts, className, isCurrentUpcoming, isUpcomingConcertPresented, firstUpcomingConcertIndex}: {
     concerts: Concerts,
     className: string,
     isCurrentUpcoming: boolean,
     isUpcomingConcertPresented: boolean,
-    setCursor: Function,
     firstUpcomingConcertIndex: number
 }) => {
+    const {setCursor} = useConcertContext() as ConcertContextType;
+
     const [showCalendar, setShowCalendar] = useState(false);
 
     const ref = useRef<HTMLDivElement>(null);
