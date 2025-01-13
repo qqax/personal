@@ -11,7 +11,6 @@ export default async function ConcertDescription({params}: { params: { concert_i
     const locale = await getLocale();
     const {concert_id} = await params;
     const concertDescription = await fetchConcertDescription(concert_id, locale);
-    // const concertIDs = await fetchConcertIDs();
 
     if (!concertDescription) {
         return null;
