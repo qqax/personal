@@ -23,18 +23,29 @@ export const ConcertMenu = ({className, isCurrentUpcoming, isUpcomingConcertPres
 
     const ref = useRef<HTMLDivElement>(null);
 
+    const hideCalendar = () => {
+        setShowCalendar(false);
+    }
+
     useClickOutside(ref, () => {
-        setShowCalendar(false)
+        hideCalendar();
     });
+
+
 
     return (<>
         <Modal show={showCalendar}>
             <div className={"flex w-full items-center justify-center"}>
-                <div ref={ref} className={"bg-black border-[1px] border-white"}>
-                    <button type={"button"} className={"block text-3xl pt-2 px-4 ml-auto mr-0"}
-                            onClick={() => setShowCalendar(false)}>X
-                    </button>
-                    <ConcertsCalendar/>
+                <div ref={ref} className={"bg-black border-[1px] border-white items-start"}>
+                    <div className={"text-3xl  w-full text-center"}>
+                        <span className={"inline-block mt-4"}>
+                        Calendar
+                        </span>
+                        <button type={"button"} className={"inline-block float-right px-3 py-2 rotate-45"}
+                                onClick={() => setShowCalendar(false)}>+
+                        </button>
+                    </div>
+                    <ConcertsCalendar hideCalendar={hideCalendar} />
                 </div>
             </div>
         </Modal>

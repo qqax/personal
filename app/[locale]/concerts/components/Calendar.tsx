@@ -11,7 +11,7 @@ type DateType = Date | null;
 
 type ConcertDateType = DateType | [DateType, DateType];
 
-export function ConcertsCalendar() {
+export function ConcertsCalendar({hideCalendar}: {hideCalendar?: () => void}) {
     const {concerts, cursor, setCursor} = useConcertContext() as ConcertContextType;
 
     const [concertDate, setConcertDate] = useState<ConcertDateType>(null);
@@ -25,6 +25,7 @@ export function ConcertsCalendar() {
     const selectNewDate = (newDate: ConcertDateType) => {
         const concertIndex = concerts.findIndex(({date}) => shiftFromUTCToLocale(date) === (newDate as DateType)?.getTime());
         concertIndex >= 0 && setCursor(concertIndex);
+        hideCalendar && hideCalendar();
     }
 
     useEffect(() => {
