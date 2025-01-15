@@ -7,7 +7,7 @@ import {useScroll} from "@/app/components/hooks";
 import {ConcertContextType, useConcertContext} from "@/app/[locale]/concerts/concertPage";
 
 export function SmConcertsList() {
-    const {cursor, currConcertID, areConcertsPresented, currentConcertHandler} = useConcertContext() as ConcertContextType;
+    const {setScrollToFunc, cursor, currConcertID, areConcertsPresented, currentConcertHandler} = useConcertContext() as ConcertContextType;
 
     const ref: MutableRefObject<Record<string, HTMLButtonElement>> = useRef({});
 
@@ -18,9 +18,8 @@ export function SmConcertsList() {
         window.scrollTo({top: offsetTop});
     }
 
-    const setNewActiveConcert = () => {
+    const focusOnConcert = () => {
         ref.current[currConcertID].focus();
-
         preventScroll ? setPreventScroll(false) : scrollWindow(currConcertID);
     }
 
@@ -36,19 +35,20 @@ export function SmConcertsList() {
 
     useEffect(() => {
         if (areConcertsPresented) {
-            setNewActiveConcert();
+            focusOnConcert();
+            setScrollToFunc(scrollWindow);
         }
     }, []);
 
     useEffect(() => {
-        setNewActiveConcert();
+        focusOnConcert();
     }, [cursor]);
 
     return (<ConcertView ref={ref} setPreventScroll={(bool) => setPreventScroll(bool)}/>)
 }
 
 export function MdConcertsList() {
-    const {cursor, currConcertID, currentConcertHandler} = useConcertContext() as ConcertContextType;
+    const {cursor, currConcertID, currentConcertHandler, setScrollToFunc} = useConcertContext() as ConcertContextType;
 
     const ref: MutableRefObject<Record<string, HTMLButtonElement>> = useRef({});
     const ulRef: RefObject<HTMLUListElement> = useRef(null);
@@ -67,9 +67,17 @@ export function MdConcertsList() {
         ulRef.current?.scrollTo({top: offsetTop});
     }
 
-    useEffect(() => {
+    const focusOnConcert = () => {
         ref.current[currConcertID].focus();
         preventScroll ? setPreventScroll(false) : scrollUl(currConcertID);
+    }
+
+    useEffect(() => {
+        setScrollToFunc(scrollUl);
+    }, []);
+
+    useEffect(() => {
+        focusOnConcert();
     }, [cursor]);
 
     return (<ConcertView ref={ref} ulRef={ulRef} onUlScroll={onUlScroll}
@@ -87,7 +95,7 @@ const ConcertView = ({
     onUlScroll?: UIEventHandler<HTMLUListElement>,
     setPreventScroll: (v: boolean) => void
 }) => {
-    const {setCursor, setCursorToNext, setCursorToPrev, setConcertPath, concerts} = useConcertContext() as ConcertContextType;
+    const {cursor, setCursor, setCursorToNext, setCursorToPrev, setConcertPath, concerts} = useConcertContext() as ConcertContextType;
 
     const onKeyDown: KeyboardEventHandler<HTMLUListElement> = (event) => {
         if (event.key === "ArrowDown") {
@@ -99,7 +107,7 @@ const ConcertView = ({
 
     return (
         <ul ref={ulRef} onScroll={onUlScroll}
-            className={"relative scroll-smooth mx-auto w-full min-w-64 max-w-96 overflow-auto"}
+            className={"relative mx-auto w-full min-w-64 max-w-96 overflow-auto scroll-smooth"}
             onKeyDown={onKeyDown}>
             {concerts?.map((concert, index) => {
                 return (
@@ -121,7 +129,8 @@ const ConcertView = ({
                             }}
                             className={clsx(
                                 {"bg-green-950 bg-opacity-40": index % 2},
-                                "flex flex-col gap-1.5 w-full text-left outline-0 p-4 border-[1px] border-opacity-0 border-white focus:border-green-600 focus-visible:border-[1px] focus-visible:border-green-600")}
+                                {"border-opacity-100": index === cursor},
+                                "flex flex-col gap-1.5 w-full text-left outline-0 p-4 border-green-600 border-[1px] border-opacity-0")}
                         >
                             <ConcertDate dateTime={concert.date as Date}/>
                             <p>

@@ -14,6 +14,8 @@ import {usePathname, useRouter} from "@/i18n/routing";
 import {paths} from "@/app/components/navbar/navigation";
 import {replaceDynamicSegmentIfExists} from "@/app/utils/pathFuncs";
 
+export type ScrollConcertType = { first: () => void, upcoming: () => void } | null;
+
 export type ConcertContextType = {
     concerts: Concerts,
     currConcertID: string,
@@ -26,6 +28,9 @@ export type ConcertContextType = {
     setCursor: Dispatch<SetStateAction<number>>,
     setCursorToNext: () => void,
     setCursorToPrev: () => void,
+
+    scrollTo: ScrollConcertType | null,
+    setScrollToFunc: ( fn: (id: string) => void ) => void,
 };
 
 export const ConcertContext = createContext<ConcertContextType | null>(null)
@@ -52,7 +57,17 @@ export default function ConcertPage({children, description, concerts, firstUpcom
     const router = useRouter();
     const isMd = width >= 768;
 
-    const [cursor, setCursor] = useState(firstUpcomingConcertIndex > 0 ? firstUpcomingConcertIndex : 0);
+    const [scrollTo, setScrollTo] = useState(null as ScrollConcertType);
+    const setScrollToFunc = useCallback((fn: (id: string) => void) => {
+        if (!isUpcomingConcertPresented) return;
+
+        setScrollTo( {
+            first: () => fn(concerts[0].id),
+            upcoming: () => fn(concerts[firstUpcomingConcertIndex].id),
+        });
+    }, [isUpcomingConcertPresented, setScrollTo, concerts, firstUpcomingConcertIndex]);
+
+    const [cursor, setCursor] = useState(isUpcomingConcertPresented ? firstUpcomingConcertIndex : 0);
     const setCursorToNext = useCallback(() => {
         const newCursor = (cursor + 1) % concerts.length;
         setCursor(newCursor);
@@ -61,6 +76,7 @@ export default function ConcertPage({children, description, concerts, firstUpcom
         const newCursor = cursor === 0 ? concerts.length - 1 : cursor - 1;
         setCursor(newCursor);
     }, [setCursor, cursor, concerts]);
+
     const currConcertID = useMemo(() => {
         return concerts[cursor].id
     }, [concerts, cursor]);
@@ -84,12 +100,26 @@ export default function ConcertPage({children, description, concerts, firstUpcom
     }, [cursor]);
 
     return (
-        <ConcertContext.Provider value={{concerts, areConcertsPresented, setConcertPath, currentConcertHandler, cursor, setCursor, setCursorToNext, setCursorToPrev, currConcertID}}>
-            <ConcertMenu className={"top-[88px] flex md:hidden backdrop-blur-lg"} firstUpcomingConcertIndex={firstUpcomingConcertIndex} isCurrentUpcoming={isCurrentUpcoming}
+        <ConcertContext.Provider value={{
+            scrollTo,
+            setScrollToFunc,
+
+            concerts,
+            areConcertsPresented,
+            setConcertPath,
+            currentConcertHandler,
+            currConcertID,
+
+            cursor,
+            setCursor,
+            setCursorToNext,
+            setCursorToPrev,
+        }}>
+            <ConcertMenu className={"top-[88px] flex md:hidden backdrop-blur-lg"} isCurrentUpcoming={isCurrentUpcoming}
                          isUpcomingConcertPresented={isUpcomingConcertPresented}/>
             <section
                 className={clsx("relative flex md:overflow-auto pt-[73px] w-full md:h-svh xl:gap-8", bgStyle)}>
-                <ConcertMenu className={"hidden md:flex top-0"} isCurrentUpcoming={isCurrentUpcoming} firstUpcomingConcertIndex={firstUpcomingConcertIndex}
+                <ConcertMenu className={"hidden md:flex top-0"} isCurrentUpcoming={isCurrentUpcoming}
                              isUpcomingConcertPresented={isUpcomingConcertPresented}/>
                 <div className={"hidden xl:block pl-2"}>
                     <ConcertsCalendar/>

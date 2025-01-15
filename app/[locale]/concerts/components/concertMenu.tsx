@@ -11,13 +11,12 @@ import {ConcertContextType, useConcertContext} from "@/app/[locale]/concerts/con
 const buttonStyle = "px-2 h-full";
 const selectedButtonStyle = "text-beige underline";
 
-export const ConcertMenu = ({className, isCurrentUpcoming, isUpcomingConcertPresented, firstUpcomingConcertIndex}: {
+export const ConcertMenu = ({className, isCurrentUpcoming, isUpcomingConcertPresented}: {
     className: string,
     isCurrentUpcoming: boolean,
     isUpcomingConcertPresented: boolean,
-    firstUpcomingConcertIndex: number
 }) => {
-    const {setCursor} = useConcertContext() as ConcertContextType;
+    const {scrollTo} = useConcertContext() as ConcertContextType;
 
     const [showCalendar, setShowCalendar] = useState(false);
 
@@ -30,8 +29,6 @@ export const ConcertMenu = ({className, isCurrentUpcoming, isUpcomingConcertPres
     useClickOutside(ref, () => {
         hideCalendar();
     });
-
-
 
     return (<>
         <Modal show={showCalendar}>
@@ -60,12 +57,12 @@ export const ConcertMenu = ({className, isCurrentUpcoming, isUpcomingConcertPres
                 <h2 className={"align-middle"}>Concerts:</h2>
                 {isUpcomingConcertPresented &&
                     <>
-                        <button type={"button"} onClick={() => setCursor(0)}
+                        <button type={"button"} onClick={() => scrollTo?.first()}
                                 className={clsx(buttonStyle, {[selectedButtonStyle]: !isCurrentUpcoming})}>
                             forgoing
                         </button>
                         /
-                        <button type={"button"} onClick={() => setCursor(firstUpcomingConcertIndex)}
+                        <button type={"button"} onClick={() => scrollTo?.upcoming()}
                                 className={clsx(buttonStyle, {[selectedButtonStyle]: isCurrentUpcoming})}>
                             upcoming
                         </button>
