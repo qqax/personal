@@ -118,7 +118,7 @@ export default function ConcertPage({children, description, concerts, firstUpcom
             <ConcertMenu className={"top-[88px] flex md:hidden backdrop-blur-lg"} isCurrentUpcoming={isCurrentUpcoming}
                          isUpcomingConcertPresented={isUpcomingConcertPresented}/>
             <section
-                className={clsx("relative flex md:overflow-auto pt-[73px] w-full md:h-svh xl:gap-8", bgStyle)}>
+                className={clsx("relative flex md:overflow-auto pt-[73px] w-full md:h-[78vh] xl:gap-8", bgStyle)}>
                 <ConcertMenu className={"hidden md:flex top-0"} isCurrentUpcoming={isCurrentUpcoming}
                              isUpcomingConcertPresented={isUpcomingConcertPresented}/>
                 <div className={"hidden xl:block pl-2"}>

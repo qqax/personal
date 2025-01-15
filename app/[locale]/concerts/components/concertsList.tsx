@@ -15,7 +15,7 @@ export function SmConcertsList() {
 
     const scrollWindow = (id: string) => {
         const offsetTop = ref.current[id].offsetTop;
-        window.scrollTo({top: offsetTop});
+        window.scrollTo({top: offsetTop, behavior: 'smooth'});
     }
 
     const focusOnConcert = () => {
@@ -99,8 +99,10 @@ const ConcertView = ({
 
     const onKeyDown: KeyboardEventHandler<HTMLUListElement> = (event) => {
         if (event.key === "ArrowDown") {
+            event.preventDefault();
             setCursorToNext();
         } else if (event.key === "ArrowUp") {
+            event.preventDefault();
             setCursorToPrev();
         }
     };
