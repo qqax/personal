@@ -7,9 +7,13 @@ type Router = {
     }) | undefined)) => void,
 }
 
-export const replaceDynamicSegmentIfExists = (router: Router, fullPath: string, staticPath: string, segment: string) => {
+export const deleteLastSegmentIfExists = (fullPath: string, staticPath: string) => {
     const regExp = new RegExp(String.raw`(${staticPath}).*$`, "g");
-    const newPath = fullPath.replace(regExp, '$1') + "/" + segment;
+    return fullPath.replace(regExp, '$1');
+}
+
+export const replaceDynamicSegmentIfExists = (router: Router, fullPath: string, staticPath: string, segment: string) => {
+    const newPath = deleteLastSegmentIfExists(fullPath, staticPath) + "/" + segment;
 
     if (newPath !== fullPath) {
         router.push({pathname: newPath});

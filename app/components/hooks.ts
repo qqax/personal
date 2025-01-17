@@ -33,7 +33,9 @@ export function useScroll(onScroll: EventListenerOrEventListenerObject) {
     });
 }
 
-function getWindowDimensions() {
+type WindowDimensionType = {width: number, height: number};
+
+function getWindowDimensions(): WindowDimensionType {
     const { innerWidth: width, innerHeight: height } = window;
     return {
         width,
@@ -42,9 +44,11 @@ function getWindowDimensions() {
 }
 
 export default function useWindowDimensions() {
-    const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+    const [windowDimensions, setWindowDimensions] = useState({width: 0, height: 0});
 
     useEffect(() => {
+        // setWindowDimensions(getWindowDimensions());
+
         function handleResize() {
             setWindowDimensions(getWindowDimensions());
         }

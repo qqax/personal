@@ -57,7 +57,7 @@ export const ConcertMenu = ({className, isCurrentUpcoming, isUpcomingConcertPres
                 <h2 className={"align-middle"}>Concerts:</h2>
                 {isUpcomingConcertPresented &&
                     <>
-                        <button type={"button"} onClick={() => scrollTo?.first()}
+                        <button type={"button"} onClick={() => scrollTo?.forgoing()}
                                 className={clsx(buttonStyle, {[selectedButtonStyle]: !isCurrentUpcoming})}>
                             forgoing
                         </button>

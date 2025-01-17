@@ -1,20 +1,35 @@
 'use client'
 
-import {KeyboardEventHandler, MutableRefObject, RefObject, UIEventHandler, useEffect, useRef, useState} from "react";
+import {
+    KeyboardEventHandler,
+    MutableRefObject,
+    RefObject,
+    UIEventHandler,
+    useCallback,
+    useEffect,
+    useRef,
+    useState
+} from "react";
 import clsx from "clsx";
 import {ConcertDate} from "@/app/[locale]/concerts/components/concertDate";
 import {useScroll} from "@/app/components/hooks";
 import {ConcertContextType, useConcertContext} from "@/app/[locale]/concerts/concertPage";
 
 export function SmConcertsList() {
-    const {setScrollToFunc, cursor, currConcertID, areConcertsPresented, currentConcertHandler} = useConcertContext() as ConcertContextType;
+    const {
+        setScrollToFunc,
+        cursor,
+        currConcertID,
+        areConcertsPresented,
+        currentConcertHandler
+    } = useConcertContext() as ConcertContextType;
 
     const ref: MutableRefObject<Record<string, HTMLButtonElement>> = useRef({});
 
     const [preventScroll, setPreventScroll] = useState(false);
 
     const scrollWindow = (id: string) => {
-        const offsetTop = ref.current[id].offsetTop;
+        const offsetTop = id === "forgoing" ? 0 : ref.current[id].offsetTop;
         window.scrollTo({top: offsetTop, behavior: 'smooth'});
     }
 
@@ -28,7 +43,7 @@ export function SmConcertsList() {
     useScroll(() => {
         if (areConcertsPresented) {
             currentConcertHandler(
-                Math.round(window.scrollY) >= ref.current[initialConcertID.current].offsetTop
+                Math.round(window.scrollY) >= ref.current[initialConcertID.current].offsetTop - 100
             );
         }
     })
@@ -59,11 +74,11 @@ export function MdConcertsList() {
 
     const onUlScroll: UIEventHandler<HTMLUListElement> = (e) => {
         currentConcertHandler(
-            Math.round((e.target as HTMLElement).scrollTop) >= ref.current[initialConcertID.current].offsetTop);
+            Math.round((e.target as HTMLElement).scrollTop) >= ref.current[initialConcertID.current].offsetTop - 100);
     }
 
     const scrollUl = (id: string) => {
-        const offsetTop = ref.current[id].offsetTop;
+        const offsetTop = id === "forgoing" ? 0 : ref.current[id].offsetTop;
         ulRef.current?.scrollTo({top: offsetTop});
     }
 
@@ -95,9 +110,17 @@ const ConcertView = ({
     onUlScroll?: UIEventHandler<HTMLUListElement>,
     setPreventScroll: (v: boolean) => void
 }) => {
-    const {cursor, setCursor, setCursorToNext, setCursorToPrev, setConcertPath, concerts} = useConcertContext() as ConcertContextType;
+    const {
+        cursor,
+        firstUpcomingConcertIndex,
+        setCursor,
+        setCursorToNext,
+        setCursorToPrev,
+        setConcertPath,
+        concerts
+    } = useConcertContext() as ConcertContextType;
 
-    const onKeyDown: KeyboardEventHandler<HTMLUListElement> = (event) => {
+    const onKeyDown: KeyboardEventHandler<HTMLUListElement> = useCallback((event) => {
         if (event.key === "ArrowDown") {
             event.preventDefault();
             setCursorToNext();
@@ -105,7 +128,7 @@ const ConcertView = ({
             event.preventDefault();
             setCursorToPrev();
         }
-    };
+    }, [setCursorToNext, setCursorToPrev]);
 
     return (
         <ul ref={ulRef} onScroll={onUlScroll}
@@ -114,6 +137,10 @@ const ConcertView = ({
             {concerts?.map((concert, index) => {
                 return (
                     <li key={concert.id}>
+                        {index === 0 && index !== firstUpcomingConcertIndex &&
+                            <p className={"text-beige text-xl py-4"}>Forgoing concerts:</p>}
+                        {index === firstUpcomingConcertIndex &&
+                            <p className={clsx("text-beige text-xl py-4", {"mt-8 border-t-[1px] border-red-600": index !== 0})}>Upcoming concerts:</p>}
                         <button
                             id={concert.id}
                             onClick={() => {
@@ -130,9 +157,9 @@ const ConcertView = ({
                                 }
                             }}
                             className={clsx(
-                                {"bg-green-950 bg-opacity-40": index % 2},
+                                {"bg-red-950 bg-opacity-40": index % 2},
                                 {"border-opacity-100": index === cursor},
-                                "flex flex-col gap-1.5 w-full text-left outline-0 p-4 border-green-600 border-[1px] border-opacity-0")}
+                                "flex flex-col gap-1.5 w-full text-left outline-0 p-4 border-gray-300 border-[1px] border-opacity-0")}
                         >
                             <ConcertDate dateTime={concert.date as Date}/>
                             <p>
@@ -141,7 +168,7 @@ const ConcertView = ({
                             <p>
                                 {concert.short_description}
                             </p>
-                            <span className={"text-green-400 ml-auto md:hidden"}>More...</span>
+                            <span className={"text-beige ml-auto md:hidden"}>More...</span>
                         </button>
                     </li>
                 )

@@ -14,12 +14,13 @@ import {usePathname, useRouter} from "@/i18n/routing";
 import {paths} from "@/app/components/navbar/navigation";
 import {replaceDynamicSegmentIfExists} from "@/app/utils/pathFuncs";
 
-export type ScrollConcertType = { first: () => void, upcoming: () => void } | null;
+export type ScrollConcertType = { forgoing: () => void, upcoming: () => void } | null;
 
 export type ConcertContextType = {
     concerts: Concerts,
     currConcertID: string,
     areConcertsPresented: boolean,
+    firstUpcomingConcertIndex: number,
 
     currentConcertHandler: (isPresented: boolean) => void,
     setConcertPath: () => void,
@@ -39,9 +40,10 @@ export function useConcertContext() {
     return useContext(ConcertContext);
 }
 
-export default function ConcertPage({children, description, concerts, firstUpcomingConcertIndex}: {
+export default function ConcertPage({children, description, modal, concerts, firstUpcomingConcertIndex}: {
     children: ReactNode,
     description: ReactNode,
+    modal: ReactNode,
     concerts: Concerts,
     firstUpcomingConcertIndex: number
 }) {
@@ -62,7 +64,7 @@ export default function ConcertPage({children, description, concerts, firstUpcom
         if (!isUpcomingConcertPresented) return;
 
         setScrollTo( {
-            first: () => fn(concerts[0].id),
+            forgoing: () => fn("forgoing"),
             upcoming: () => fn(concerts[firstUpcomingConcertIndex].id),
         });
     }, [isUpcomingConcertPresented, setScrollTo, concerts, firstUpcomingConcertIndex]);
@@ -105,6 +107,7 @@ export default function ConcertPage({children, description, concerts, firstUpcom
             setScrollToFunc,
 
             concerts,
+            firstUpcomingConcertIndex,
             areConcertsPresented,
             setConcertPath,
             currentConcertHandler,
@@ -133,6 +136,7 @@ export default function ConcertPage({children, description, concerts, firstUpcom
                 </div>
                 {children}
             </section>
+            {modal}
         </ConcertContext.Provider>
     );
 };
