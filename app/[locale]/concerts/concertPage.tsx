@@ -19,8 +19,9 @@ export type ScrollConcertType = { forgoing: () => void, upcoming: () => void } |
 export type ConcertContextType = {
     concerts: Concerts,
     currConcertID: string,
-    areConcertsPresented: boolean,
+    firstUpcomingConcertID: string,
     firstUpcomingConcertIndex: number,
+    areConcertsPresented: boolean,
 
     currentConcertHandler: (isPresented: boolean) => void,
     setConcertPath: () => void,
@@ -100,6 +101,7 @@ export default function ConcertPage({children, description, concerts, firstUpcom
             setScrollToFunc,
 
             concerts,
+            firstUpcomingConcertID: concerts[firstUpcomingConcertIndex].id,
             firstUpcomingConcertIndex,
             areConcertsPresented,
             setConcertPath,

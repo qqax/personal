@@ -21,7 +21,8 @@ export function SmConcertsList() {
         cursor,
         currConcertID,
         areConcertsPresented,
-        currentConcertHandler
+        currentConcertHandler,
+        firstUpcomingConcertID
     } = useConcertContext() as ConcertContextType;
 
     const ref: MutableRefObject<Record<string, HTMLButtonElement>> = useRef({});
@@ -38,12 +39,10 @@ export function SmConcertsList() {
         preventScroll ? setPreventScroll(false) : scrollWindow(currConcertID);
     }
 
-    const initialConcertID = useRef(currConcertID);
-
     useScroll(() => {
         if (areConcertsPresented) {
             currentConcertHandler(
-                Math.round(window.scrollY) >= ref.current[initialConcertID.current].offsetTop - 100
+                Math.round(window.scrollY) >= ref.current[firstUpcomingConcertID].offsetTop - 100
             );
         }
     })
@@ -63,18 +62,16 @@ export function SmConcertsList() {
 }
 
 export function MdConcertsList() {
-    const {cursor, currConcertID, currentConcertHandler, setScrollToFunc} = useConcertContext() as ConcertContextType;
+    const {cursor, currConcertID, currentConcertHandler, setScrollToFunc, firstUpcomingConcertID} = useConcertContext() as ConcertContextType;
 
     const ref: MutableRefObject<Record<string, HTMLButtonElement>> = useRef({});
     const ulRef: RefObject<HTMLUListElement> = useRef(null);
 
     const [preventScroll, setPreventScroll] = useState(false);
 
-    const initialConcertID = useRef(currConcertID);
-
     const onUlScroll: UIEventHandler<HTMLUListElement> = (e) => {
         currentConcertHandler(
-            Math.round((e.target as HTMLElement).scrollTop) >= ref.current[initialConcertID.current].offsetTop - 100);
+            Math.round((e.target as HTMLElement).scrollTop) >= ref.current[firstUpcomingConcertID].offsetTop);
     }
 
     const scrollUl = (id: string) => {
@@ -148,6 +145,8 @@ const ConcertView = ({
                                 setConcertPath();
                                 setPreventScroll(true);
                             }}
+                            tabIndex={index}
+                            onFocus={() => setCursor(index)}
                             type={"button"}
                             ref={element => {
                                 if (element) {
