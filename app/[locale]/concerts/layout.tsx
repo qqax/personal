@@ -10,7 +10,7 @@ const ConcertsSection = async ({children, description, modal}: {
 }) => {
     const locale = await getLocale();
     const {concerts, firstUpcomingConcertIndex} = await fetchConcerts(locale);
-    console.log(modal)
+
     return (
         <ConcertPage concerts={concerts} firstUpcomingConcertIndex={firstUpcomingConcertIndex}
                      description={description} modal={modal}>

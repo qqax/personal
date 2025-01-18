@@ -12,7 +12,7 @@ export function ConcertDescriptionHeader({date}: { date: Date }) {
         <button type={"button"}
                 onClick={() => setCursorToPrev()}
                 className={clsx(concertSectionButtonColors, "p-2 whitespace-nowrap transition duration-150")}>{"< Prev"}</button>
-        <div className={"w-56"}>
+        <div className={"md:w-56"}>
             <ConcertDate dateTime={date}/>
         </div>
         <button type={"button"}

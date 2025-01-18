@@ -31,7 +31,7 @@ export const ConcertMenu = ({className, isCurrentUpcoming, isUpcomingConcertPres
     });
 
     return (<>
-        <Modal show={showCalendar}>
+        <Modal show={showCalendar} preventScroll={true}>
             <div className={"flex w-full items-center justify-center"}>
                 <div ref={ref} className={"bg-black border-[1px] border-white items-start"}>
                     <div className={"text-3xl  w-full text-center"}>

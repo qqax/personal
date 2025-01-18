@@ -33,7 +33,7 @@ export default function Navigation() {
     });
 
     return (<div className={"md:h-full md:flex md:items-end"}>
-        <Modal show={openMobileMenu} element={<MobileMenuButton ref={buttonRef} openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu}/>}>
+        <Modal show={openMobileMenu} preventScroll={true} element={<MobileMenuButton ref={buttonRef} openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu}/>}>
             <MobileMenuItems ref={ref} openMobileMenu={openMobileMenu} onClick={() => setOpenMobileMenu(false)}/>
         </Modal>
 

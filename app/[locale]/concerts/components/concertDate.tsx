@@ -14,7 +14,7 @@ export const ConcertDate = ({dateTime}: {dateTime: Date}) => {
         timeZone: "UTC"
     }).format(dateTime);
 
-    return <div className={"flex w-full justify-between"}>
+    return <div className={"flex w-full gap-2 justify-between"}>
         <div>
             {date}
         </div>

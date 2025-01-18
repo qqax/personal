@@ -16,7 +16,7 @@ export const ConcertDescriptionView = ({concertDescription}: {concertDescription
                 <div>{concertDescription?.address}</div>
                 {concertDescription?.link &&
                     <a href={concertDescription.link as string}
-                       className={"max-w-72 underline text-green-400 hover:text-green-300 truncate"}>{concertDescription.link}</a>}
+                       className={"max-w-72 underline text-red-400 hover:red-green-300 truncate"}>{concertDescription.link}</a>}
             </div>
             {concertDescription?.poster &&
                 <Image

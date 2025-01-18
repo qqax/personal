@@ -4,16 +4,15 @@ import React, {ReactNode, useEffect, useState} from "react";
 import ReactDOM from "react-dom";
 import clsx from "clsx";
 
-let modalCount = 0;
-
-const Modal = ({show, element, children}: {
+const Modal = ({show, element, children, preventScroll}: {
     show: boolean;
     element?: ReactNode;
     children?: ReactNode;
+    preventScroll?: boolean;
 }) => {
 
     const [visible, setVisible] = useState(false);
-    const [scrollTop, setScrollTop] = useState(0)
+    const [scrollTop, setScrollTop] = useState(0);
     const [domReady, setDomReady] = useState(false)
 
     useEffect(() => {
@@ -23,9 +22,10 @@ const Modal = ({show, element, children}: {
     useEffect(() => {
         if (show) {
             setVisible(true);
-            setScrollTop(document.documentElement.scrollTop)
 
-            if (++modalCount === 1) {
+            if (preventScroll) {
+                setScrollTop(document.documentElement.scrollTop)
+
                 document.body.style.overflowY = "scroll";
                 document.body.style.top = `-${document.documentElement.scrollTop}px`;
                 document.body.style.inlineSize = "100%";
@@ -33,14 +33,12 @@ const Modal = ({show, element, children}: {
             }
 
         } else {
-
-            if (modalCount-- === 1) {
+            if (preventScroll) {
                 document.body.style.overflowY = "auto";
                 document.body.style.position = `relative`;
                 document.body.style.top = `0px`;
                 window.scrollTo(0, scrollTop)
             }
-
         }
     }, [show]);
 
