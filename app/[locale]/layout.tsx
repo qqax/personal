@@ -79,7 +79,6 @@ export default async function RootLayout({
                     </div>
                     <Footer/>
                     <div id="modal-root" className={"z-50"}/>
-                    {/*<NextScript/>*/}
                 </ReCaptchaProvider>
             </NextIntlClientProvider>
         </div>
