@@ -59,13 +59,13 @@ export default async function RootLayout({
     return (
         <html lang={locale}>
         <body
-            className={`${jura.className} relative min-h-screen pb-20 antialiased  text-gray-200`}
+            className={`${jura.className} relative min-h-screen antialiased  text-gray-200`}
         >
-        <div className={"bg-[url('../public/keyboard.jpg')] bg-cover"}>
+        <div className={"bg-[url('../public/keyboard.jpg')] bg-cover min-h-screen"}>
             <NextIntlClientProvider messages={messages}>
                 <ReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
                     <NavBar/>
-                    <div className={"flex z-0 justify-center pt-[88px] md:pt-[128px] md:px-10 md:pb-10"}>
+                    <div className={"flex z-0 justify-center py-[88px] md:py-[128px] md:px-10"}>
                         {children}
                         <Toaster toastOptions={{
                             unstyled: true,
