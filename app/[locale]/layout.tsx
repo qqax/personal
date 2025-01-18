@@ -11,6 +11,7 @@ import {getMessages, getTranslations, setRequestLocale} from "next-intl/server";
 import React from "react";
 import {connection} from "next/server";
 import {fetchArtistName, fetchArtistProfession} from "@/app/db/data";
+import {GoogleAnalytics} from "@next/third-parties/google";
 
 const jura = Jura({subsets: ['latin', 'cyrillic']});
 
@@ -84,6 +85,7 @@ export default async function RootLayout({
         </div>
 
         </body>
+        <GoogleAnalytics gaId="G-MW1B1WP908" />
         </html>
     );
 }
