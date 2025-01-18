@@ -5,7 +5,7 @@ import {ConcertDate} from "@/app/[locale]/concerts/components/concertDate";
 import {concertSectionButtonColors} from "@/app/ui/styles";
 import {ConcertContextType, useConcertContext} from "@/app/[locale]/concerts/concertPage";
 
-export function ConcertDescriptionHeader({date}: { date: Date }) {
+export function DescriptionHeader({date}: { date: Date }) {
     const {setCursorToNext, setCursorToPrev} = useConcertContext() as ConcertContextType;
 
     return (<div className={"flex items-center justify-between gap-3 w-full"}>

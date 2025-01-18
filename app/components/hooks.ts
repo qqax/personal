@@ -43,11 +43,22 @@ function getWindowDimensions(): WindowDimensionType {
     };
 }
 
-export default function useWindowDimensions() {
-    const [windowDimensions, setWindowDimensions] = useState({width: 0, height: 0});
+export function useMd() {
+    const {width} = useWindowDimensions();
+    const [isMd, setIsMd] = useState(width >= 768);
 
     useEffect(() => {
-        // setWindowDimensions(getWindowDimensions());
+        setIsMd(width >= 768);
+    }, [width]);
+
+    return isMd;
+}
+
+export function useWindowDimensions() {
+    const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+    useEffect(() => {
+        setWindowDimensions(getWindowDimensions());
 
         function handleResize() {
             setWindowDimensions(getWindowDimensions());

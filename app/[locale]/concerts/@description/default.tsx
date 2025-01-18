@@ -1,3 +1,5 @@
-export default function DefaultPage  () {
-    return null;
+import {DefaultPage} from "@/app/[locale]/concerts/@description/defaultPage";
+
+export default function Default () {
+    return (<DefaultPage/>)
 };

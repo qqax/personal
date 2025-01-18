@@ -8,7 +8,7 @@ import NewsForm from "@/app/components/forms/newsForm";
 import {SmConcertsList, MdConcertsList} from "@/app/[locale]/concerts/components/concertsList";
 import {Concerts} from "@/app/db/definitions";
 import {Dispatch, ReactNode, SetStateAction, useCallback, useContext, useEffect, useMemo, useState} from "react";
-import useWindowDimensions from "@/app/components/hooks";
+import {useMd} from "@/app/components/hooks";
 import {createContext} from "react";
 import {usePathname, useRouter} from "@/i18n/routing";
 import {paths} from "@/app/components/navbar/navigation";
@@ -31,7 +31,7 @@ export type ConcertContextType = {
     setCursorToPrev: () => void,
 
     scrollTo: ScrollConcertType | null,
-    setScrollToFunc: ( fn: (id: string) => void ) => void,
+    setScrollToFunc: (fn: (id: string) => void) => void,
 };
 
 export const ConcertContext = createContext<ConcertContextType | null>(null)
@@ -40,10 +40,9 @@ export function useConcertContext() {
     return useContext(ConcertContext);
 }
 
-export default function ConcertPage({children, description, modal, concerts, firstUpcomingConcertIndex}: {
+export default function ConcertPage({children, description, concerts, firstUpcomingConcertIndex}: {
     children: ReactNode,
     description: ReactNode,
-    modal: ReactNode,
     concerts: Concerts,
     firstUpcomingConcertIndex: number
 }) {
@@ -54,16 +53,14 @@ export default function ConcertPage({children, description, modal, concerts, fir
         isCurrentUpcoming !== isCurrent && setIsCurrentUpcoming(isCurrent);
     }, [isCurrentUpcoming]);
 
-    const {width} = useWindowDimensions();
     const path = usePathname();
     const router = useRouter();
-    const isMd = width >= 768;
 
     const [scrollTo, setScrollTo] = useState(null as ScrollConcertType);
     const setScrollToFunc = useCallback((fn: (id: string) => void) => {
         if (!isUpcomingConcertPresented) return;
 
-        setScrollTo( {
+        setScrollTo({
             forgoing: () => fn("forgoing"),
             upcoming: () => fn(concerts[firstUpcomingConcertIndex].id),
         });
@@ -88,6 +85,8 @@ export default function ConcertPage({children, description, modal, concerts, fir
     const setConcertPath = () => {
         areConcertsPresented && replaceDynamicSegmentIfExists(router, path, paths.concerts, currConcertID);
     }
+
+    const isMd = useMd();
 
     useEffect(() => {
         if (isMd && path.endsWith(paths.concerts)) {
@@ -128,15 +127,10 @@ export default function ConcertPage({children, description, modal, concerts, fir
                     <ConcertsCalendar/>
                     <NewsForm buttonClassName={concertSectionButtonColors}/>
                 </div>
-                {isMd
-                    ? <MdConcertsList/>
-                    : <SmConcertsList/>}
-                <div className={"hidden md:block w-full"}>
-                    {description}
-                </div>
+                {isMd ? <MdConcertsList/> : <SmConcertsList/>}
+                {description}
                 {children}
             </section>
-            {modal}
         </ConcertContext.Provider>
     );
 };
