@@ -89,16 +89,10 @@ export default function ConcertPage({children, description, concerts, firstUpcom
     const isMd = useMd();
 
     useEffect(() => {
-        if (isMd && path.endsWith(paths.concerts)) {
-            setConcertPath();
-        }
-    }, []);
-
-    useEffect(() => {
         if (isMd || !path.endsWith(paths.concerts)) {
             setConcertPath();
         }
-    }, [cursor]);
+    }, [isMd, cursor]);
 
     return (
         <ConcertContext.Provider value={{

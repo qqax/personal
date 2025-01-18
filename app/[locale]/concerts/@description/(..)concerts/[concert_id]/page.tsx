@@ -1,6 +1,7 @@
 import {getLocale} from "next-intl/server";
 import {fetchConcertDescription} from "@/app/db/data";
 import {Description} from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/description";
+import {RenderBoundary} from "@/app/components/renderBoundary";
 
 export default async function ConcertModal({params}: { params: { concert_id: string } }) {
     const locale = await getLocale();
@@ -16,5 +17,9 @@ export default async function ConcertModal({params}: { params: { concert_id: str
         return null;
     }
 
-    return (<Description concertDescription={concertDescription}/>)
+    return (
+        <RenderBoundary>
+            <Description concertDescription={concertDescription}/>
+        </RenderBoundary>
+    )
 }

@@ -157,7 +157,7 @@ const ConcertView = ({
                                 }
                             }}
                             className={clsx(
-                                {"bg-red-950 bg-opacity-40": index % 2},
+                                {"bg-black bg-opacity-40": index % 2},
                                 {"border-opacity-100": index === cursor},
                                 "flex flex-col gap-1.5 w-full text-left outline-0 p-4 border-gray-300 border-[1px] border-opacity-0")}
                         >

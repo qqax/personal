@@ -24,8 +24,10 @@ export default function DescriptionModal({concertDescription}: { concertDescript
     });
 
     return (<Modal show={!path.endsWith(paths.concerts)}>
-        <div ref={ref} className="bg-black w-full sm:w-auto m-24 mx-auto border-[1px] border-gray-200">
-            <button type={"button"} onClick={onClose} className={"rotate-45 block ml-auto mr-0 px-4 text-4xl"}>+
+        <div ref={ref}
+             className="relative flex bg-black w-full max-w-[450px] pt-10 m-20 min-h-[75%] mx-auto border-[1px] border-gray-200">
+            <button type={"button"} onClick={onClose} className={"absolute top-0 right-0 rotate-45 px-4 text-4xl"}>
+                +
             </button>
             <DescriptionView concertDescription={concertDescription}/>
         </div>

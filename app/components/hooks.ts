@@ -54,7 +54,7 @@ export function useMd() {
     return isMd;
 }
 
-export function useWindowDimensions() {
+function useWindowDimensions() {
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 
     useEffect(() => {
