@@ -2,7 +2,7 @@
 
 import {drizzle} from "drizzle-orm/node-postgres";
 import * as schema from "./schema"
-import {artistTable, concertsTable, newsTable, recordsTable} from "./schema"
+import {artistTable, concertsTable, newsTable, recordsTable, recordTypesTable} from "./schema"
 import {cacheTag} from "next/dist/server/use-cache/cache-tag";
 import facebookIcon from "../../public/icons/facebook.svg";
 import youtubeIcon from "../../public/icons/youtube.svg";
@@ -13,9 +13,10 @@ import {
     Concerts,
     ConcertsData,
     Name,
-    Profession
+    Profession,
+    Records
 } from "@/app/db/definitions";
-import {sql} from "drizzle-orm";
+import {eq, sql} from "drizzle-orm";
 import {PgColumn, PgTableWithColumns} from "drizzle-orm/pg-core";
 import {cacheLife} from "next/dist/server/use-cache/cache-life";
 
@@ -106,15 +107,9 @@ export async function fetchConcerts(locale: string): Promise<ConcertsData> {
             (${concertsTable.date}, 'DD_Mon_YY_HH24_MI')`.as('id'),
         date: concertsTable.date,
         place: selectTranslated(concertsTable, "place", locale),
-        // address: selectTranslated(concertsTable, "address", locale),
         short_description: selectTranslated(concertsTable, "short_description", locale),
-        // description: selectTranslated(concertsTable, "description", locale),
-        // poster: concertsTable.poster,
-        // link: concertsTable.link,
-        // record: recordsTable.link,
     }).from(concertsTable)
         .orderBy(concertsTable.date);
-    // .fullJoin(recordsTable, eq(recordsTable.id, concertsTable.record_id));
 
     const firstUpcomingConcertIndex = concerts?.findIndex(({date}) => {
         return date && date.getTime() > Date.now();
@@ -158,6 +153,21 @@ export async function fetchConcertDescription(id: string, locale: string): Promi
         console.error('Database Error:', error);
         throw new Error(`Failed to fetch the concert's description.`);
     }
+}
+
+export async function fetchRecords(locale: string): Promise<Records> {
+    'use cache'
+    cacheTag('record');
+
+    return db.select({
+        date: recordsTable.date,
+        link: recordsTable.link,
+        title: selectTranslated(recordsTable, "title", locale),
+        description: selectTranslated(recordsTable, "description", locale),
+        record_type: recordTypesTable.record_type,
+    }).from(recordsTable)
+        .leftJoin(recordTypesTable, eq(recordTypesTable.id, recordsTable.record_type_id))
+        .orderBy(recordsTable.date);
 }
 
 export async function insertEmail(email: string): Promise<boolean> {

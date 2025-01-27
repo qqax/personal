@@ -3,6 +3,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import {Programme} from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/programme";
 import {ConcertDescription} from "@/app/db/definitions";
+import Video from "@/app/components/Video";
 
 //TODO: concert poster
 
@@ -31,11 +32,6 @@ export const DescriptionView = ({concertDescription}: {concertDescription: Conce
         </div>
         {concertDescription?.description && <Programme programme={concertDescription.description}/>}
         {concertDescription?.recordsTable &&
-            <div className={"relative overflow-hidden w-full pt-[56.25%]"}>
-                <iframe src={concertDescription.recordsTable.link}
-                        title={concertDescription.recordsTable.title}
-                        className={"absolute top-0 left-0 right-0 bottom-0 w-full h-full"}
-                        allowFullScreen/>
-            </div>}
+            <Video title={concertDescription.recordsTable.title} link={concertDescription.recordsTable.link}/>}
     </div>)
 }
