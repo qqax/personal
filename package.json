@@ -14,7 +14,7 @@
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.36.3",
-    "next": "15.0.4-canary.33",
+    "next": "15.1.2",
     "next-intl": "^3.25.2",
     "next-mdx-remote": "^5.0.0",
     "next-recaptcha-v3": "^1.5.0",
