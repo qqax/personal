@@ -6,5 +6,5 @@ export default function Default() {
         <RenderBoundary>
             <DefaultPage/>
         </RenderBoundary>
-    )
+    );
 };

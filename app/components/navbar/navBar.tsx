@@ -10,7 +10,7 @@ const NavBar = () => {
             <Navigation/>
             <Artist/>
         </nav>
-    )
-}
+    );
+};
 
 export default NavBar;

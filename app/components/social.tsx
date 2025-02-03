@@ -4,7 +4,7 @@ import {fetchSocial} from "@/app/db/data";
 import clsx from "clsx";
 
 
-const Social = async ({className}: {className?: string}) => {
+const Social = async ({className}: { className?: string }) => {
     const socialLinks = await fetchSocial();
 
     return (
@@ -18,7 +18,7 @@ const Social = async ({className}: {className?: string}) => {
                 </Link>
             ))}
         </div>
-    )
-}
+    );
+};
 
 export default Social;

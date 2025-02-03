@@ -6,13 +6,14 @@ import {getLocale} from "next-intl/server";
 
 const Footer = async () => {
     return (
-        <footer className={clsx("absolute bottom-0 w-full h-20 flex items-center justify-center border-red-600 border-t-4", bgStyle)}>
+        <footer
+            className={clsx("absolute bottom-0 w-full h-20 flex items-center justify-center border-red-600 border-t-4", bgStyle)}>
             <Suspense>
                 <Copyright/>
             </Suspense>
         </footer>
-    )
-}
+    );
+};
 
 const Copyright = async () => {
     const locale = await getLocale();
@@ -20,7 +21,7 @@ const Copyright = async () => {
     const owner = artistName || "";
     const year = new Date().getFullYear();
 
-    return <p><small>{`©${year === 2024 ? year : `2024 - ${year}`} ${owner}.`}</small></p>
-}
+    return <p><small>{`©${year === 2024 ? year : `2024 - ${year}`} ${owner}.`}</small></p>;
+};
 
 export default Footer;

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {useRef, useState} from "react";
 import clsx from "clsx";
@@ -24,7 +24,7 @@ export const ConcertMenu = ({className, isCurrentUpcoming, isUpcomingConcertPres
 
     const hideCalendar = () => {
         setShowCalendar(false);
-    }
+    };
 
     useClickOutside(ref, () => {
         hideCalendar();
@@ -42,7 +42,7 @@ export const ConcertMenu = ({className, isCurrentUpcoming, isUpcomingConcertPres
                                 onClick={() => setShowCalendar(false)}>+
                         </button>
                     </div>
-                    <ConcertsCalendar hideCalendar={hideCalendar} />
+                    <ConcertsCalendar hideCalendar={hideCalendar}/>
                 </div>
             </div>
         </Modal>
@@ -70,5 +70,5 @@ export const ConcertMenu = ({className, isCurrentUpcoming, isUpcomingConcertPres
                 }
             </div>
         </div>
-    </>)
-}
+    </>);
+};

@@ -1,7 +1,7 @@
 import {useLocale} from "next-intl";
 import {getIntlDate, getIntlTime} from "@/app/utils/dateFuncs";
 
-export const ConcertDate = ({dateTime}: {dateTime: Date}) => {
+export const ConcertDate = ({dateTime}: { dateTime: Date }) => {
     const locale = useLocale();
     const date = getIntlDate(locale, dateTime);
     const time = getIntlTime(locale, dateTime);
@@ -13,5 +13,5 @@ export const ConcertDate = ({dateTime}: {dateTime: Date}) => {
         <div>
             {time}
         </div>
-    </div>
-}
+    </div>;
+};

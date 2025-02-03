@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {ReactNode, useEffect, useState} from "react";
 
@@ -11,4 +11,4 @@ export const RenderBoundary = ({children}: { children: ReactNode }) => {
     return (isRendered
         ? <>{children}</>
         : null);
-}
+};

@@ -1,8 +1,8 @@
-"use server"
+"use server";
 
 import {drizzle} from "drizzle-orm/node-postgres";
-import * as schema from "./schema"
-import {artistTable, concertsTable, newsTable, recordsTable, recordTypesTable} from "./schema"
+import * as schema from "./schema";
+import {artistTable, concertsTable, newsTable, recordsTable, recordTypesTable} from "./schema";
 import {cacheTag} from "next/dist/server/use-cache/cache-tag";
 import facebookIcon from "../../public/icons/facebook.svg";
 import youtubeIcon from "../../public/icons/youtube.svg";
@@ -14,7 +14,7 @@ import {
     ConcertsData,
     Name,
     Profession,
-    Records
+    Records,
 } from "@/app/db/definitions";
 import {eq, sql} from "drizzle-orm";
 import {PgColumn, PgTableWithColumns} from "drizzle-orm/pg-core";
@@ -25,7 +25,7 @@ const db = drizzle({
         connectionString: process.env.POSTGRES_URL,
     },
 
-    schema
+    schema,
 });
 
 const NOT_DEFAULT_LOCALES = ["ru"];
@@ -33,10 +33,10 @@ const NOT_DEFAULT_LOCALES = ["ru"];
 const selectTranslated = (table: PgTableWithColumns<any>, column: string, locale: string) => {
     if (NOT_DEFAULT_LOCALES.includes(locale)) {
         return sql<string>`coalesce
-            (${table[`${column}_${locale}`]}, ${table[column]})`.as(column)
+            (${table[`${column}_${locale}`]}, ${table[column]})`.as(column);
     }
-    return sql<string>`${table[column]}`.as(column)
-}
+    return sql<string>`${table[column]}`.as(column);
+};
 
 const artistTableQuery = async (column: PgColumn, locale: string): Promise<ArtistData> => {
     try {
@@ -45,7 +45,7 @@ const artistTableQuery = async (column: PgColumn, locale: string): Promise<Artis
                 columns: {[column.name]: true},
                 extras: {
                     [column.name]: selectTranslated(artistTable, column.name, locale),
-                }
+                },
             });
 
         return data?.[column.name] as ArtistData;
@@ -56,7 +56,7 @@ const artistTableQuery = async (column: PgColumn, locale: string): Promise<Artis
 };
 
 export async function fetchArtistName(locale: string): Promise<Name> {
-    'use cache'
+    'use cache';
 
     const column = 'name';
     cacheTag(column);
@@ -65,7 +65,7 @@ export async function fetchArtistName(locale: string): Promise<Name> {
 }
 
 export async function fetchArtistProfession(locale: string): Promise<Profession> {
-    'use cache'
+    'use cache';
 
     const column = 'profession';
     cacheTag(column);
@@ -74,7 +74,7 @@ export async function fetchArtistProfession(locale: string): Promise<Profession>
 }
 
 export async function fetchBiography(locale: string): Promise<Biography> {
-    'use cache'
+    'use cache';
 
     const column = 'biography';
     cacheTag(column);
@@ -83,7 +83,7 @@ export async function fetchBiography(locale: string): Promise<Biography> {
 }
 
 export async function fetchSocial() {
-    'use cache'
+    'use cache';
     cacheTag('social');
 
     try {
@@ -98,7 +98,7 @@ export async function fetchSocial() {
 }
 
 export async function fetchConcerts(locale: string): Promise<ConcertsData> {
-    'use cache'
+    'use cache';
     cacheTag('concert');
     cacheLife('days');
 
@@ -117,12 +117,12 @@ export async function fetchConcerts(locale: string): Promise<ConcertsData> {
 
     return {
         concerts,
-        firstUpcomingConcertIndex
+        firstUpcomingConcertIndex,
     } as ConcertsData;
 }
 
 export async function fetchConcertDescription(id: string, locale: string): Promise<ConcertDescription> {
-    'use cache'
+    'use cache';
     cacheTag('concert');
 
     try {
@@ -156,7 +156,7 @@ export async function fetchConcertDescription(id: string, locale: string): Promi
 }
 
 export async function fetchRecords(locale: string): Promise<Records> {
-    'use cache'
+    'use cache';
     cacheTag('record');
 
     return db.select({
@@ -173,7 +173,7 @@ export async function fetchRecords(locale: string): Promise<Records> {
 export async function insertEmail(email: string): Promise<boolean> {
     try {
         await db.insert(newsTable).values({email}).onConflictDoNothing();
-        console.log(email)
+        console.log(email);
         return true;
     } catch (error) {
         console.error('Database Error:', error);

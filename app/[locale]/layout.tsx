@@ -12,6 +12,7 @@ import React from "react";
 import {connection} from "next/server";
 import {fetchArtistName, fetchArtistProfession} from "@/app/db/data";
 import {GoogleAnalytics} from "@next/third-parties/google";
+import Background from "@/app/components/background";
 
 const jura = Jura({subsets: ['latin', 'cyrillic']});
 
@@ -61,7 +62,8 @@ export default async function RootLayout({
         <body
             className={`${jura.className} relative min-h-screen antialiased  text-gray-200`}
         >
-        <div className={"bg-[url('../public/keyboard.jpg')] bg-cover min-h-screen"}>
+        <div className={"relative min-h-screen"}>
+            <Background/>
             <NextIntlClientProvider messages={messages}>
                 <ReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
                     <NavBar/>
@@ -84,7 +86,7 @@ export default async function RootLayout({
         </div>
 
         </body>
-        <GoogleAnalytics gaId="G-MW1B1WP908" />
+        <GoogleAnalytics gaId="G-MW1B1WP908"/>
         </html>
     );
 }

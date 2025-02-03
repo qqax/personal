@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React from 'react';
 import {sendContactMail} from "@/app/acions/actions";
@@ -21,17 +21,19 @@ const ContactFormComponent = ({ref, state, onSubmit, isPending}: FormHandlerProp
                   required/>
         <InputError id="message-error" errorMessage={state?.errors?.message?.join(". ")}/>
 
-        <WaitButton disabled={isPending} text={"Send message"} className={"text-black bg-amber-300 hover:bg-amber-200 disabled:bg-amber-200"}/>
+        <WaitButton disabled={isPending} text={"Send message"}
+                    className={"text-black bg-amber-300 hover:bg-amber-200 disabled:bg-amber-200"}/>
     </form>);
-}
+};
 
 const contactFormMessages: toastMessages = {
     success: 'Email sent successfully.',
     rejected: 'Wrong form submission.',
     error: 'Failed to send email.',
-    unexpected: 'Unexpected error.'
-}
+    unexpected: 'Unexpected error.',
+};
 
 export default function ContactForm() {
-    return (<FormHandler toastMessages={contactFormMessages} action={sendContactMail} Component={ContactFormComponent} reCaptchaAction={"contact_form_submit"}/>);
+    return (<FormHandler toastMessages={contactFormMessages} action={sendContactMail} Component={ContactFormComponent}
+                         reCaptchaAction={"contact_form_submit"}/>);
 }

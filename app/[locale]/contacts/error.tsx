@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import ErrorPage from "@/app/components/errorPage";
 
@@ -6,5 +6,5 @@ export default function Error({error, reset}: { error: Error & { digest?: string
     return <ErrorPage
         error={error}
         reset={reset}
-    />
+    />;
 };

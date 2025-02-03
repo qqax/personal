@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import Modal from "@/app/ui/Modal";
 import {usePathname, useRouter} from "@/i18n/routing";
@@ -17,7 +17,7 @@ export default function DescriptionModal({concertDescription}: { concertDescript
     const onClose = () => {
         const newPath = deleteLastSegmentIfExists(path, paths.concerts);
         router.push({pathname: newPath});
-    }
+    };
 
     useClickOutside(ref, () => {
         onClose();
@@ -31,5 +31,5 @@ export default function DescriptionModal({concertDescription}: { concertDescript
             </button>
             <DescriptionView concertDescription={concertDescription}/>
         </div>
-    </Modal>)
+    </Modal>);
 }

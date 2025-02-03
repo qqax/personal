@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
     KeyboardEventHandler,
@@ -8,7 +8,7 @@ import {
     useCallback,
     useEffect,
     useRef,
-    useState
+    useState,
 } from "react";
 import clsx from "clsx";
 import {ConcertDate} from "@/app/[locale]/concerts/components/concertDate";
@@ -22,7 +22,7 @@ export function SmConcertsList() {
         currConcertID,
         areConcertsPresented,
         currentConcertHandler,
-        firstUpcomingConcertID
+        firstUpcomingConcertID,
     } = useConcertContext() as ConcertContextType;
 
     const ref: MutableRefObject<Record<string, HTMLButtonElement>> = useRef({});
@@ -32,20 +32,20 @@ export function SmConcertsList() {
     const scrollWindow = (id: string) => {
         const offsetTop = id === "forgoing" ? 0 : ref.current[id].offsetTop;
         window.scrollTo({top: offsetTop, behavior: 'smooth'});
-    }
+    };
 
     const focusOnConcert = () => {
         ref.current[currConcertID].focus();
         preventScroll ? setPreventScroll(false) : scrollWindow(currConcertID);
-    }
+    };
 
     useScroll(() => {
         if (areConcertsPresented) {
             currentConcertHandler(
-                Math.round(window.scrollY) >= ref.current[firstUpcomingConcertID].offsetTop - 100
+                Math.round(window.scrollY) >= ref.current[firstUpcomingConcertID].offsetTop - 100,
             );
         }
-    })
+    });
 
     useEffect(() => {
         if (areConcertsPresented) {
@@ -58,11 +58,17 @@ export function SmConcertsList() {
         focusOnConcert();
     }, [cursor]);
 
-    return (<ConcertView ref={ref} setPreventScroll={(bool) => setPreventScroll(bool)}/>)
+    return (<ConcertView ref={ref} setPreventScroll={(bool) => setPreventScroll(bool)}/>);
 }
 
 export function MdConcertsList() {
-    const {cursor, currConcertID, currentConcertHandler, setScrollToFunc, firstUpcomingConcertID} = useConcertContext() as ConcertContextType;
+    const {
+        cursor,
+        currConcertID,
+        currentConcertHandler,
+        setScrollToFunc,
+        firstUpcomingConcertID,
+    } = useConcertContext() as ConcertContextType;
 
     const ref: MutableRefObject<Record<string, HTMLButtonElement>> = useRef({});
     const ulRef: RefObject<HTMLUListElement> = useRef(null);
@@ -72,17 +78,17 @@ export function MdConcertsList() {
     const onUlScroll: UIEventHandler<HTMLUListElement> = (e) => {
         currentConcertHandler(
             Math.round((e.target as HTMLElement).scrollTop) >= ref.current[firstUpcomingConcertID].offsetTop);
-    }
+    };
 
     const scrollUl = (id: string) => {
         const offsetTop = id === "forgoing" ? 0 : ref.current[id].offsetTop;
         ulRef.current?.scrollTo({top: offsetTop});
-    }
+    };
 
     const focusOnConcert = () => {
         ref.current[currConcertID].focus();
         preventScroll ? setPreventScroll(false) : scrollUl(currConcertID);
-    }
+    };
 
     useEffect(() => {
         setScrollToFunc(scrollUl);
@@ -93,14 +99,14 @@ export function MdConcertsList() {
     }, [cursor]);
 
     return (<ConcertView ref={ref} ulRef={ulRef} onUlScroll={onUlScroll}
-                         setPreventScroll={(bool) => setPreventScroll(bool)}/>)
+                         setPreventScroll={(bool) => setPreventScroll(bool)}/>);
 }
 
 const ConcertView = ({
                          ulRef,
                          onUlScroll,
                          setPreventScroll,
-                         ref
+                         ref,
                      }: {
     ref: MutableRefObject<Record<string, HTMLButtonElement>>
     ulRef?: RefObject<HTMLUListElement>,
@@ -114,7 +120,7 @@ const ConcertView = ({
         setCursorToNext,
         setCursorToPrev,
         setConcertPath,
-        concerts
+        concerts,
     } = useConcertContext() as ConcertContextType;
 
     const onKeyDown: KeyboardEventHandler<HTMLUListElement> = useCallback((event) => {
@@ -137,7 +143,8 @@ const ConcertView = ({
                         {index === 0 && index !== firstUpcomingConcertIndex &&
                             <p className={"text-beige text-xl py-4"}>Forgoing concerts:</p>}
                         {index === firstUpcomingConcertIndex &&
-                            <p className={clsx("text-beige text-xl py-4", {"mt-8 border-t-[1px] border-red-600": index !== 0})}>Upcoming concerts:</p>}
+                            <p className={clsx("text-beige text-xl py-4", {"mt-8 border-t-[1px] border-red-600": index !== 0})}>Upcoming
+                                concerts:</p>}
                         <button
                             id={concert.id}
                             onClick={() => {
@@ -150,9 +157,9 @@ const ConcertView = ({
                             type={"button"}
                             ref={element => {
                                 if (element) {
-                                    ref.current[concert.id] = element
+                                    ref.current[concert.id] = element;
                                 } else {
-                                    delete ref.current[concert.id]
+                                    delete ref.current[concert.id];
                                 }
                             }}
                             className={clsx(
@@ -170,8 +177,8 @@ const ConcertView = ({
                             <span className={"text-beige ml-auto md:hidden"}>More...</span>
                         </button>
                     </li>
-                )
+                );
             })}
         </ul>
-    )
-}
+    );
+};

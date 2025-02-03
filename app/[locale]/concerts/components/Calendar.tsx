@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, {useEffect, useMemo, useState} from "react";
 import Calendar from "react-calendar";
@@ -11,7 +11,7 @@ type DateType = Date | null;
 
 type ConcertDateType = DateType | [DateType, DateType];
 
-export function ConcertsCalendar({hideCalendar}: {hideCalendar?: () => void}) {
+export function ConcertsCalendar({hideCalendar}: { hideCalendar?: () => void }) {
     const {concerts, cursor, setCursor} = useConcertContext() as ConcertContextType;
 
     const [concertDate, setConcertDate] = useState<ConcertDateType>(null);
@@ -26,7 +26,7 @@ export function ConcertsCalendar({hideCalendar}: {hideCalendar?: () => void}) {
         const concertIndex = concerts.findIndex(({date}) => shiftFromUTCToLocale(date) === (newDate as DateType)?.getTime());
         concertIndex >= 0 && setCursor(concertIndex);
         hideCalendar && hideCalendar();
-    }
+    };
 
     useEffect(() => {
         const activeDate = shiftFromUTCToLocale(concerts[cursor].date);
@@ -54,10 +54,10 @@ export function ConcertsCalendar({hideCalendar}: {hideCalendar?: () => void}) {
                 if (view !== "month") return;
 
                 if (date.getTime() === (concertDate as DateType)?.getTime()) {
-                    return 'react-calendar__tile--highlight'
+                    return 'react-calendar__tile--highlight';
                 }
 
-                return null
+                return null;
             }}
             className={"w-full h-[330px] p-4"}/>
     );

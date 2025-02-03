@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {useLocale, useTranslations} from "next-intl";
 import {Locale, routing, usePathname, useRouter} from "@/i18n/routing";
@@ -8,7 +8,7 @@ import {Select} from "@/app/ui/Select";
 import clsx from "clsx";
 import {navClassName} from "@/app/ui/styles";
 
-type Options = {value: string, label: ReactNode}[];
+type Options = { value: string, label: ReactNode }[];
 
 export const LocaleSwitcher = () => {
     const t = useTranslations('LocaleSwitcher');
@@ -18,7 +18,7 @@ export const LocaleSwitcher = () => {
     const pathname = usePathname();
     const params = useParams();
 
-    const [label, setLabel] = useState(t('locale', {locale: locale}))
+    const [label, setLabel] = useState(t('locale', {locale: locale}));
     const [open, setOpen] = useState(false);
 
     const options = routing.locales.reduce((acc: Options, cur) => {
@@ -35,18 +35,20 @@ export const LocaleSwitcher = () => {
                 // are used in combination with a given `pathname`. Since the two will
                 // always match for the current route, we can skip runtime checks.
                 {pathname, params},
-                {locale: nextLocale}
+                {locale: nextLocale},
             );
 
             setLabel(t('locale', {locale: nextLocale}));
             setOpen(false);
         });
-    }
-    return (<Select className={clsx("md:bg-opacity-0 appearance-none", navClassName)} open={open} setOpen={setOpen} selectedLabel={label} isPending={isPending}>
+    };
+    return (<Select className={clsx("md:bg-opacity-0 appearance-none", navClassName)} open={open} setOpen={setOpen}
+                    selectedLabel={label} isPending={isPending}>
             {options.map(({value, label}) => {
-                return (<button key={value} disabled={isPending} type={"submit"} className={clsx("appearance-none md:bg-black md:bg-opacity-60", navClassName)}
-                                onClick={() => onClick(value as Locale)}>{label}</button>)
+                return (<button key={value} disabled={isPending} type={"submit"}
+                                className={clsx("appearance-none md:bg-black md:bg-opacity-60", navClassName)}
+                                onClick={() => onClick(value as Locale)}>{label}</button>);
             })}
         </Select>
-    )
-}
+    );
+};

@@ -70,12 +70,12 @@ export const concertsTable = pgTable(
     },
 );
 
-export const concertRelations = relations(concertsTable, ({one}) =>({
+export const concertRelations = relations(concertsTable, ({one}) => ({
     recordsTable: one(recordsTable, {
         fields: [concertsTable.record_id],
         references: [recordsTable.id],
     }),
-}))
+}));
 
 export const recordTypesTable = pgTable(
     "record_types",

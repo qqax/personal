@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, {ReactNode, useEffect, useState} from "react";
 import ReactDOM from "react-dom";
@@ -13,10 +13,10 @@ const Modal = ({show, element, children, preventScroll}: {
 
     const [visible, setVisible] = useState(false);
     const [scrollTop, setScrollTop] = useState(0);
-    const [domReady, setDomReady] = useState(false)
+    const [domReady, setDomReady] = useState(false);
 
     useEffect(() => {
-        setDomReady(true)
+        setDomReady(true);
     }, []);
 
     useEffect(() => {
@@ -24,7 +24,7 @@ const Modal = ({show, element, children, preventScroll}: {
             setVisible(true);
 
             if (preventScroll) {
-                setScrollTop(document.documentElement.scrollTop)
+                setScrollTop(document.documentElement.scrollTop);
 
                 document.body.style.overflowY = "scroll";
                 document.body.style.top = `-${document.documentElement.scrollTop}px`;
@@ -37,7 +37,7 @@ const Modal = ({show, element, children, preventScroll}: {
                 document.body.style.overflowY = "auto";
                 document.body.style.position = `relative`;
                 document.body.style.top = `0px`;
-                window.scrollTo(0, scrollTop)
+                window.scrollTo(0, scrollTop);
             }
         }
     }, [show]);
@@ -62,7 +62,7 @@ const Modal = ({show, element, children, preventScroll}: {
             modalContent,
             document.getElementById("modal-root") as Element | DocumentFragment,
         )
-        : null
+        : null;
 };
 
 export default Modal;

@@ -58,7 +58,7 @@ export async function addMailoutEmail(prevState: MailOutState | undefined, formD
         return state;
     }
 
-    const MakeContact = MailoutSchema.omit({ token: true });
+    const MakeContact = MailoutSchema.omit({token: true});
 
     const validatedFields = MakeContact.safeParse({
         email: formData.get('email'),
@@ -73,7 +73,7 @@ export async function addMailoutEmail(prevState: MailOutState | undefined, formD
 
     const {email} = validatedFields.data;
 
-    const result = await insertEmail(email)
+    const result = await insertEmail(email);
 
     if (result) {
         state.status = "success";
@@ -101,7 +101,7 @@ export async function sendContactMail(prevState: ContactMailState | undefined, f
         return state;
     }
 
-    const MakeContact = ContactMailSchema.omit({ token: true });
+    const MakeContact = ContactMailSchema.omit({token: true});
 
     const validatedFields = MakeContact.safeParse({
         name: formData.get('name'),

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import clsx from "clsx";
 import {ConcertDate} from "@/app/[locale]/concerts/components/concertDate";
@@ -18,5 +18,5 @@ export function DescriptionHeader({date}: { date: Date }) {
         <button type={"button"}
                 onClick={() => setCursorToNext()}
                 className={clsx(concertSectionButtonColors, "p-2 whitespace-nowrap transition duration-150")}>{"Next >"}</button>
-    </div>)
+    </div>);
 }

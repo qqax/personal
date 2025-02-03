@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {useMd} from "@/app/components/hooks";
 import DescriptionModal from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/descriptionModal";
@@ -13,10 +13,10 @@ export const Description = ({concertDescription}: { concertDescription: ConcertD
             <div className={"block w-full"}>
                 <DescriptionView concertDescription={concertDescription}/>
             </div>
-        )
+        );
     }
 
     return (
         <DescriptionModal concertDescription={concertDescription}/>
-    )
-}
+    );
+};

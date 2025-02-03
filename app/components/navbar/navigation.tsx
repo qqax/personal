@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {Link, usePathname} from "@/i18n/routing";
 import clsx from "clsx";
@@ -21,7 +21,7 @@ const menuItems = [
     {name: 'Concerts', href: paths.concerts},
     {name: 'Records', href: paths.records},
     {name: 'Contacts', href: paths.contacts},
-]
+];
 
 export default function Navigation() {
     const [openMobileMenu, setOpenMobileMenu] = useState(false);
@@ -29,21 +29,23 @@ export default function Navigation() {
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     useClickOutside([ref, buttonRef], () => {
-        setOpenMobileMenu(false)
+        setOpenMobileMenu(false);
     });
 
     return (<div className={"md:h-full md:flex md:items-end"}>
-        <Modal show={openMobileMenu} preventScroll={true} element={<MobileMenuButton ref={buttonRef} openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu}/>}>
+        <Modal show={openMobileMenu} preventScroll={true}
+               element={<MobileMenuButton ref={buttonRef} openMobileMenu={openMobileMenu}
+                                          setOpenMobileMenu={setOpenMobileMenu}/>}>
             <MobileMenuItems ref={ref} openMobileMenu={openMobileMenu} onClick={() => setOpenMobileMenu(false)}/>
         </Modal>
 
         <div ref={ref} className={"hidden md:flex z-50 flex-row items-end h-full w-full transition-all duration-500"}>
-           <MenuItems/>
+            <MenuItems/>
         </div>
-    </div>)
+    </div>);
 }
 
-const MenuItems = ({onClick}: {onClick?: Function}) => {
+const MenuItems = ({onClick}: { onClick?: Function }) => {
     const pathname = usePathname();
 
     return (
@@ -62,12 +64,12 @@ const MenuItems = ({onClick}: {onClick?: Function}) => {
                                   )}>
                             {name}
                         </Link>
-                    )
+                    );
                 })}
             <LocaleSwitcher/>
         </>
-    )
-}
+    );
+};
 
 const MobileMenuItems = ({ref, openMobileMenu, onClick}:
                          {
@@ -86,9 +88,9 @@ const MobileMenuItems = ({ref, openMobileMenu, onClick}:
     return (
         <div ref={ref} className={clsx(
             "relative md:hidden z-50 top-[88px] h-min items-end divide-y-[1px] divide-red-900 transition-all duration-500",
-            (openMobileMenu && visible) ? "left-0" : "-left-full"
+            (openMobileMenu && visible) ? "left-0" : "-left-full",
         )}>
             <MenuItems onClick={onClick}/>
         </div>
-    )
-}
+    );
+};

@@ -6,7 +6,7 @@ import {PgTransaction} from "drizzle-orm/pg-core";
 const db = drizzle({
     connection: {
         connectionString: process.env.POSTGRES_URL,
-    }
+    },
 });
 
 async function seedSocial(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
@@ -22,9 +22,9 @@ async function seedSocial(tx: PgTransaction<NodePgQueryResultHKT, Record<string,
         ];
 
         await tx.insert(socialTable).values(social);
-        console.log('Social types created!')
+        console.log('Social types created!');
     } else {
-        console.log('Social types already exists!')
+        console.log('Social types already exists!');
     }
 }
 
@@ -39,9 +39,9 @@ async function seedRecordTypes(tx: PgTransaction<NodePgQueryResultHKT, Record<st
         ];
 
         await tx.insert(recordTypesTable).values(recordTypes);
-        console.log('Record types created!')
+        console.log('Record types created!');
     } else {
-        console.log('Record types already exists!')
+        console.log('Record types already exists!');
     }
 }
 
@@ -65,14 +65,14 @@ async function seedArtist(tx: PgTransaction<NodePgQueryResultHKT, Record<string,
                 'Alexander is the winner of many competitions. Among them is the 1st prize in the radio competition ' +
                 '"Concertino Prague" (2003), the 1st prize and the medal of the President of Italy of the 4th ' +
                 'international competition of the association "Dino Ciani" (Verbania, Italy, 2005), the winner of ' +
-                'the 1st prize of the 1st Stanislav Neuhaus International Piano Competition (2007).']
+                'the 1st prize of the 1st Stanislav Neuhaus International Piano Competition (2007).'],
         };
 
         await tx.insert(artistTable).values(artist);
 
-        console.log('New artist created!')
+        console.log('New artist created!');
     } else {
-        console.log('Artist already exists!')
+        console.log('Artist already exists!');
     }
 }
 
@@ -88,7 +88,7 @@ export async function GET() {
             tx.rollback();
             return Response.json({err}, {status: 500});
         }
-    })
+    });
 
     return Response.json({message: 'Database seeded successfully'});
 }

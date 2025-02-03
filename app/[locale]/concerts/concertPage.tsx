@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {ConcertMenu} from "@/app/[locale]/concerts/components/concertMenu";
 import clsx from "clsx";
@@ -35,7 +35,7 @@ export type ConcertContextType = {
     setScrollToFunc: (fn: (id: string) => void) => void,
 };
 
-export const ConcertContext = createContext<ConcertContextType | null>(null)
+export const ConcertContext = createContext<ConcertContextType | null>(null);
 
 export function useConcertContext() {
     return useContext(ConcertContext);
@@ -78,14 +78,14 @@ export default function ConcertPage({children, description, concerts, firstUpcom
     }, [setCursor, cursor, concerts]);
 
     const currConcertID = useMemo(() => {
-        return concerts[cursor].id
+        return concerts[cursor].id;
     }, [concerts, cursor]);
     const areConcertsPresented = useMemo(() => {
         return concerts.length > 0;
     }, [concerts]);
     const setConcertPath = () => {
         areConcertsPresented && replaceDynamicSegmentIfExists(router, path, paths.concerts, currConcertID);
-    }
+    };
 
     const isMd = useMd();
 

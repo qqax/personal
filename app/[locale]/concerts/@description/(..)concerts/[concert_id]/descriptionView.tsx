@@ -7,7 +7,7 @@ import Video from "@/app/components/Video";
 
 //TODO: concert poster
 
-export const DescriptionView = ({concertDescription}: {concertDescription: ConcertDescription}) => {
+export const DescriptionView = ({concertDescription}: { concertDescription: ConcertDescription }) => {
     return (<div className={"flex flex-col w-full h-full gap-4 p-4 overflow-x-hidden overflow-y-auto"}>
         <DescriptionHeader date={concertDescription?.date as Date}/>
         <div className={"text-center text-2xl text-beige"}>Description</div>
@@ -33,5 +33,5 @@ export const DescriptionView = ({concertDescription}: {concertDescription: Conce
         {concertDescription?.description && <Programme programme={concertDescription.description}/>}
         {concertDescription?.recordsTable &&
             <Video title={concertDescription.recordsTable.title} link={concertDescription.recordsTable.link}/>}
-    </div>)
-}
+    </div>);
+};

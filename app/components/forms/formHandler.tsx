@@ -5,7 +5,7 @@ import React, {
     useActionState,
     useCallback,
     useEffect,
-    useRef
+    useRef,
 } from "react";
 import {StatusState} from "@/app/acions/actions";
 import {useReCaptcha} from "next-recaptcha-v3";
@@ -77,5 +77,6 @@ export default function FormHandler({Component, action, reCaptchaAction, buttonC
 
     }, [isPending, state.status]);
 
-    return <Component ref={ref} onSubmit={onSubmit} buttonClassName={buttonClassName} isPending={isPending} state={state}/>
+    return <Component ref={ref} onSubmit={onSubmit} buttonClassName={buttonClassName} isPending={isPending}
+                      state={state}/>;
 }

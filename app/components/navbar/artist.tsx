@@ -2,7 +2,7 @@ import {getLocale} from "next-intl/server";
 import {fetchArtistName, fetchArtistProfession} from "@/app/db/data";
 import Social from "@/app/components/social";
 
-export default async function Artist () {
+export default async function Artist() {
     const locale = await getLocale();
     const artistName = await fetchArtistName(locale);
     const artistProfession = await fetchArtistProfession(locale);
@@ -13,5 +13,5 @@ export default async function Artist () {
             <small className={"text-beige nb:text-base sm:text-lg"}>{artistProfession}</small>
             <Social className={"hidden nb:flex w-14"}/>
         </div>
-    </div>)
+    </div>);
 }

@@ -4,7 +4,7 @@ const Video = ({title, link}: { title: string, link: string }) => {
                 title={title}
                 className={"absolute top-0 left-0 right-0 bottom-0 w-full h-full"}
                 allowFullScreen/>
-    </div>)
-}
+    </div>);
+};
 
 export default Video;

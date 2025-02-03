@@ -24,11 +24,11 @@ export default async function RecordPage() {
                         </div>
                         <Video link={link as string} title={title as string}/>
                         {title}
-                    </div>)
+                    </div>);
                 })}
             </div>
         </section>
-    )
+    );
 }
 
 const RecordType = ({record_type}: { record_type: string }) => {
@@ -41,5 +41,5 @@ const RecordType = ({record_type}: { record_type: string }) => {
                     ? "bg-blue-900"
                     : "bg-orange-900")}>
         {record_type}
-    </div>
-}
+    </div>;
+};

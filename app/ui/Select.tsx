@@ -24,6 +24,6 @@ export const Select = ({children, selectedLabel, setOpen, open, isPending, class
                 {children}
             </div>
         </div>
-    )
-}
+    );
+};
 

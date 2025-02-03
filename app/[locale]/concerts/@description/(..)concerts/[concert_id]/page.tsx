@@ -21,5 +21,5 @@ export default async function ConcertModal({params}: { params: { concert_id: str
         <RenderBoundary>
             <Description concertDescription={concertDescription}/>
         </RenderBoundary>
-    )
+    );
 }

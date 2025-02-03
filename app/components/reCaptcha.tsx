@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {useReCaptcha} from "next-recaptcha-v3";
 
