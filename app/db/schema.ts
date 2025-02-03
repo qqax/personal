@@ -90,7 +90,7 @@ export const recordsTable = pgTable(
     {
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
         link: text().notNull().unique(),
-        date: timestamp().notNull().unique(),
+        date: timestamp().array().notNull().unique(),
         title: text().notNull().unique(),
         description: text(),
         title_ru: text().unique(),

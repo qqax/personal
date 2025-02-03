@@ -1,0 +1,1 @@
+ALTER TABLE "records" ALTER COLUMN "date" SET DATA TYPE timestamp[] USING (ARRAY[date]);

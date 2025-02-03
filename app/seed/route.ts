@@ -1,6 +1,6 @@
 import {drizzle, NodePgQueryResultHKT} from "drizzle-orm/node-postgres";
 import {count, ExtractTablesWithRelations} from "drizzle-orm";
-import {artistTable, recordTypesTable, socialTable} from "@/app/db/schema";
+import {artistTable, concertsTable, recordsTable, recordTypesTable, socialTable} from "@/app/db/schema";
 import {PgTransaction} from "drizzle-orm/pg-core";
 
 const db = drizzle({
@@ -45,27 +45,101 @@ async function seedRecordTypes(tx: PgTransaction<NodePgQueryResultHKT, Record<st
     }
 }
 
+async function seedConcerts(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
+    const concerts: typeof concertsTable.$inferInsert[] = [
+        {
+            place: "Roerich museum",
+            address: 'Bishkek, Junusalieva 123',
+            short_description: 'Chopin evening',
+            description: 'Ballades and fantasias',
+            place_ru: null,
+            address_ru: null,
+            short_description_ru: null,
+            description_ru: null,
+            poster: null,
+            link: null,
+            record_id: null,
+            date: new Date('2025-02-01 19:00'),
+        },
+    ];
+
+    await tx.insert(concertsTable).values(concerts);
+
+    console.log('New concerts created!');
+}
+
+async function seedRecords(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
+    const records: typeof recordsTable.$inferInsert[] = [
+        {
+            link: "https://www.youtube.com/watch?v=tIADv9ff2Qs&t=1415s&ab_channel=AiperiandAlexander",
+            date: [new Date('2022-02-01 19:00')],
+            title: "Alexander's Final Performance of the Academic Year",
+            description: "\n" +
+                "*Part I*\n" +
+                "J.S. Bach— Italian Concerto BWV 971, F Major\n" +
+                "01:12  1. Allegro\n" +
+                "05:34  2. Andante\n" +
+                "11:28  3. Presto\n" +
+                "\n" +
+                "Mozart — Sonata No. 11 K. 331, A Major\n" +
+                "16:22  1. Andante grazioso\n" +
+                "23:33  2. Menuetto\n" +
+                "28:38  3. Rondo alla turca\n" +
+                "\n" +
+                "L. van Beethoven — Sonata No. 12 Op. 26, A-flat Major\n" +
+                "32:52  1. Andante con variazioni\n" +
+                "41:55  2. Scherzo: Allegro molto\n" +
+                "44:30  3. Marcia funebre sulla morte d'un eroe: Maestoso andante\n" +
+                "50:47  4. Rondo: Allegro\n" +
+                "\n" +
+                "*Part II*\n" +
+                "F. Chopin — Sonata No. 2 Op. 35, B-flat Minor\n" +
+                "54:36     1. Grave – Doppio movimento\n" +
+                "1:02:00  2. Scherzo\n" +
+                "1:09:25  3. Marche funèbre: Lento\n" +
+                "1:17:32  4. Finale: Presto\n" +
+                "\n" +
+                "A. Scriabin — Sonata No. 1 Op. 6, F-sharp Minor\n" +
+                "1:20:06  1. Allegro con fuoco\n" +
+                "1:27:52  2. Adagio\n" +
+                "1:32:31  3. Presto\n" +
+                "1:36:00  4. Funèbre\n" +
+                "\n" +
+                "1:41:47 - R. Wagner – F. Liszt — Overture to the opera \"Tannhäuser,\" S. 442\n" +
+                "\n" +
+                "*Extra*\n" +
+                "1:57:30 - P. Tchaikovsky – S. Rachmaninov — Lullaby\n" +
+                "2:01:55 - F. Chopin — Berceuse Op. 57, D-flat Major\n" +
+                "2:05:22 - F. Chopin — Etude Op. 10 №5, G-flat Major",
+            title_ru: "Финальный концерт 2024 года",
+            description_ru: "",
+            record_type_id: 1
+        },
+    ];
+
+    await tx.insert(recordsTable).values(records);
+
+    console.log('New records created!');
+}
+
 async function seedArtist(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
     const artistRowNum = await tx.select({count: count()}).from(artistTable);
 
     if (artistRowNum[0].count === 0) {
         const artist: typeof artistTable.$inferInsert = {
+            admin_path: "admin",
             name: 'Alexander Kudryavtsev',
+            name_ru: 'Александр Кудрявцев',
             profession: 'piano',
-            biography: ['Alexander was born on July 31, 1987 in Moscow, Russia.',
-
-                'He studied in Prof. T. Zelikman\'s piano class at the Gnessin School and afterwards at the Gnessin ' +
-                'Academy. Later he taught at the Gnessin Academy (2016 — 2022). Now he works as a teacher at the ' +
-                'Kyrgyz National Conservatory named K. Maldybasanov.',
-
-                'Alexander toured Italy, Germany, the Netherlands, the Czech Republic, France, and Russia as a pianist. ' +
-                'Repeatedly performed solo and played with the orchestra in various halls of Moscow, including the Great ' +
-                'Hall of the Moscow Conservatory. Have records on the radio and CDs.',
-
-                'Alexander is the winner of many competitions. Among them is the 1st prize in the radio competition ' +
-                '"Concertino Prague" (2003), the 1st prize and the medal of the President of Italy of the 4th ' +
-                'international competition of the association "Dino Ciani" (Verbania, Italy, 2005), the winner of ' +
-                'the 1st prize of the 1st Stanislav Neuhaus International Piano Competition (2007).'],
+            profession_ru: 'фортепиано',
+            biography: 'Alexander was born on July 31, 1987 in Moscow, Russia.\n\n' +
+                'He studied in Prof. T. Zelikman\'s piano class at the Gnessin School and afterwards at the Gnessin Academy. Later he taught at the Gnessin Academy (2016 — 2022). Now he works as a teacher at the Kyrgyz National Conservatory named K. Maldybasanov.\n\n' +
+                'Alexander toured Italy, Germany, the Netherlands, the Czech Republic, France, and Russia as a pianist. Repeatedly performed solo and played with the orchestra in various halls of Moscow, including the Great Hall of the Moscow Conservatory. Have records on the radio and CDs.\n\n' +
+                'Alexander is the winner of many competitions. Among them is the 1st prize in the radio competition \"Concertino Prague\" (2003), the 1st prize and the medal of the President of Italy of the 4th international competition of the association \"Dino Ciani\" (Verbania, Italy, 2005), the winner of the 1st prize of the 1st Stanislav Neuhaus International Piano Competition (2007).',
+            biography_ru: 'Александр родился 31 июля 1987 года в Москве, Россия.\n\n' +
+                'Он учился в классе фортепиано профессора Т. А. Зеликман в Московской Средней Специальной Школе им. Гнесиных, а затем - в Академии им. Гнесиных. После учёбы Александр преподавал в Академии специальное фортепиано с 2016 по 2022 гг. В настоящее время Александр ведёт класс специального фортепиано в Кыргизской национальной консерватории имени К. Малдыбасанова.\n\n' +
+                'Александр гастролировал в Италии, Германии, Нидерландах, Чехии, Франции и России. Неоднократно выступал сольно и с оркестром в различных залах Москвы, в том числе в Большом зале Московской консерватории. Имеет записи на радио и компакт-дисках.\n\n' +
+                'Александр является лауреатом многих конкурсов. Среди них — 1-я премия радиоконкурса «Концертино Прага» (2003), 1-я премия и медаль Президента Италии 4-го международного конкурса ассоциации «Дино Чиани» (Вербания, Италия, 2005), 1-я премия 1-го Международного конкурса пианистов имени Станислава Нейгауза (2007).',
         };
 
         await tx.insert(artistTable).values(artist);
@@ -79,10 +153,11 @@ async function seedArtist(tx: PgTransaction<NodePgQueryResultHKT, Record<string,
 export async function GET() {
     await db.transaction(async (tx) => {
         try {
-            // await addConstraintToArtistTable(tx);
-            // await seedArtist(tx);
-            // await seedSocial(tx);
-            // await seedRecordTypes(tx);
+            await seedArtist(tx);
+            await seedSocial(tx);
+            await seedRecordTypes(tx);
+            await seedRecords(tx);
+            await seedConcerts(tx);
         } catch (err) {
             console.error(err);
             tx.rollback();

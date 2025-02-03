@@ -28,7 +28,7 @@ export type ConcertDescription = {
 } | undefined;
 
 export type RecordLinks = {
-    date: Date | null;
+    date: Date[] | null;
     link: string | null;
     title: string | null;
     description: string | null;

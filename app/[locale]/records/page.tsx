@@ -15,11 +15,13 @@ export default async function RecordPage() {
             </h2>
             <div className="grid grid-cols-3 gap-2 mt-4">
                 {records.map(({date, link, title, description, record_type}, i) => {
-                    const intlDate = getIntlDate(locale, date as Date);
+                    const intlDates = date?.sort((date1, date2) => date1.getTime() - date2.getTime())
+                        .map((d) => getIntlDate(locale, d));
 
                     return (<div key={`${title}-${i}`} className={"flex flex-col gap-2 w-full bg-black p-2"}>
                         <div className={"flex w-full justify-between items-center"}>
-                            <span className={"text-beige"}>{intlDate}</span>
+                            {intlDates?.map((date) =>
+                                <span key={date} className={"text-beige"}>{date}</span>)}
                             <RecordType record_type={record_type as string}/>
                         </div>
                         <Video link={link as string} title={title as string}/>

@@ -1,11 +1,11 @@
 CREATE TABLE IF NOT EXISTS "artist" (
 	"id" boolean PRIMARY KEY DEFAULT true NOT NULL,
 	"name" varchar(255) NOT NULL,
-	"biography" text[] NOT NULL,
+	"biography" text NOT NULL,
 	"profession" text NOT NULL,
 	"profession_ru" text,
 	"name_ru" varchar(255),
-	"biography_ru" text[],
+	"biography_ru" text,
 	"admin_path" text DEFAULT 'admin' NOT NULL,
 	CONSTRAINT "one_row_unique" CHECK ("artist"."id")
 );
