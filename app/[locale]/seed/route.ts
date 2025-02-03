@@ -71,7 +71,7 @@ async function seedConcerts(tx: PgTransaction<NodePgQueryResultHKT, Record<strin
 async function seedRecords(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
     const records: typeof recordsTable.$inferInsert[] = [
         {
-            link: "https://www.youtube.com/watch?v=tIADv9ff2Qs&t=1415s&ab_channel=AiperiandAlexander",
+            link: "https://www.youtube.com/embed/tIADv9ff2Qs?si=K7rwIDL2zPzhmslC",
             date: [new Date('2022-02-01 19:00')],
             title: "Alexander's Final Performance of the Academic Year",
             description: "\n" +
