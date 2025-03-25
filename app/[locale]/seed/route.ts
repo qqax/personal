@@ -72,10 +72,10 @@ async function seedRecords(tx: PgTransaction<NodePgQueryResultHKT, Record<string
     const records: typeof recordsTable.$inferInsert[] = [
         {
             link: "https://www.youtube.com/embed/tIADv9ff2Qs?si=K7rwIDL2zPzhmslC",
-            date: [new Date('2022-02-01 19:00')],
+            date: [new Date('2024-05-30 18:30')],
             title: "Alexander's Final Performance of the Academic Year",
-            description: "\n" +
-                "*Part I*\n" +
+            short_description: "Bach, Mozart, Beethoven, Chopin, Scriabin, R. Wagner – F. Liszt, P. Tchaikovsky – S. Rachmaninov",
+            description: "*Part I*\n" +
                 "J.S. Bach— Italian Concerto BWV 971, F Major\n" +
                 "01:12  1. Allegro\n" +
                 "05:34  2. Andante\n" +
@@ -111,9 +111,206 @@ async function seedRecords(tx: PgTransaction<NodePgQueryResultHKT, Record<string
                 "1:57:30 - P. Tchaikovsky – S. Rachmaninov — Lullaby\n" +
                 "2:01:55 - F. Chopin — Berceuse Op. 57, D-flat Major\n" +
                 "2:05:22 - F. Chopin — Etude Op. 10 №5, G-flat Major",
-            title_ru: "Финальный концерт 2024 года",
-            description_ru: "",
-            record_type_id: 1
+            title_ru: "Финальный концерт академического 2024 года",
+            short_description_ru: "Бах, Моцарт, Бетховен, Шопен, Скрябин, Вагнер–Лист, Чайковский–Рахманинов",
+            description_ru: null,
+            record_type_id: 1,
+        },
+        {
+            link: "https://www.youtube.com/embed/25FJM6fH58Q?si=ezuCKJsiXc50KbEL",
+            date: [new Date('2024-05-12 17:00')],
+            title: "Piano Concert in the Roerich Museum (Bishkek)",
+            short_description: "Bach, Beethoven, Chopin, Scriabin, and Mendelssohn-Rachmaninoff",
+            description: "J.S. Bach - Italian Concerto BWV 971 F major\n" +
+                "I. Allegro\n" +
+                "II. Andante\n" +
+                "III. Presto\n" +
+                "\n" +
+                "L. van Beethoven - Sonata No. 12 op. 26 A-flat major\n" +
+                "I. Andante con variazioni\n" +
+                "II. Scherzo: Allegro molto\n" +
+                "III. Funeral March on the Death of a Hero: Maestoso andante\n" +
+                "IV. Rondo: Allegro\n" +
+                "\n" +
+                "F. Chopin - Sonata No. 2 op. 35 B-flat minor\n" +
+                "I. Grave – Doppio movimento\n" +
+                "II. Scherzo\n" +
+                "III. Funeral March: Lento\n" +
+                "IV. Finale: Presto\n" +
+                "\n" +
+                "A. Scriabin - Sonata No. 1 op. 6 F-sharp minor\n" +
+                "I. Allegro con fuoco\n" +
+                "II. Adagio\n" +
+                "III. Presto\n" +
+                "IV. Funeral March\n" +
+                "\n" +
+                "F. Chopin - Berceuse op. 57 D-flat major\n" +
+                "\n" +
+                "F. Mendelssohn-S. Rachmaninoff - Scherzo (from the music for William Shakespeare's comedy \"A Midsummer Night's Dream\")",
+            title_ru: "Концерт в музее им. Н.К. Рериха (г. Бишкек)",
+            short_description_ru: "Бах, Бетховен, Шопен, Скрябин и Мендельсон-Рахманинов",
+            description_ru: null,
+            record_type_id: 1,
+        },
+        {
+            link: "https://www.youtube.com/embed/Kbv0I14Wjsw?si=4qkxsx_Vxz54AufH",
+            date: [new Date('2024-04-16 17:00')],
+            title: "Piano Concert in the Roerich museum (Bishkek)",
+            title_ru: "Концерт в музее им. Н.К. Рериха (г. Бишкек)",
+            short_description: "Mozart, Chopin, Beethoven",
+            short_description_ru: "Моцарт, Шопен, Бетховен",
+            description: "ALEXANDER KUDRYAVTSEV -\n" +
+                "Lecturer at the Kyrgyz National Conservatory\n" +
+                "named after K. Moldobasanov, laureate of international competitions.\n" +
+                "\n" +
+                "🎼Concert Program:\n" +
+                "Mozart - Sonata #11 K. 331 A-major\n" +
+                "I. Andante grazioso\n" +
+                "II. Menuetto\n" +
+                "III. Rondo alla turca\n" +
+                "\n" +
+                "F. Chopin - Sonata #2 op. 35 b-flat minor\n" +
+                "I. Grave – Doppio movimento\n" +
+                "II. Scherzo\n" +
+                "III. Marche funèbre: Lento\n" +
+                "IV. Finale: Presto\n" +
+                "\n" +
+                "L. van Beethoven - A. Rubinstein - \"Turkish March\" from the music for the drama \"Ruins of Athens (1811)",
+            description_ru: null,
+            record_type_id: 1,
+        },
+        {
+            link: "https://www.youtube.com/embed/gGeMXSF5ehY?si=hQ7Sv1XWQPXlSGP2",
+            date: [new Date('2024-03-28 15:00')],
+            title: "Musical Farewell: Karakol's Grand Finale Concert part - 1",
+            title_ru: "Концерт студентов РАМ им. Гнесиных в г. Каракол. Часть 1",
+            short_description: "Sergey Utkin, Harit Chunananthasap, Eva Shetko",
+            short_description_ru: "Играют С. Уткин, Х. Чунанантасап, Е. Шетько",
+            description: "Program\n" +
+                "Performed by students of the Gnessin Music Academy:\n" +
+                "Sergey Utkin (class of Prof. V. Nosina)\n" +
+                "Harit Chunananthasap (class of Prof. V. Tropp)\n" +
+                "Eva Shetko (class of Prof. O. Danilova)\n" +
+                "\n" +
+                "Part I:\n" +
+                "\n" +
+                "François Couperin – \"La Couperin\" from \"Piece de clavecin\", Book IV, order 21\n" +
+                "\n" +
+                "Frédéric Chopin – Scherzo No.1, Op. 20, in B minor\n" +
+                "Performed by Harit Chunananthasap\n" +
+                "\n" +
+                "Johannes Brahms – Intermezzo, Op. 118 No.2, in A major\n" +
+                "Performed by Sergey Utkin\n" +
+                "\n" +
+                "Sergei Prokofiev – Sonata No.5 (1923), Op. 38, in C major. I movement – Allegro tranquillo.\n" +
+                "Alexander Scriabin – Etude Op. 8 No.3, in B minor\n" +
+                "Performed by Eva Shetko\n" +
+                "\n" +
+                "Pyotr Tchaikovsky — Mikhail Pletnev – Concert Suite from the ballet \"The Sleeping Beauty\"\n" +
+                "I. Prologue\n" +
+                "II. Dance of the Pages\n" +
+                "III. Vision\n" +
+                "V. Chirping Canary\n" +
+                "IX. Little Red Riding Hood and the Wolf\n" +
+                "X. Adagio\n" +
+                "Performed by Harit Chunananthasap",
+            description_ru: null,
+            record_type_id: 1,
+        },
+        {
+            link: "",
+            date: [new Date('2024-03-28 16:00')],
+            title: "Musical Farewell: Karakol's Grand Finale Concert part - 2",
+            title_ru: "Концерт студентов РАМ им. Гнесиных в г. Каракол. Часть 2",
+            short_description: "Sergey Utkin, Harit Chunananthasap, Eva Shetko",
+            short_description_ru: "Играют С. Уткин, Х. Чунанантасап, Е. Шетько",
+            description: "Location: Tumanov Music School, Karakol\n" +
+                "\n" +
+                "Date: March 28, 2024\n" +
+                "\n" +
+                "Program\n" +
+                "\n" +
+                "Performed by students of the Gnessin RAM:\n" +
+                "Sergey Utkin (class of Prof. V.  Nosina)\n" +
+                "Harit Chunananthasap (class of Prof. V. Tropp)\n" +
+                "Eva Shetko (class of Prof. O. Danilova)\n" +
+                "\n" +
+                "Part II:\n" +
+                "\n" +
+                "Johannes Brahms – Concerto No.1, Op. 15, in D minor\n" +
+                "I. Maestoso\n" +
+                "II. Adagio\n" +
+                "III. Rondo. Allegro non troppo\n" +
+                "Performed by Sergey Utkin, orchestra part by Alexander Kudryavtsev\n" +
+                "Concert Host: Sergey Utkin",
+            description_ru: null,
+            record_type_id: 1,
+        },
+        {
+            link: "",
+            date: [new Date('2022-02-01 19:00')],
+            title: "Piano concert by students of the Gnessin Academy of Music in the Roerich Museum",
+            title_ru: "Концерт студентов РАМ им. Гнесиных в музее им. Н.К. Рериха (г. Бишкек)",
+            short_description: "",
+            short_description_ru: "",
+            description: "",
+            description_ru: null,
+            record_type_id: 1,
+        },
+        {
+            link: "",
+            date: [new Date('2022-02-01 19:00')],
+            title: "",
+            title_ru: "",
+            short_description: "",
+            short_description_ru: "",
+            description: "",
+            description_ru: null,
+            record_type_id: 1,
+        },
+        {
+            link: "",
+            date: [new Date('2022-02-01 19:00')],
+            title: "",
+            title_ru: "",
+            short_description: "",
+            short_description_ru: "",
+            description: "",
+            description_ru: null,
+            record_type_id: 1,
+        },
+        {
+            link: "",
+            date: [new Date('2022-02-01 19:00')],
+            title: "",
+            title_ru: "",
+            short_description: "",
+            short_description_ru: "",
+            description: "",
+            description_ru: null,
+            record_type_id: 1,
+        },
+        {
+            link: "",
+            date: [new Date('2022-02-01 19:00')],
+            title: "",
+            title_ru: "",
+            short_description: "",
+            short_description_ru: "",
+            description: "",
+            description_ru: null,
+            record_type_id: 1,
+        },
+        {
+            link: "",
+            date: [new Date('2022-02-01 19:00')],
+            title: "",
+            title_ru: "",
+            short_description: "",
+            short_description_ru: "",
+            description: "",
+            description_ru: null,
+            record_type_id: 1,
         },
     ];
 
