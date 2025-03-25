@@ -24,14 +24,12 @@ export type ConcertDescription = {
     description?: string | null;
     poster?: Buffer | null;
     link?: string | null;
-    recordsTable: { link: string, title: string } | null;
+    recordsTable: { uuid: string, title: string } | null;
 } | undefined;
 
 export type RecordLinks = {
     date: Date[] | null;
-    link: string | null;
-    title: string | null;
-    description: string | null;
+    uuid: string | null;
     record_type: string | null;
 }
 

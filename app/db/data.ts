@@ -30,6 +30,7 @@ const db = drizzle({
 
 const NOT_DEFAULT_LOCALES = ["ru"];
 
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 const selectTranslated = (table: PgTableWithColumns<any>, column: string, locale: string) => {
     if (NOT_DEFAULT_LOCALES.includes(locale)) {
         return sql<string>`coalesce
@@ -135,7 +136,7 @@ export async function fetchConcertDescription(id: string, locale: string): Promi
             with: {
                 recordsTable: {
                     columns: {
-                        link: true,
+                        uuid: true,
                     },
                     extras: {
                         title: selectTranslated(recordsTable, "title", locale),
@@ -155,15 +156,13 @@ export async function fetchConcertDescription(id: string, locale: string): Promi
     }
 }
 
-export async function fetchRecords(locale: string): Promise<Records> {
+export async function fetchRecords(): Promise<Records> {
     'use cache';
     cacheTag('record');
 
     return db.select({
         date: recordsTable.date,
-        link: recordsTable.link,
-        title: selectTranslated(recordsTable, "title", locale),
-        description: selectTranslated(recordsTable, "description", locale),
+        uuid: recordsTable.uuid,
         record_type: recordTypesTable.record_type,
     }).from(recordsTable)
         .leftJoin(recordTypesTable, eq(recordTypesTable.id, recordsTable.record_type_id))

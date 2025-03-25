@@ -89,12 +89,8 @@ export const recordsTable = pgTable(
     "records",
     {
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        link: text().notNull().unique(),
+        uuid: text().notNull().unique(),
         date: timestamp().array().notNull().unique(),
-        title: text().notNull().unique(),
-        description: text(),
-        title_ru: text().unique(),
-        description_ru: text(),
         record_type_id: integer().references(() => recordTypesTable.id, {onDelete: 'cascade'}).notNull(),
     },
 );
