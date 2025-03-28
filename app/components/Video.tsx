@@ -1,5 +1,4 @@
 const Video = ({uuid}: { uuid: string }) => {
-    console.log(uuid);
     const url = `https://www.youtube.com/embed/${uuid}`
     return (<div className={"relative overflow-hidden w-full pt-[56.25%]"}>
         <iframe src={url}
