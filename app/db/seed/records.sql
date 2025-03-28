@@ -1,0 +1,10 @@
+INSERT INTO public.records (uuid, record_type_id, date) VALUES ('25FJM6fH58Q', 1, ARRAY [TIMESTAMP'2024-05-12 17:00:00.000000']) ON CONFLICT DO NOTHING;
+INSERT INTO public.records (uuid, record_type_id, date) VALUES ('gGeMXSF5ehY', 1, ARRAY [TIMESTAMP'2024-03-28 15:00:00.000000']) ON CONFLICT DO NOTHING;
+INSERT INTO public.records (uuid, record_type_id, date) VALUES ('5z-r-zG_cao', 1, ARRAY [TIMESTAMP'2024-01-14 17:00:00.000000']) ON CONFLICT DO NOTHING;
+INSERT INTO public.records (uuid, record_type_id, date) VALUES ('Kbv0I14Wjsw', 1, ARRAY [TIMESTAMP'2024-04-16 17:00:00.000000']) ON CONFLICT DO NOTHING;
+INSERT INTO public.records (uuid, record_type_id, date) VALUES ('llkvILLSHYA', 1, ARRAY [TIMESTAMP'2024-03-26 17:00:00.000000']) ON CONFLICT DO NOTHING;
+INSERT INTO public.records (uuid, record_type_id, date) VALUES ('QlQm970NL9w', 1, ARRAY [TIMESTAMP'2024-03-28 18:00:00.000000']) ON CONFLICT DO NOTHING;
+INSERT INTO public.records (uuid, record_type_id, date) VALUES ('VAeF10YqXHA', 1, ARRAY [TIMESTAMP'2023-12-28 18:00:00.000000']) ON CONFLICT DO NOTHING;
+INSERT INTO public.records (uuid, record_type_id, date) VALUES ('tIADv9ff2Qs', 1, ARRAY [TIMESTAMP'2024-05-30 18:30:00.000000']) ON CONFLICT DO NOTHING;
+INSERT INTO public.records (uuid, record_type_id, date) VALUES ('p-TVj6ozcK0', 1, ARRAY [TIMESTAMP'2024-03-25 18:00:00.000000']) ON CONFLICT DO NOTHING;
+INSERT INTO public.records (uuid, record_type_id, date) VALUES ('zHpziAs3-JI', 1, ARRAY [TIMESTAMP'2024-02-11 15:30:00.000000']) ON CONFLICT DO NOTHING;
