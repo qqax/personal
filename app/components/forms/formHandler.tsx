@@ -7,7 +7,7 @@ import React, {
     useEffect,
     useRef,
 } from "react";
-import {StatusState} from "@/app/acions/actions";
+import {StatusState} from "@/app/acitons/actions";
 import {useReCaptcha} from "next-recaptcha-v3";
 import {toast} from "sonner";
 

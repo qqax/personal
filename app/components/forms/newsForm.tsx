@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import {addMailoutEmail} from "@/app/acions/actions";
+import {addMailoutEmail} from "@/app/acitons/actions";
 import {Input, InputError} from "@/app/ui/Input";
 import {WaitButton} from "@/app/ui/Button";
 import FormHandler, {FormHandlerProps, toastMessages} from "@/app/components/forms/formHandler";

@@ -1,9 +1,11 @@
 'use server';
 
 import {z} from 'zod';
-import {sendMail} from "@/app/acions/sendMail";
-import verifyReCaptcha from "@/app/acions/reCaptcha";
+import {sendMail} from "@/app/acitons/sendMail";
+import verifyReCaptcha from "@/app/acitons/reCaptcha";
 import {insertEmail} from "@/app/db/data";
+import {signIn} from "@/auth";
+import {AuthError} from "next-auth";
 
 const tokenValidation = z.string().min(10, {message: 'Unexpected error occurred.'});
 const mailValidation = z.string().email({message: 'Please Enter a Valid Email Address'});
@@ -133,4 +135,23 @@ export async function sendContactMail(prevState: ContactMailState | undefined, f
     }
 
     return state;
+}
+
+export async function authenticate(
+    prevState: string | undefined,
+    formData: FormData,
+) {
+    try {
+        await signIn('credentials', formData);
+    } catch (error) {
+        if (error instanceof AuthError) {
+            switch (error.type) {
+                case 'CredentialsSignin':
+                    return 'Invalid credentials.';
+                default:
+                    return 'Something went wrong.';
+            }
+        }
+        throw error;
+    }
 }
