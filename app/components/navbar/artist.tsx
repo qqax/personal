@@ -1,5 +1,5 @@
 import {getLocale} from "next-intl/server";
-import {fetchArtistName, fetchArtistProfession} from "@/app/db/data";
+import {fetchArtistName, fetchArtistProfession} from "@/app/lib/data";
 import Social from "@/app/components/social";
 
 export default async function Artist() {

@@ -1,6 +1,6 @@
 import {drizzle, NodePgQueryResultHKT} from "drizzle-orm/node-postgres";
 import {count, ExtractTablesWithRelations} from "drizzle-orm";
-import {artistTable, concertsTable, recordsTable, recordTypesTable, socialTable} from "@/app/db/schema";
+import {artistTable, concertsTable, recordsTable, recordTypesTable, socialTable} from "@/app/lib/schema";
 import {PgTransaction} from "drizzle-orm/pg-core";
 
 const db = drizzle({

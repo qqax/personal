@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import {bgStyle} from "@/app/ui/styles";
 import {Suspense} from "react";
-import {fetchArtistName} from "@/app/db/data";
+import {fetchArtistName} from "@/app/lib/data";
 import {getLocale} from "next-intl/server";
 
 const Footer = async () => {

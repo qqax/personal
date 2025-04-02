@@ -4,7 +4,7 @@ import Modal from "@/app/ui/Modal";
 import {usePathname, useRouter} from "@/i18n/routing";
 import {deleteLastSegmentIfExists} from "@/app/utils/pathFuncs";
 import {paths} from "@/app/components/navbar/navigation";
-import {ConcertDescription} from "@/app/db/definitions";
+import {ConcertDescription} from "@/app/lib/definitions";
 import {DescriptionView} from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/descriptionView";
 import {useRef} from "react";
 import {useClickOutside} from "@/app/components/hooks";

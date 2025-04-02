@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import {fetchSocial} from "@/app/db/data";
+import {fetchSocial} from "@/app/lib/data";
 import clsx from "clsx";
 
 

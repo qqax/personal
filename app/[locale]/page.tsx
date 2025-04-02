@@ -3,7 +3,7 @@ import clsx from "clsx";
 import {bgStyle} from "@/app/ui/styles";
 import Social from "@/app/components/social";
 import NewsForm from "@/app/components/forms/newsForm";
-import {fetchArtistName, fetchBiography} from "@/app/db/data";
+import {fetchArtistName, fetchBiography} from "@/app/lib/data";
 import {getLocale} from "next-intl/server";
 import {MDXRemote} from "next-mdx-remote/rsc";
 

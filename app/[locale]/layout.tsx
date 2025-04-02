@@ -5,12 +5,12 @@ import NavBar from "@/app/components/navbar/navBar";
 import {Toaster} from "sonner";
 import {ReCaptchaProvider} from "next-recaptcha-v3";
 import {notFound} from 'next/navigation';
-import {routing} from '@/i18n/routing';
+import {Locales, routing} from '@/i18n/routing';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, getTranslations, setRequestLocale} from "next-intl/server";
 import React from "react";
 import {connection} from "next/server";
-import {fetchArtistName, fetchArtistProfession} from "@/app/db/data";
+import {fetchArtistName, fetchArtistProfession} from "@/app/lib/data";
 import {GoogleAnalytics} from "@next/third-parties/google";
 import Background from "@/app/components/background";
 
@@ -45,7 +45,7 @@ export default async function RootLayout({
     const {locale} = await params;
 
     // Ensure that the incoming `locale` is valid
-    if (!routing.locales.includes(locale as any)) {
+    if (!routing.locales.includes(locale as keyof typeof Locales)) {
         notFound();
     }
 

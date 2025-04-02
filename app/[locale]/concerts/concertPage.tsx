@@ -6,7 +6,7 @@ import {bgStyle, concertSectionButtonColors} from "@/app/ui/styles";
 import {ConcertsCalendar} from "@/app/[locale]/concerts/components/Calendar";
 import NewsForm from "@/app/components/forms/newsForm";
 import {SmConcertsList, MdConcertsList} from "@/app/[locale]/concerts/components/concertsList";
-import {Concerts} from "@/app/db/definitions";
+import {Concerts} from "@/app/lib/definitions";
 import {Dispatch, ReactNode, SetStateAction, useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {useMd} from "@/app/components/hooks";
 import {createContext} from "react";
@@ -51,7 +51,9 @@ export default function ConcertPage({children, description, concerts, firstUpcom
     const isUpcomingConcertPresented: boolean = firstUpcomingConcertIndex > 0;
 
     const currentConcertHandler = useCallback((isCurrent: boolean) => {
-        isCurrentUpcoming !== isCurrent && setIsCurrentUpcoming(isCurrent);
+        if (isCurrentUpcoming !== isCurrent) {
+            setIsCurrentUpcoming(isCurrent);
+        }
     }, [isCurrentUpcoming]);
 
     const path = usePathname();
@@ -84,7 +86,9 @@ export default function ConcertPage({children, description, concerts, firstUpcom
         return concerts.length > 0;
     }, [concerts]);
     const setConcertPath = () => {
-        areConcertsPresented && replaceDynamicSegmentIfExists(router, path, paths.concerts, currConcertID);
+        if (areConcertsPresented) {
+            replaceDynamicSegmentIfExists(router, path, paths.concerts, currConcertID);
+        }
     };
 
     const isMd = useMd();

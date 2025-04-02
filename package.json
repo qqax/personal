@@ -9,12 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/core": "^0.38.0",
+    "@auth/drizzle-adapter": "^1.8.0",
     "@mdx-js/mdx": "^3.1.0",
     "@next/third-parties": "^15.1.5",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.36.3",
     "next": "15.2.0-canary.33",
+    "next-auth": "5.0.0-beta.25",
     "next-intl": "^3.25.2",
     "next-mdx-remote": "^5.0.0",
     "next-recaptcha-v3": "^1.5.0",
@@ -28,6 +31,7 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.15",
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.17.8",
     "@types/nodemailer": "^6.4.16",
     "@types/pg": "^8.11.10",
@@ -45,5 +49,15 @@
   "engines": {
     "node": "^22",
     "pnpm": ">=3"
-  }
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ],
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
+  "packageManager": "pnpm@10.6.2+sha512.47870716bea1572b53df34ad8647b42962bc790ce2bf4562ba0f643237d7302a3d6a8ecef9e4bdfc01d23af1969aa90485d4cebb0b9638fa5ef1daef656f6c1b"
 }

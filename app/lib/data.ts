@@ -1,7 +1,5 @@
 "use server";
 
-import {drizzle} from "drizzle-orm/node-postgres";
-import * as schema from "./schema";
 import {artistTable, concertsTable, newsTable, recordsTable, recordTypesTable} from "./schema";
 import {cacheTag} from "next/dist/server/use-cache/cache-tag";
 import facebookIcon from "../../public/icons/facebook.svg";
@@ -15,18 +13,11 @@ import {
     Name,
     Profession,
     Records,
-} from "@/app/db/definitions";
+} from "@/app/lib/definitions";
 import {eq, sql} from "drizzle-orm";
 import {PgColumn, PgTableWithColumns} from "drizzle-orm/pg-core";
 import {cacheLife} from "next/dist/server/use-cache/cache-life";
-
-const db = drizzle({
-    connection: {
-        connectionString: process.env.POSTGRES_URL,
-    },
-
-    schema,
-});
+import {db} from "@/app/lib/connection";
 
 const NOT_DEFAULT_LOCALES = ["ru"];
 

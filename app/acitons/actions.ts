@@ -3,7 +3,7 @@
 import {z} from 'zod';
 import {sendMail} from "@/app/acitons/sendMail";
 import verifyReCaptcha from "@/app/acitons/reCaptcha";
-import {insertEmail} from "@/app/db/data";
+import {insertEmail} from "@/app/lib/data";
 import {signIn} from "@/auth";
 import {AuthError} from "next-auth";
 
@@ -26,7 +26,7 @@ const MailoutSchema = z.object({
 
 export type StatusState = {
     status?: "rejected" | "error" | "success" | "ReCaptcha error" | null;
-    errors?: Record<string, any>;
+    errors?: Record<string, unknown>;
 };
 
 export type ContactMailState = StatusState & {
@@ -142,7 +142,7 @@ export async function authenticate(
     formData: FormData,
 ) {
     try {
-        await signIn('credentials', formData);
+        await signIn("nodemailer", formData);
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {

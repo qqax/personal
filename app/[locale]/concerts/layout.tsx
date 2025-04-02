@@ -1,6 +1,6 @@
 import {ReactNode} from "react";
 import {getLocale} from "next-intl/server";
-import {fetchConcerts} from "@/app/db/data";
+import {fetchConcerts} from "@/app/lib/data";
 import ConcertPage from "@/app/[locale]/concerts/concertPage";
 import {RenderBoundary} from "@/app/components/renderBoundary";
 

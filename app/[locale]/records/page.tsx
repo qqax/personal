@@ -1,5 +1,5 @@
 import {getLocale} from "next-intl/server";
-import {fetchRecords} from "@/app/db/data";
+import {fetchRecords} from "@/app/lib/data";
 import Video from "@/app/components/Video";
 import {getIntlDate} from "@/app/utils/dateFuncs";
 import clsx from "clsx";

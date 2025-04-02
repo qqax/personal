@@ -2,7 +2,7 @@ import {DescriptionHeader} from "@/app/[locale]/concerts/@description/(..)concer
 import clsx from "clsx";
 import Image from "next/image";
 import {Programme} from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/programme";
-import {ConcertDescription} from "@/app/db/definitions";
+import {ConcertDescription} from "@/app/lib/definitions";
 import Video from "@/app/components/Video";
 
 //TODO: concert poster

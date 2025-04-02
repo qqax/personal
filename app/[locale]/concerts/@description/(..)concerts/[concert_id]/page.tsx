@@ -1,5 +1,5 @@
 import {getLocale} from "next-intl/server";
-import {fetchConcertDescription} from "@/app/db/data";
+import {fetchConcertDescription} from "@/app/lib/data";
 import {Description} from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/description";
 import {RenderBoundary} from "@/app/components/renderBoundary";
 

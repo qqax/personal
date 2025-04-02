@@ -27,8 +27,8 @@ export type toastMessages = {
 }
 
 export default function FormHandler({Component, action, reCaptchaAction, buttonClassName, toastMessages}: {
-    action: (state: Awaited<StatusState & { errors?: {} }>, payload: FormData) => Promise<StatusState & {
-        errors?: {}
+    action: (state: Awaited<StatusState & { errors?: object }>, payload: FormData) => Promise<StatusState & {
+        errors?: object
     }>,
     Component: FunctionComponent<FormHandlerProps>,
     reCaptchaAction: string,
