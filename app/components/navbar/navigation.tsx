@@ -59,7 +59,7 @@ const MenuItems = ({onClick}: { onClick?: Function }) => {
                                   className={clsx(
                                       navClassName,
                                       regex.test(pathname)
-                                          ? "bg-red-950 md:bg-white md:bg-opacity-20"
+                                          ? "bg-white md:bg-opacity-20"
                                           : "md:bg-opacity-0",
                                   )}>
                             {name}

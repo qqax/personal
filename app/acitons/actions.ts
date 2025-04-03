@@ -26,7 +26,7 @@ const MailoutSchema = z.object({
 
 export type StatusState = {
     status?: "rejected" | "error" | "success" | "ReCaptcha error" | null;
-    errors?: Record<string, unknown>;
+    errors?: Record<string, string[]>;
 };
 
 export type ContactMailState = StatusState & {
@@ -127,6 +127,9 @@ export async function sendContactMail(prevState: ContactMailState | undefined, f
         subject: 'New Contact Us Form',
         text: mailText,
     });
+
+    console.log(response)
+
 
     if (response?.messageId) {
         state.status = "success";

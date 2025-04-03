@@ -5,7 +5,7 @@ import NavBar from "@/app/components/navbar/navBar";
 import {Toaster} from "sonner";
 import {ReCaptchaProvider} from "next-recaptcha-v3";
 import {notFound} from 'next/navigation';
-import {Locales, routing} from '@/i18n/routing';
+import {Locale, routing} from '@/i18n/routing';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, getTranslations, setRequestLocale} from "next-intl/server";
 import React from "react";
@@ -45,7 +45,7 @@ export default async function RootLayout({
     const {locale} = await params;
 
     // Ensure that the incoming `locale` is valid
-    if (!routing.locales.includes(locale as keyof typeof Locales)) {
+    if (!routing.locales.includes(locale as Locale)) {
         notFound();
     }
 
@@ -60,14 +60,14 @@ export default async function RootLayout({
     return (
         <html lang={locale}>
         <body
-            className={`${jura.className} relative min-h-screen antialiased  text-gray-200`}
+            className={`${jura.className} relative min-h-screen antialiased  text-black`}
         >
         <div className={"relative min-h-screen"}>
             <Background/>
             <NextIntlClientProvider messages={messages}>
                 <ReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
                     <NavBar/>
-                    <div className={"flex z-0 justify-center py-[88px] md:py-[128px] md:px-10"}>
+                    <div className={"flex z-0 justify-center py-[88px] min-h-screen md:py-[128px] md:px-10"}>
                         {children}
                         <Toaster toastOptions={{
                             unstyled: true,

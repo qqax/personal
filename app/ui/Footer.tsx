@@ -7,7 +7,7 @@ import {getLocale} from "next-intl/server";
 const Footer = async () => {
     return (
         <footer
-            className={clsx("absolute bottom-0 w-full h-20 flex items-center justify-center border-red-600 border-t-4", bgStyle)}>
+            className={clsx("absolute bottom-0 w-full h-[88px] flex items-center justify-center", bgStyle)}>
             <Suspense>
                 <Copyright/>
             </Suspense>

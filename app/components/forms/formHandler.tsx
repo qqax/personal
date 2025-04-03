@@ -26,13 +26,12 @@ export type toastMessages = {
     unexpected: string,
 }
 
-export default function FormHandler({Component, action, reCaptchaAction, buttonClassName, toastMessages}: {
+export default function FormHandler({Component, action, reCaptchaAction, toastMessages}: {
     action: (state: Awaited<StatusState & { errors?: object }>, payload: FormData) => Promise<StatusState & {
         errors?: object
     }>,
     Component: FunctionComponent<FormHandlerProps>,
     reCaptchaAction: string,
-    buttonClassName?: string,
     toastMessages: toastMessages
 }) {
     const ref = useRef<HTMLFormElement>(null);
@@ -77,6 +76,6 @@ export default function FormHandler({Component, action, reCaptchaAction, buttonC
 
     }, [isPending, state.status]);
 
-    return <Component ref={ref} onSubmit={onSubmit} buttonClassName={buttonClassName} isPending={isPending}
+    return <Component ref={ref} onSubmit={onSubmit} isPending={isPending}
                       state={state}/>;
 }

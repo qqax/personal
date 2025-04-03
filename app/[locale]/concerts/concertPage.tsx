@@ -2,7 +2,7 @@
 
 import {ConcertMenu} from "@/app/[locale]/concerts/components/concertMenu";
 import clsx from "clsx";
-import {bgStyle, concertSectionButtonColors} from "@/app/ui/styles";
+import {bgStyle} from "@/app/ui/styles";
 import {ConcertsCalendar} from "@/app/[locale]/concerts/components/Calendar";
 import NewsForm from "@/app/components/forms/newsForm";
 import {SmConcertsList, MdConcertsList} from "@/app/[locale]/concerts/components/concertsList";
@@ -125,7 +125,7 @@ export default function ConcertPage({children, description, concerts, firstUpcom
                              isUpcomingConcertPresented={isUpcomingConcertPresented}/>
                 <div className={"hidden xl:block pl-2"}>
                     <ConcertsCalendar/>
-                    <NewsForm buttonClassName={concertSectionButtonColors}/>
+                    <NewsForm/>
                 </div>
                 {isMd ? <MdConcertsList/> : <SmConcertsList/>}
                 {description}

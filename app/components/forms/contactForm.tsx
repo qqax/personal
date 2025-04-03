@@ -21,8 +21,7 @@ const ContactFormComponent = ({ref, state, onSubmit, isPending}: FormHandlerProp
                   required/>
         <InputError id="message-error" errorMessage={state?.errors?.message?.join(". ")}/>
 
-        <WaitButton disabled={isPending} text={"Send message"}
-                    className={"text-black bg-amber-300 hover:bg-amber-200 disabled:bg-amber-200"}/>
+        <WaitButton disabled={isPending} text={"Send message"}/>
     </form>);
 };
 

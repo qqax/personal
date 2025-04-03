@@ -35,11 +35,4 @@ export type RecordLinks = {
 
 export type Records = RecordLinks[];
 
-export type User = {
-    name: string | null;
-    email: string | null;
-    password: string | null;
-} | undefined;
-
-
 // REVOKE DELETE, TRUNCATE ON public.artist FROM public;

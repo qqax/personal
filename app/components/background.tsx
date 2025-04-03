@@ -1,11 +1,11 @@
 import Image from 'next/image';
-import keyboard from '@/public/keyboard.jpg';
+import wet_meadow from '@/public/wet_meadow.jpg';
 
 export default function Background() {
     return (
         <Image
-            alt="keyboard"
-            src={keyboard}
+            alt="wet_meadow"
+            src={wet_meadow}
             placeholder="blur"
             quality={100}
             fill

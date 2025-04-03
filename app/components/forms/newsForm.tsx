@@ -7,7 +7,7 @@ import {WaitButton} from "@/app/ui/Button";
 import FormHandler, {FormHandlerProps, toastMessages} from "@/app/components/forms/formHandler";
 import {useTranslations} from "next-intl";
 
-const NewsFormComponent = ({ref, state, onSubmit, isPending, buttonClassName}: FormHandlerProps) => {
+const NewsFormComponent = ({ref, state, onSubmit, isPending}: FormHandlerProps) => {
     const t = useTranslations('NewsForm');
 
     return (<form ref={ref} onSubmit={onSubmit} className={"flex flex-col"}>
@@ -15,8 +15,7 @@ const NewsFormComponent = ({ref, state, onSubmit, isPending, buttonClassName}: F
         <Input id="email" name={"email"} placeholder={t("placeholder")} type="email" disabled={isPending}
                aria-describedby="email-error" required/>
         <InputError id="email-error" errorMessage={state?.errors?.email?.join(". ")}/>
-
-        <WaitButton disabled={isPending} className={buttonClassName} text={t("button")}/>
+        <WaitButton disabled={isPending} text={t("button")}/>
     </form>);
 };
 
@@ -27,7 +26,7 @@ const newsFormMessages: toastMessages = {
     unexpected: 'Unexpected error.',
 };
 
-export default function NewsForm({buttonClassName}: { buttonClassName: string }) {
+export default function NewsForm() {
     return (<FormHandler toastMessages={newsFormMessages} action={addMailoutEmail} Component={NewsFormComponent}
-                         buttonClassName={buttonClassName} reCaptchaAction={"news_form_submit"}/>);
+                         reCaptchaAction={"news_form_submit"}/>);
 }
