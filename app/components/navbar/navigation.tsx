@@ -53,13 +53,14 @@ const MenuItems = ({onClick}: { onClick?: (param: boolean) => void }) => {
             {
                 menuItems.map(({name, href}) => {
                     const regex = new RegExp(String.raw`^${href}(/.*)?$`, "g");
+                    console.log(regex.test(pathname), pathname);
                     return (<Link key={name}
                                   href={href}
                                   onClick={() => onClick && onClick(false)}
                                   className={clsx(
                                       navClassName,
                                       regex.test(pathname)
-                                          ? "bg-white bg-opacity-20"
+                                          ? "bg-amber-50 bg-opacity-20"
                                           : "bg-opacity-0",
                                   )}>
                             {name}

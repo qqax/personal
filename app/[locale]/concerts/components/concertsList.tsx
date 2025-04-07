@@ -36,7 +36,11 @@ export function SmConcertsList() {
 
     const focusOnConcert = () => {
         ref.current[currConcertID].focus();
-        preventScroll ? setPreventScroll(false) : scrollWindow(currConcertID);
+        if (preventScroll) {
+            setPreventScroll(false);
+        } else {
+            scrollWindow(currConcertID);
+        }
     };
 
     useScroll(() => {
@@ -87,7 +91,11 @@ export function MdConcertsList() {
 
     const focusOnConcert = () => {
         ref.current[currConcertID].focus();
-        preventScroll ? setPreventScroll(false) : scrollUl(currConcertID);
+        if (preventScroll) {
+            setPreventScroll(false);
+        } else {
+            scrollUl(currConcertID);
+        }
     };
 
     useEffect(() => {
