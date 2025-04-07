@@ -1,7 +1,7 @@
 import "../globals.css";
 import {Jura} from 'next/font/google';
 import Footer from "@/app/ui/Footer";
-import NavBar from "@/app/components/navbar/navBar";
+import NavBar from "@/app/components/navbar/navigation";
 import {Toaster} from "sonner";
 import {ReCaptchaProvider} from "next-recaptcha-v3";
 import {notFound} from 'next/navigation';
@@ -12,6 +12,7 @@ import React from "react";
 import {connection} from "next/server";
 import {fetchArtistName, fetchArtistProfession} from "@/app/lib/data";
 import {GoogleAnalytics} from "@next/third-parties/google";
+import HomeLayout from "@/app/[locale]/(home)/layout";
 import Background from "@/app/components/background";
 
 const jura = Jura({subsets: ['latin', 'cyrillic']});
@@ -41,6 +42,7 @@ export default async function RootLayout({
     children: React.ReactNode;
     params: { locale: string };
 }>) {
+    await connection();
 
     const {locale} = await params;
 
@@ -52,7 +54,6 @@ export default async function RootLayout({
     // Enable static rendering
     setRequestLocale(locale);
 
-    await connection();
     // Providing all messages to the client
     // side is the easiest way to get started
     const messages = await getMessages();
@@ -63,11 +64,11 @@ export default async function RootLayout({
             className={`${jura.className} relative min-h-screen antialiased  text-black`}
         >
         <div className={"relative min-h-screen"}>
-            <Background/>
             <NextIntlClientProvider messages={messages}>
                 <ReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
+                    <Background/>
                     <NavBar/>
-                    <div className={"flex z-0 justify-center py-[88px] min-h-screen md:py-[128px] md:px-10"}>
+                    <div className={"flex z-0 justify-center min-h-screen"}>
                         {children}
                         <Toaster toastOptions={{
                             unstyled: true,
@@ -79,7 +80,7 @@ export default async function RootLayout({
                             },
                         }}/>
                     </div>
-                    <Footer/>
+                    {/*<Footer/>*/}
                     <div id="modal-root" className={"z-50"}/>
                 </ReCaptchaProvider>
             </NextIntlClientProvider>

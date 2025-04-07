@@ -23,7 +23,7 @@ const menuItems = [
     {name: 'Contacts', href: paths.contacts},
 ];
 
-export default function Navigation() {
+export default function Navbar() {
     const [openMobileMenu, setOpenMobileMenu] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -32,20 +32,20 @@ export default function Navigation() {
         setOpenMobileMenu(false);
     });
 
-    return (<div className={"md:h-full md:flex md:items-end"}>
+    return (<nav className={"fixed text-teal-950 top-0 left-0 flex flex-row w-full lg:w-1/2 z-40 sm:flex sm:items-end"}>
         <Modal show={openMobileMenu} preventScroll={true}
                element={<MobileMenuButton ref={buttonRef} openMobileMenu={openMobileMenu}
                                           setOpenMobileMenu={setOpenMobileMenu}/>}>
             <MobileMenuItems ref={ref} openMobileMenu={openMobileMenu} onClick={() => setOpenMobileMenu(false)}/>
         </Modal>
 
-        <div ref={ref} className={"hidden md:flex z-50 flex-row items-end h-full w-full transition-all duration-500"}>
+        <div ref={ref} className={"hidden sm:flex z-50 items-end h-full w-full transition-all duration-500"}>
             <MenuItems/>
         </div>
-    </div>);
+    </nav>);
 }
 
-const MenuItems = ({onClick}: { onClick?: Function }) => {
+const MenuItems = ({onClick}: { onClick?: (param: boolean) => void }) => {
     const pathname = usePathname();
 
     return (
@@ -60,7 +60,7 @@ const MenuItems = ({onClick}: { onClick?: Function }) => {
                                       navClassName,
                                       regex.test(pathname)
                                           ? "bg-white md:bg-opacity-20"
-                                          : "md:bg-opacity-0",
+                                          : "sm:bg-opacity-0",
                                   )}>
                             {name}
                         </Link>
@@ -75,7 +75,7 @@ const MobileMenuItems = ({ref, openMobileMenu, onClick}:
                          {
                              ref: RefObject<HTMLDivElement>,
                              openMobileMenu: boolean,
-                             onClick: Function
+                             onClick: (param: boolean) => void,
                          }) => {
     const [visible, setVisible] = useState(false);
 
@@ -87,7 +87,7 @@ const MobileMenuItems = ({ref, openMobileMenu, onClick}:
 
     return (
         <div ref={ref} className={clsx(
-            "relative md:hidden z-50 top-[88px] h-min items-end divide-y-[1px] divide-red-900 transition-all duration-500",
+            "relative md:hidden z-50 items-end transition-all duration-500",
             (openMobileMenu && visible) ? "left-0" : "-left-full",
         )}>
             <MenuItems onClick={onClick}/>

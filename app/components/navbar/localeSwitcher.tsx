@@ -46,7 +46,7 @@ export const LocaleSwitcher = () => {
                     selectedLabel={label} isPending={isPending}>
             {options.map(({value, label}) => {
                 return (<button key={value} disabled={isPending} type={"submit"}
-                                className={clsx("appearance-none md:bg-black md:bg-opacity-60", navClassName)}
+                                className={clsx("appearance-none", navClassName)}
                                 onClick={() => onClick(value as Locale)}>{label}</button>);
             })}
         </Select>

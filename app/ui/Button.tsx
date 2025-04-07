@@ -17,7 +17,7 @@ export const MobileMenuButton = ({ref, openMobileMenu, setOpenMobileMenu}: {
 }) => {
     return (
         <button ref={ref} onClick={() => setOpenMobileMenu(!openMobileMenu)}
-                className={"fixed top-0 left-0 z-50 flex flex-col md:hidden w-12 sm:w-20 justify-evenly pl-2 sm:pl-10 h-16 my-3"}>
+                className={"fixed top-0 left-0 z-50 flex flex-col sm:hidden w-10 justify-evenly ml-6 h-16 my-3"}>
             <div
                 className={clsx("relative top-0 w-full border-[1px] border-teal-900 transition-all duration-500", {"rotate-[135deg] top-2.5": openMobileMenu})}></div>
             <div
