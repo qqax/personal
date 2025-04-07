@@ -14,7 +14,7 @@ export default async function HomeLayout({
 }) {
     return (
         <main className={"flex flex-col lg:flex-row w-full"}>
-            <div className={"h-auto min-h-screen"}>
+            <div className={"h-screen"}>
                 <Artist/>
             </div>
             <div
@@ -22,7 +22,7 @@ export default async function HomeLayout({
                 <Social/>
             </div>
             <div
-                className={clsx("flex flex-col items-center min-h-screen mt-auto lg:ml-auto lg:w-1/2 p-10 justify-center bg-amber-50 bg-opacity-75 backdrop-blur-sm")}>
+                className={clsx("flex flex-col items-center min-h-screen lg:ml-auto lg:w-1/2 p-10 justify-center bg-amber-50 bg-opacity-75 backdrop-blur-sm")}>
                 {children}
             </div>
         </main>
