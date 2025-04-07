@@ -12,7 +12,6 @@ import React from "react";
 import {connection} from "next/server";
 import {fetchArtistName, fetchArtistProfession} from "@/app/lib/data";
 import {GoogleAnalytics} from "@next/third-parties/google";
-import HomeLayout from "@/app/[locale]/(home)/layout";
 import Background from "@/app/components/background";
 
 const jura = Jura({subsets: ['latin', 'cyrillic']});
@@ -80,7 +79,7 @@ export default async function RootLayout({
                             },
                         }}/>
                     </div>
-                    {/*<Footer/>*/}
+                    <Footer/>
                     <div id="modal-root" className={"z-50"}/>
                 </ReCaptchaProvider>
             </NextIntlClientProvider>
