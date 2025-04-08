@@ -12,7 +12,7 @@ export const configTable = pgTable(
     "config",
     {
         id: boolean().primaryKey().default(true),
-        key: varchar({length: 255}).notNull(),
+        key: varchar({length: 255}).notNull().unique(),
         value: varchar({length: 255}).notNull(),
     }
 )
@@ -33,16 +33,16 @@ export const configTable = pgTable(
 //         checkConstraint: check("one_row_unique", sql`${table.id}`),
 //     }),
 // );
-
-export const newsTable = pgTable(
-    "news",
-    {
-        id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        email: varchar({length: 255}).notNull().unique(),
-        errors: integer().notNull().default(0),
-        is_valid: boolean().notNull().default(true),
-    },
-);
+//
+// export const newsTable = pgTable(
+//     "news",
+//     {
+//         id: integer().primaryKey().generatedAlwaysAsIdentity(),
+//         email: varchar({length: 255}).notNull().unique(),
+//         errors: integer().notNull().default(0),
+//         is_valid: boolean().notNull().default(true),
+//     },
+// );
 
 export const contactsTypeTable = pgTable(
     "contacts_types",
