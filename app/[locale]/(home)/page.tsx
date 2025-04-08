@@ -20,7 +20,7 @@ export default async function Biography() {
                     alt={name || "artist_photo"}
                     width={1177}
                     height={1772}
-                    className={"sm:float-right sm:w-1/2 sm:pl-4 sm:max-h-96 sm:max-w-64 object-cover pb-8"}
+                    className={"nb:float-right nb:w-1/2 nb:pl-4 nb:max-h-96 nb:max-w-64 object-cover pb-8"}
                     priority
                 />
                 <h2 className={"text-2xl text-beige mb-8"}>Biography</h2>

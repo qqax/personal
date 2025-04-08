@@ -39,7 +39,7 @@ export default function Navbar() {
             <MobileMenuItems ref={ref} openMobileMenu={openMobileMenu} onClick={() => setOpenMobileMenu(false)}/>
         </Modal>
 
-        <div ref={ref} className={"hidden sm:flex z-50 h-full w-full transition-all duration-500"}>
+        <div ref={ref} className={"hidden sm:flex z-50 h-full w-full transition-all duration-500 backdrop-blur"}>
             <MenuItems/>
         </div>
     </nav>);
@@ -53,7 +53,6 @@ const MenuItems = ({onClick}: { onClick?: (param: boolean) => void }) => {
             {
                 menuItems.map(({name, href}) => {
                     const regex = new RegExp(String.raw`^${href}(/.*)?$`, "g");
-                    console.log(regex.test(pathname), pathname);
                     return (<Link key={name}
                                   href={href}
                                   onClick={() => onClick && onClick(false)}

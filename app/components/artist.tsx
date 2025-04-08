@@ -6,10 +6,8 @@ export default async function Artist() {
     const artistName = await fetchArtistName(locale);
     const artistProfession = await fetchArtistProfession(locale);
 
-    return (<div className={"fixed flex flex-col items-center top-32 sm:top-48 w-full lg:w-1/2"}>
-        <div className={"p-4"}>
-            <h1 className={"mix-blend-screen text-3xl sm:text-4xl text-beige mb-3"}>{artistName}</h1>
-            <p><small className={"text-beige text-xl"}>{artistProfession}</small></p>
-        </div>
-    </div>);
+    return (<div>
+            <h1 className={"text-2xl nb:text-3xl sm:text-4xl text-beige nb:mb-3"}>{artistName}</h1>
+            <p><small className={"text-beige text-base nb:text-xl"}>{artistProfession}</small></p>
+        </div>);
 }

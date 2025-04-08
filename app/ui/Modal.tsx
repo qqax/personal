@@ -49,7 +49,7 @@ const Modal = ({show, element, children, preventScroll}: {
                 <div
                     onTransitionEnd={() => !show && setVisible(false)}
                     className={clsx(
-                        `fixed z-40 top-0 left-0 flex h-full w-full backdrop-blur-md transition-all duration-500`,
+                        `fixed z-40 top-0 left-0 flex h-full w-full backdrop-blur-md transition-all duration-500 overflow-auto`,
                         (show && visible) ? "opacity-100 bg-opacity-40" : "opacity-0 bg-opacity-0",
                     )}>
                     {children}
