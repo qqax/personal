@@ -1,5 +1,5 @@
-import {boolean, check, customType, integer, pgTable, primaryKey, text, timestamp, varchar} from "drizzle-orm/pg-core";
-import {relations, sql} from "drizzle-orm";
+import {boolean, customType, integer, pgTable, primaryKey, text, timestamp, varchar} from "drizzle-orm/pg-core";
+import {relations} from "drizzle-orm";
 import {AdapterAccountType} from "next-auth/adapters";
 
 const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
@@ -8,22 +8,31 @@ const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
     },
 });
 
-export const artistTable = pgTable(
-    "artist",
+export const configTable = pgTable(
+    "config",
     {
         id: boolean().primaryKey().default(true),
-        name: varchar({length: 255}).notNull(),
-        biography: text().notNull(),
-        profession: text().notNull(),
-        profession_ru: text(),
-        name_ru: varchar({length: 255}),
-        biography_ru: text(),
-        admin_path: text().notNull().default("admin"),
-    },
-    (table) => ({
-        checkConstraint: check("one_row_unique", sql`${table.id}`),
-    }),
-);
+        key: varchar({length: 255}).notNull(),
+        value: varchar({length: 255}).notNull(),
+    }
+)
+
+// export const artistTable = pgTable(
+//     "artist",
+//     {
+//         id: boolean().primaryKey().default(true),
+//         name: varchar({length: 255}).notNull(),
+//         biography: text().notNull(),
+//         profession: text().notNull(),
+//         profession_ru: text(),
+//         name_ru: varchar({length: 255}),
+//         biography_ru: text(),
+//         admin_path: text().notNull().default("admin"),
+//     },
+//     (table) => ({
+//         checkConstraint: check("one_row_unique", sql`${table.id}`),
+//     }),
+// );
 
 export const newsTable = pgTable(
     "news",
@@ -35,11 +44,11 @@ export const newsTable = pgTable(
     },
 );
 
-export const socialTable = pgTable(
-    "social",
+export const contactsTypeTable = pgTable(
+    "contacts_types",
     {
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        service: varchar({length: 255}).notNull().unique(),
+        type: varchar({length: 255}).notNull().unique(),
     },
 );
 
@@ -47,7 +56,24 @@ export const contactsTable = pgTable(
     "contacts",
     {
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        service_id: integer().references(() => socialTable.id, {onDelete: 'cascade'}).notNull(),
+        type_id: integer().references(() => contactsTypeTable.id, {onDelete: 'cascade'}).notNull(),
+        contact: text().array().notNull().unique(),
+    },
+);
+
+export const socialTypeTable = pgTable(
+    "social_types",
+    {
+        id: integer().primaryKey().generatedAlwaysAsIdentity(),
+        type: varchar({length: 255}).notNull().unique(),
+    },
+);
+
+export const socialTable = pgTable(
+    "social",
+    {
+        id: integer().primaryKey().generatedAlwaysAsIdentity(),
+        service_id: integer().references(() => socialTypeTable.id, {onDelete: 'cascade'}).notNull(),
         contact: text().notNull().unique(),
     },
 );

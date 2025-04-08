@@ -2,8 +2,6 @@
 
 import {artistTable, concertsTable, newsTable, recordsTable, recordTypesTable} from "./schema";
 import {cacheTag} from "next/dist/server/use-cache/cache-tag";
-import facebookIcon from "../../public/icons/facebook.svg";
-import youtubeIcon from "../../public/icons/youtube.svg";
 import {
     ArtistData,
     Biography,
@@ -18,12 +16,11 @@ import {eq, sql} from "drizzle-orm";
 import {PgColumn, PgTableWithColumns} from "drizzle-orm/pg-core";
 import {cacheLife} from "next/dist/server/use-cache/cache-life";
 import {db} from "@/app/lib/connection";
-
-const NOT_DEFAULT_LOCALES = ["ru"];
+import {NotDefaultLocales} from "@/i18n/routing";
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 const selectTranslated = (table: PgTableWithColumns<any>, column: string, locale: string) => {
-    if (NOT_DEFAULT_LOCALES.includes(locale)) {
+    if (NotDefaultLocales.includes(locale)) {
         return sql<string>`coalesce
             (${table[`${column}_${locale}`]}, ${table[column]})`.as(column);
     }
@@ -80,9 +77,24 @@ export async function fetchSocial() {
 
     try {
         return [
-            {href: "#", src: facebookIcon, alt: "Follow Alexander Kudryavtsev on Facebook"},
-            {href: "#", src: youtubeIcon, alt: "Follow Alexander Kudryavtsev on Youtube"},
+            {type: "facebook", url: "https://www.facebook.com/"},
+            {type: "youtube", url: "https://youtube.com/@alexanderkudryavtsev-d7y?si=y8I-WnrEN3MqVHxk"},
         ];
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch the artist biography.');
+    }
+}
+
+export async function fetchContacts() {
+    'use cache';
+    cacheTag('contacts');
+
+    try {
+        return {
+            mail: ["alar0@yahoo.com", "alexanderkudryavtsev87@gmail.com"],
+            phone: ["+996 (700) 38-63-64", "+7 (906) 064-60-65"],
+        };
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch the artist biography.');
