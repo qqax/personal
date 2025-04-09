@@ -13,7 +13,7 @@ const Social = async () => {
 
     return (
         <>
-            {socialLinks?.map(({type, url}: { type: string, url: string }) => {
+            {socialLinks?.map(({type, url}) => {
                 let alt: string;
                 let src: string | StaticImport;
                 switch (type) {

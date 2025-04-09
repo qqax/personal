@@ -66,8 +66,8 @@ async function seedSocialTypes(tx: PgTransaction<NodePgQueryResultHKT, Record<st
 
 async function seedSocials(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
     const socials: typeof socialsTable.$inferInsert[] = [
-        {social_type_id: 1, link: 'fb'},
-        {social_type_id: 2, link: 'youtube'},
+        {social_type_id: 1, link: 'https://www.facebook.com/alexander.kudryavtseff'},
+        {social_type_id: 2, link: 'https://youtube.com/@alexanderkudryavtsev-d7y?si=y8I-WnrEN3MqVHxk'},
     ];
 
     await tx.insert(socialsTable).values(socials);

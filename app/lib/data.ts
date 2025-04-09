@@ -1,16 +1,24 @@
 "use server";
 
-import {concertsTable, recordsTable, recordTypesTable, mailingListTable, artistTable} from "./schema";
+import {
+    concertsTable,
+    recordsTable,
+    recordTypesTable,
+    mailingListTable,
+    artistTable,
+    socialsTable,
+    socialTypesTable, contactsTable, contactTypesTable
+} from "./schema";
 import {cacheTag} from "next/dist/server/use-cache/cache-tag";
 import {
     ArtistData,
     Biography,
     ConcertDescription,
     Concerts,
-    ConcertsData,
+    ConcertsData, Contacts,
     Name,
     Profession,
-    Records,
+    Records, Socials,
 } from "@/app/lib/definitions";
 import {eq, sql} from "drizzle-orm";
 import {PgColumn, PgTableWithColumns} from "drizzle-orm/pg-core";
@@ -71,30 +79,39 @@ export async function fetchBiography(locale: string): Promise<Biography> {
     return await artistTableQuery(artistTable[column], locale) as Biography;
 }
 
-export async function fetchSocial() {
+export async function fetchSocial(): Promise<Socials> {
     'use cache';
     cacheTag('social');
 
     try {
-        return [
-            {type: "facebook", url: "https://www.facebook.com/"},
-            {type: "youtube", url: "https://youtube.com/@alexanderkudryavtsev-d7y?si=y8I-WnrEN3MqVHxk"},
-        ];
+        return db.select({
+            url: socialsTable.link,
+            type: socialTypesTable.social_type,
+        }).from(socialsTable)
+            .leftJoin(socialTypesTable, eq(socialTypesTable.id, socialsTable.social_type_id))
+            .orderBy(socialTypesTable.id);
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch the artist biography.');
     }
 }
 
-export async function fetchContacts() {
+export async function fetchContacts(): Promise<Contacts> {
     'use cache';
     cacheTag('contacts');
 
     try {
-        return {
-            mail: ["alar0@yahoo.com", "alexanderkudryavtsev87@gmail.com"],
-            phone: ["+996 (700) 38-63-64", "+7 (906) 064-60-65"],
-        };
+        const contacts = await db.select({
+            contacts: contactsTable.contact,
+            type: contactTypesTable.contact_type,
+        }).from(socialsTable)
+            .leftJoin(contactTypesTable, eq(contactTypesTable.id, contactsTable.contact_type_id))
+            .groupBy(contactsTable.contact_type_id)
+            .orderBy(contactTypesTable.id);
+        return contacts.reduce((acc: Record<string, string[]>, {contacts, type}) => {
+            acc[type as string] = contacts;
+            return acc;
+        }, {}) as Contacts;
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch the artist biography.');

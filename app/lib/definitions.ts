@@ -35,4 +35,7 @@ export type RecordLinks = {
 
 export type Records = RecordLinks[];
 
+export type Socials = { url: string, type: string | null }[];
+export type Contacts = { mail: string[], phone: string[] };
+
 // REVOKE DELETE, TRUNCATE ON public.artist FROM public;

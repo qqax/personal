@@ -5,50 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1732777489635,
-      "tag": "0000_flaky_liz_osborn",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1734191052361,
-      "tag": "0001_famous_lethal_legion",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1737985870672,
-      "tag": "0002_kind_jackal",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1737985941858,
-      "tag": "0003_gray_ted_forrester",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1738595336561,
-      "tag": "0004_famous_proteus",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1742903811135,
-      "tag": "0005_clever_nebula",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1744095546339,
-      "tag": "0006_tiresome_blob",
+      "when": 1744184778396,
+      "tag": "0000_crazy_captain_cross",
       "breakpoints": true
     }
   ]
