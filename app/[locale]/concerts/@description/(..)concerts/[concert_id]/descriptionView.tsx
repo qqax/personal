@@ -32,6 +32,6 @@ export const DescriptionView = ({concertDescription}: { concertDescription: Conc
         </div>
         {concertDescription?.description && <Programme programme={concertDescription.description}/>}
         {concertDescription?.recordsTable &&
-            <Video title={concertDescription.recordsTable.title} link={concertDescription.recordsTable.link}/>}
+            <Video uuid={concertDescription.recordsTable.uuid}/>}
     </div>);
 };
