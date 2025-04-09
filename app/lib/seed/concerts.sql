@@ -1,0 +1,96 @@
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2024-01-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2025-01-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2025-02-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2025-03-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2025-04-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2025-05-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2025-06-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2025-07-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2025-08-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2025-09-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2025-10-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2025-11-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2025-12-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2024-02-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2024-03-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2024-04-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2024-05-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2024-06-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2024-07-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2024-08-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2024-09-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2024-10-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2024-11-01 19:00:00.000000');
+INSERT INTO public.concerts (place, address, short_description, description, place_ru, address_ru, short_description_ru,
+                             description_ru, poster, link, record_id, date)
+VALUES ('Roerich museum', 'Bishkek, Jusunalieva 123', 'Chopin evening', 'Ballades and fantasias', null, null, null,
+        null, null, null, null, '2024-12-01 19:00:00.000000');

@@ -17,21 +17,38 @@ export const configTable = pgTable(
     }
 )
 
-export const mailingListTable = pgTable(
-    "mailing_list",
-    {
-        id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        email: varchar({length: 255}).notNull().unique(),
-        errors: integer().notNull().default(0),
-        is_valid: boolean().notNull().default(true),
-    },
-);
+// export const artistTable = pgTable(
+//     "artist",
+//     {
+//         id: boolean().primaryKey().default(true),
+//         name: varchar({length: 255}).notNull(),
+//         biography: text().notNull(),
+//         profession: text().notNull(),
+//         profession_ru: text(),
+//         name_ru: varchar({length: 255}),
+//         biography_ru: text(),
+//         admin_path: text().notNull().default("admin"),
+//     },
+//     (table) => ({
+//         checkConstraint: check("one_row_unique", sql`${table.id}`),
+//     }),
+// );
+//
+// export const newsTable = pgTable(
+//     "news",
+//     {
+//         id: integer().primaryKey().generatedAlwaysAsIdentity(),
+//         email: varchar({length: 255}).notNull().unique(),
+//         errors: integer().notNull().default(0),
+//         is_valid: boolean().notNull().default(true),
+//     },
+// );
 
-export const contactTypesTable = pgTable(
-    "contact_types",
+export const contactsTypeTable = pgTable(
+    "contacts_types",
     {
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        contact_type: varchar({length: 255}).notNull().unique(),
+        type: varchar({length: 255}).notNull().unique(),
     },
 );
 
@@ -39,25 +56,25 @@ export const contactsTable = pgTable(
     "contacts",
     {
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        contact_type_id: integer().references(() => contactTypesTable.id, {onDelete: 'cascade'}).notNull(),
-        contact: text().notNull().unique(),
+        type_id: integer().references(() => contactsTypeTable.id, {onDelete: 'cascade'}).notNull(),
+        contact: text().array().notNull().unique(),
     },
 );
 
-export const socialTypesTable = pgTable(
+export const socialTypeTable = pgTable(
     "social_types",
     {
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        social_type: varchar({length: 255}).notNull().unique(),
+        type: varchar({length: 255}).notNull().unique(),
     },
 );
 
-export const socialsTable = pgTable(
-    "socials",
+export const socialTable = pgTable(
+    "social",
     {
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        social_type_id: integer().references(() => socialTypesTable.id, {onDelete: 'cascade'}).notNull(),
-        link: text().notNull().unique(),
+        service_id: integer().references(() => socialTypeTable.id, {onDelete: 'cascade'}).notNull(),
+        contact: text().notNull().unique(),
     },
 );
 
@@ -95,22 +112,12 @@ export const recordTypesTable = pgTable(
     },
 );
 
-
-export const recordServicesTable = pgTable(
-    "record_services",
-    {
-        id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        record_service: varchar({length: 255}).notNull().unique(),
-    },
-);
-
 export const recordsTable = pgTable(
     "records",
     {
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
         uuid: text().notNull().unique(),
         date: timestamp().array().notNull().unique(),
-        record_service_id: integer().references(() => recordServicesTable.id, {onDelete: 'cascade'}).notNull(),
         record_type_id: integer().references(() => recordTypesTable.id, {onDelete: 'cascade'}).notNull(),
     },
 );
