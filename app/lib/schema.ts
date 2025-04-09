@@ -1,5 +1,5 @@
-import {boolean, customType, integer, pgTable, primaryKey, text, timestamp, varchar} from "drizzle-orm/pg-core";
-import {relations} from "drizzle-orm";
+import {boolean, check, customType, integer, pgTable, primaryKey, text, timestamp, varchar} from "drizzle-orm/pg-core";
+import {relations, sql} from "drizzle-orm";
 import {AdapterAccountType} from "next-auth/adapters";
 
 const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
@@ -8,14 +8,22 @@ const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
     },
 });
 
-export const configTable = pgTable(
-    "config",
+export const artistTable = pgTable(
+    "artist",
     {
         id: boolean().primaryKey().default(true),
-        key: varchar({length: 255}).notNull().unique(),
-        value: varchar({length: 255}).notNull(),
-    }
-)
+        name: varchar({length: 255}).notNull(),
+        biography: text().notNull(),
+        profession: text().notNull(),
+        profession_ru: text(),
+        name_ru: varchar({length: 255}),
+        biography_ru: text(),
+        admin_path: text().notNull().default("admin"),
+    },
+    (table) => ({
+        checkConstraint: check("one_row_unique", sql`${table.id}`),
+    }),
+);
 
 export const mailingListTable = pgTable(
     "mailing_list",

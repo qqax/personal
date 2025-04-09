@@ -1,6 +1,6 @@
 "use server";
 
-import {configTable, concertsTable, recordsTable, recordTypesTable, mailingListTable} from "./schema";
+import {concertsTable, recordsTable, recordTypesTable, mailingListTable, artistTable} from "./schema";
 import {cacheTag} from "next/dist/server/use-cache/cache-tag";
 import {
     ArtistData,
@@ -13,7 +13,7 @@ import {
     Records,
 } from "@/app/lib/definitions";
 import {eq, sql} from "drizzle-orm";
-import {PgTableWithColumns} from "drizzle-orm/pg-core";
+import {PgColumn, PgTableWithColumns} from "drizzle-orm/pg-core";
 import {cacheLife} from "next/dist/server/use-cache/cache-life";
 import {db} from "@/app/lib/connection";
 import {NotDefaultLocales} from "@/i18n/routing";
@@ -27,54 +27,48 @@ const selectTranslated = (table: PgTableWithColumns<any>, column: string, locale
     return sql<string>`${table[column]}`.as(column);
 };
 
-/* eslint-disable  @typescript-eslint/no-explicit-any */
-const getTranslatedRow = (row: string, locale: string) => {
-    if (NotDefaultLocales.includes(locale)) {
-        return `${row}_${locale}`;
-    }
-    return row;
-};
-
-const configTableQuery = async (key: string, locale: string): Promise<ArtistData> => {
+const artistTableQuery = async (column: PgColumn, locale: string): Promise<ArtistData> => {
     try {
-        key = getTranslatedRow(key, locale);
-        const data = await db.query.configTable.findFirst({
-            columns: {value: true},
-            where: eq(configTable.key, key),
-        });
+        const data =
+            await db.query.artistTable.findFirst({
+                columns: {[column.name]: true},
+                extras: {
+                    [column.name]: selectTranslated(artistTable, column.name, locale),
+                },
+            });
 
-        return data?.value as ArtistData;
+        return data?.[column.name] as ArtistData;
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error(`Failed to fetch the ${key}.`);
+        throw new Error(`Failed to fetch the ${column}.`);
     }
 };
 
 export async function fetchArtistName(locale: string): Promise<Name> {
     'use cache';
 
-    const key = 'name';
-    cacheTag(key);
+    const column = 'name';
+    cacheTag(column);
 
-    return await configTableQuery(key, locale) as Name;
+    return await artistTableQuery(artistTable[column], locale) as Name;
 }
 
 export async function fetchArtistProfession(locale: string): Promise<Profession> {
     'use cache';
 
-    const key = 'profession';
-    cacheTag(key);
+    const column = 'profession';
+    cacheTag(column);
 
-    return await configTableQuery(key, locale) as Profession;
+    return await artistTableQuery(artistTable[column], locale) as Profession;
 }
 
 export async function fetchBiography(locale: string): Promise<Biography> {
     'use cache';
 
-    const key = 'biography';
-    cacheTag(key);
+    const column = 'biography';
+    cacheTag(column);
 
-    return await configTableQuery(key, locale) as Biography;
+    return await artistTableQuery(artistTable[column], locale) as Biography;
 }
 
 export async function fetchSocial() {

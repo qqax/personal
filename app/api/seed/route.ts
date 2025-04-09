@@ -1,8 +1,8 @@
 import {drizzle, NodePgQueryResultHKT} from "drizzle-orm/node-postgres";
 import {count, ExtractTablesWithRelations} from "drizzle-orm";
 import {
+    artistTable,
     concertsTable,
-    configTable,
     contactsTable,
     contactTypesTable,
     recordServicesTable,
@@ -18,6 +18,34 @@ const db = drizzle({
         connectionString: process.env.POSTGRES_URL,
     },
 });
+
+async function seedArtist(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
+    const artistRowNum = await tx.select({count: count()}).from(artistTable);
+
+    if (artistRowNum[0].count === 0) {
+        const artist: typeof artistTable.$inferInsert = {
+            admin_path: "admin",
+            name: 'Alexander Kudryavtsev',
+            name_ru: 'Александр Кудрявцев',
+            profession: 'piano',
+            profession_ru: 'фортепиано',
+            biography: 'Alexander was born on July 31, 1987 in Moscow, Russia.\n\n' +
+                'He studied in Prof. T. Zelikman\'s piano class at the Gnessin School and afterwards at the Gnessin Academy. Later he taught at the Gnessin Academy (2016 — 2022). Now he works as a teacher at the Kyrgyz National Conservatory named K. Maldybasanov.\n\n' +
+                'Alexander toured Italy, Germany, the Netherlands, the Czech Republic, France, and Russia as a pianist. Repeatedly performed solo and played with the orchestra in various halls of Moscow, including the Great Hall of the Moscow Conservatory. Have records on the radio and CDs.\n\n' +
+                'Alexander is the winner of many competitions. Among them is the 1st prize in the radio competition \"Concertino Prague\" (2003), the 1st prize and the medal of the President of Italy of the 4th international competition of the association \"Dino Ciani\" (Verbania, Italy, 2005), the winner of the 1st prize of the 1st Stanislav Neuhaus International Piano Competition (2007).',
+            biography_ru: 'Александр родился 31 июля 1987 года в Москве, Россия.\n\n' +
+                'Он учился в классе фортепиано профессора Т. А. Зеликман в Московской Средней Специальной Школе им. Гнесиных, а затем - в Академии им. Гнесиных. После учёбы Александр преподавал в Академии специальное фортепиано с 2016 по 2022 гг. В настоящее время Александр ведёт класс специального фортепиано в Кыргизской национальной консерватории имени К. Малдыбасанова.\n\n' +
+                'Александр гастролировал в Италии, Германии, Нидерландах, Чехии, Франции и России. Неоднократно выступал сольно и с оркестром в различных залах Москвы, в том числе в Большом зале Московской консерватории. Имеет записи на радио и компакт-дисках.\n\n' +
+                'Александр является лауреатом многих конкурсов. Среди них — 1-я премия радиоконкурса «Концертино Прага» (2003), 1-я премия и медаль Президента Италии 4-го международного конкурса ассоциации «Дино Чиани» (Вербания, Италия, 2005), 1-я премия 1-го Международного конкурса пианистов имени Станислава Нейгауза (2007).',
+        };
+
+        await tx.insert(artistTable).values(artist);
+
+        console.log('New artist created!');
+    } else {
+        console.log('Artist already exists!');
+    }
+}
 
 async function seedSocialTypes(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
     const socialTypesTableRowNum = await tx.select({count: count()}).from(socialsTable);
@@ -161,36 +189,10 @@ async function seedRecords(tx: PgTransaction<NodePgQueryResultHKT, Record<string
     console.log('New records created!');
 }
 
-async function seedConfig(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
-    const config: typeof configTable.$inferInsert[] = [
-        {key: "admin_path", value: "admin"},
-        {key: "name", value: "Alexander Kudryavtsev"},
-        {key: "name_ru", value: "Александр Кудрявцев"},
-        {key: "profession", value: 'piano'},
-        {key: "profession_ru", value: 'фортепиано'},
-        {
-            key: "biography", value: 'Alexander was born on July 31, 1987 in Moscow, Russia.\n\n' +
-                'He studied in Prof. T. Zelikman\'s piano class at the Gnessin School and afterwards at the Gnessin Academy. Later he taught at the Gnessin Academy (2016 — 2022). Now he works as a teacher at the Kyrgyz National Conservatory named K. Maldybasanov.\n\n' +
-                'Alexander toured Italy, Germany, the Netherlands, the Czech Republic, France, and Russia as a pianist. Repeatedly performed solo and played with the orchestra in various halls of Moscow, including the Great Hall of the Moscow Conservatory. Have records on the radio and CDs.\n\n' +
-                'Alexander is the winner of many competitions. Among them is the 1st prize in the radio competition \"Concertino Prague\" (2003), the 1st prize and the medal of the President of Italy of the 4th international competition of the association \"Dino Ciani\" (Verbania, Italy, 2005), the winner of the 1st prize of the 1st Stanislav Neuhaus International Piano Competition (2007).'
-        },
-        {
-            key: "biography_ru", value: 'Александр родился 31 июля 1987 года в Москве, Россия.\n\n' +
-                'Он учился в классе фортепиано профессора Т. А. Зеликман в Московской Средней Специальной Школе им. Гнесиных, а затем - в Академии им. Гнесиных. После учёбы Александр преподавал в Академии специальное фортепиано с 2016 по 2022 гг. В настоящее время Александр ведёт класс специального фортепиано в Кыргизской национальной консерватории имени К. Малдыбасанова.\n\n' +
-                'Александр гастролировал в Италии, Германии, Нидерландах, Чехии, Франции и России. Неоднократно выступал сольно и с оркестром в различных залах Москвы, в том числе в Большом зале Московской консерватории. Имеет записи на радио и компакт-дисках.\n\n' +
-                'Александр является лауреатом многих конкурсов. Среди них — 1-я премия радиоконкурса «Концертино Прага» (2003), 1-я премия и медаль Президента Италии 4-го международного конкурса ассоциации «Дино Чиани» (Вербания, Италия, 2005), 1-я премия 1-го Международного конкурса пианистов имени Станислава Нейгауза (2007).',
-        }
-    ];
-
-    await tx.insert(configTable).values(config);
-
-    console.log('New artist created!');
-}
-
 export async function GET() {
     await db.transaction(async (tx) => {
         try {
-            await seedConfig(tx);
+            await seedArtist(tx);
             await seedSocialTypes(tx);
             await seedSocials(tx);
             await seedContactTypes(tx);
