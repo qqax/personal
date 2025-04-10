@@ -4,6 +4,7 @@ import Artist from "@/app/components/artist";
 import Social from "@/app/components/social";
 import React, {ReactNode} from "react";
 import clsx from "clsx";
+import {bgStyle} from "@/app/ui/styles";
 
 export default async function HomeLayout({
                                              children,
@@ -12,7 +13,7 @@ export default async function HomeLayout({
 }) {
     return (
         <main className={"flex flex-col lg:flex-row w-full overflow-hidden"}>
-            <div className={"fixed flex flex-col lg:items-center top-14 nb:top-16 p-4 sm:pl-10 sm:top-20 w-full lg:w-1/2"}>
+            <div className={"fixed lg:static flex flex-col lg:items-center lg:mt-52 top-20 p-4 sm:pl-10 sm:top-20 w-full lg:w-1/2"}>
                 <Artist/>
             </div>
             <div
@@ -20,7 +21,7 @@ export default async function HomeLayout({
                 <Social/>
             </div>
             <div
-                className={clsx("flex flex-col mt-[250px] lg:mt-0 lg:justify-center items-center min-h-screen lg:ml-auto lg:w-1/2 p-2 nb:p-5 sm:p-10 bg-amber-50 bg-opacity-75 backdrop-blur-sm")}>
+                className={clsx(bgStyle, "flex flex-col mt-[250px] lg:mt-0 lg:justify-center items-center min-h-screen lg:ml-auto lg:w-1/2 p-2 nb:p-5 sm:p-10")}>
                 {children}
             </div>
         </main>

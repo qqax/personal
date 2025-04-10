@@ -42,11 +42,11 @@ export const LocaleSwitcher = () => {
             setOpen(false);
         });
     };
-    return (<Select className={clsx("md:bg-opacity-0 appearance-none", navClassName)} open={open} setOpen={setOpen}
+    return (<Select className={clsx("appearance-none bg-opacity-0", navClassName)} open={open} setOpen={setOpen}
                     selectedLabel={label} isPending={isPending}>
             {options.map(({value, label}) => {
                 return (<button key={value} disabled={isPending} type={"submit"}
-                                className={clsx("appearance-none", navClassName)}
+                                className={clsx("appearance-none bg-opacity-50 lg:bg-opacity-0", navClassName)}
                                 onClick={() => onClick(value as Locale)}>{label}</button>);
             })}
         </Select>

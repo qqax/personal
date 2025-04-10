@@ -3,6 +3,7 @@ import {fetchRecords} from "@/app/lib/data";
 import Video from "@/app/components/Video";
 import {getIntlDate} from "@/app/utils/dateFuncs";
 import clsx from "clsx";
+import {bgStyle} from "@/app/ui/styles";
 
 export default async function RecordPage() {
     const locale = await getLocale();
@@ -10,15 +11,15 @@ export default async function RecordPage() {
 
     return (
         <section className="w-full text-center">
-            <h2 className={"text-2xl text-beige"}>
-                Records
+            <h2 className={"text-2xl w-1/2 ml-auto py-6 text-beige sm:mb-4 lg:mb-0"}>
+                <span className={"sm:hidden lg:inline"}>Records</span>
             </h2>
-            <div className="grid grid-cols-3 gap-2 mt-4">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-2 sm:p-6">
                 {records.map(({date, uuid, record_type}) => {
                     const intlDates = date?.sort((date1, date2) => date1.getTime() - date2.getTime())
                         .map((d) => getIntlDate(locale, d));
 
-                    return (<div key={uuid} className={"flex flex-col gap-2 w-full bg-black p-2"}>
+                    return (<div key={uuid} className={clsx(bgStyle, "flex flex-col gap-2 w-full p-2")}>
                         <div className={"flex w-full justify-between items-center"}>
                             {intlDates?.map((date) =>
                                 <span key={date} className={"text-beige"}>{date}</span>)}
@@ -37,17 +38,20 @@ const RecordType = ({record_type}: { record_type: string }) => {
 
     switch (record_type) {
         case "live":
-            recordTypeClass = "bg-green-900";
+            recordTypeClass = "bg-green-700";
             break;
         case "cd":
-            recordTypeClass = "bg-blue-900";
+            recordTypeClass = "bg-blue-700";
             break;
         case "self_made":
-            recordTypeClass = "bg-orange-900";
+            recordTypeClass = "bg-orange-700";
+            break;
+        default:
+            recordTypeClass = "black";
     }
 
     return <div
-        className={clsx("px-2 py-0.5 rounded-md", recordTypeClass)}>
+        className={clsx("px-2 py-0.5 rounded-md text-amber-50", recordTypeClass)}>
         {record_type}
     </div>;
 };

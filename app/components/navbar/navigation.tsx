@@ -39,7 +39,7 @@ export default function Navbar() {
             <MobileMenuItems ref={ref} openMobileMenu={openMobileMenu} onClick={() => setOpenMobileMenu(false)}/>
         </Modal>
 
-        <div ref={ref} className={"hidden sm:flex z-50 h-full w-full transition-all duration-500 backdrop-blur"}>
+        <div ref={ref} className={"hidden sm:flex z-50 h-full w-full transition-all duration-500 backdrop-blur lg:backdrop-blur-0"}>
             <MenuItems/>
         </div>
     </nav>);
@@ -59,7 +59,7 @@ const MenuItems = ({onClick}: { onClick?: (param: boolean) => void }) => {
                                   className={clsx(
                                       navClassName,
                                       regex.test(pathname)
-                                          ? "bg-amber-50 bg-opacity-20"
+                                          ? "bg-opacity-40"
                                           : "bg-opacity-0",
                                   )}>
                             {name}
@@ -87,7 +87,7 @@ const MobileMenuItems = ({ref, openMobileMenu, onClick}:
 
     return (
         <div ref={ref} className={clsx(
-            "relative flex flex-col justify-center bg-amber-50 bg-opacity-25 items-center sm:hidden z-50 transition-all duration-500 w-full h-min top-24",
+            "relative flex flex-col justify-center bg-amber-50 bg-opacity-50 items-center sm:hidden z-50 transition-all duration-500 w-full h-min top-24",
             (openMobileMenu && visible) ? "left-0" : "-left-full",
         )}>
             <MenuItems onClick={onClick}/>

@@ -19,8 +19,8 @@ export type ScrollConcertType = { forgoing: () => void, upcoming: () => void } |
 export type ConcertContextType = {
     concerts: Concerts,
     currConcertID: string,
-    firstUpcomingConcertID: string,
-    firstUpcomingConcertIndex: number,
+    firstUpcomingConcertID: string | null,
+    firstUpcomingConcertIndex: number | null,
     areConcertsPresented: boolean,
 
     currentConcertHandler: (isPresented: boolean) => void,
@@ -65,7 +65,9 @@ export default function ConcertPage({children, description, concerts, firstUpcom
 
         setScrollTo({
             forgoing: () => fn("forgoing"),
-            upcoming: () => fn(concerts[firstUpcomingConcertIndex].id),
+            upcoming: () => concerts[firstUpcomingConcertIndex]?.id
+                ? fn(concerts[firstUpcomingConcertIndex]?.id)
+                : null,
         });
     }, [isUpcomingConcertPresented, setScrollTo, concerts, firstUpcomingConcertIndex]);
 
@@ -105,7 +107,7 @@ export default function ConcertPage({children, description, concerts, firstUpcom
             setScrollToFunc,
 
             concerts,
-            firstUpcomingConcertID: concerts[firstUpcomingConcertIndex].id,
+            firstUpcomingConcertID: concerts[firstUpcomingConcertIndex]?.id || null,
             firstUpcomingConcertIndex,
             areConcertsPresented,
             setConcertPath,

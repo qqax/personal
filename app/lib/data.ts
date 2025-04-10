@@ -104,17 +104,22 @@ export async function fetchContacts(): Promise<Contacts> {
         const contacts = await db.select({
             contacts: contactsTable.contact,
             type: contactTypesTable.contact_type,
-        }).from(socialsTable)
+        }).from(contactsTable)
             .leftJoin(contactTypesTable, eq(contactTypesTable.id, contactsTable.contact_type_id))
-            .groupBy(contactsTable.contact_type_id)
             .orderBy(contactTypesTable.id);
+
         return contacts.reduce((acc: Record<string, string[]>, {contacts, type}) => {
-            acc[type as string] = contacts;
+            const key = type as string;
+            if (acc[key]) {
+                acc[type as string] = [contacts, ...acc[type as string]];
+            } else {
+                acc[type as string] = [contacts];
+            }
             return acc;
         }, {}) as Contacts;
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to fetch the artist biography.');
+        throw new Error('Failed to fetch the artist contacts.');
     }
 }
 
