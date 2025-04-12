@@ -2,12 +2,12 @@
 
 import {
     concertsTable,
-    recordsTable,
-    recordTypesTable,
+    concertRecordsTable,
     mailingListTable,
     artistTable,
     socialsTable,
-    socialTypesTable, contactsTable, contactTypesTable
+    contactsTable,
+    recordsTable
 } from "./schema";
 import {cacheTag} from "next/dist/server/use-cache/cache-tag";
 import {
@@ -20,11 +20,13 @@ import {
     Profession,
     Records, Socials,
 } from "@/app/lib/definitions";
-import {eq, sql} from "drizzle-orm";
-import {PgColumn, PgTableWithColumns} from "drizzle-orm/pg-core";
+import {desc, eq, sql} from "drizzle-orm";
+import {PgColumn, PgTableWithColumns, union} from "drizzle-orm/pg-core";
 import {cacheLife} from "next/dist/server/use-cache/cache-life";
 import {db} from "@/app/lib/connection";
 import {NotDefaultLocales} from "@/i18n/routing";
+import {contactType, recordType, relatedRecordTypesEnum} from "@/app/lib/enums";
+
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 const selectTranslated = (table: PgTableWithColumns<any>, column: string, locale: string) => {
@@ -58,7 +60,12 @@ export async function fetchArtistName(locale: string): Promise<Name> {
     const column = 'name';
     cacheTag(column);
 
-    return await artistTableQuery(artistTable[column], locale) as Name;
+    try {
+        return await artistTableQuery(artistTable[column], locale) as Name;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error(`Failed to fetch the ${column}.`);
+    }
 }
 
 export async function fetchArtistProfession(locale: string): Promise<Profession> {
@@ -67,7 +74,12 @@ export async function fetchArtistProfession(locale: string): Promise<Profession>
     const column = 'profession';
     cacheTag(column);
 
-    return await artistTableQuery(artistTable[column], locale) as Profession;
+    try {
+        return await artistTableQuery(artistTable[column], locale) as Profession;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error(`Failed to fetch the ${column}.`);
+    }
 }
 
 export async function fetchBiography(locale: string): Promise<Biography> {
@@ -76,7 +88,12 @@ export async function fetchBiography(locale: string): Promise<Biography> {
     const column = 'biography';
     cacheTag(column);
 
-    return await artistTableQuery(artistTable[column], locale) as Biography;
+    try {
+        return await artistTableQuery(artistTable[column], locale) as Biography;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error(`Failed to fetch the ${column}.`);
+    }
 }
 
 export async function fetchSocial(): Promise<Socials> {
@@ -86,13 +103,12 @@ export async function fetchSocial(): Promise<Socials> {
     try {
         return db.select({
             url: socialsTable.link,
-            type: socialTypesTable.social_type,
+            type: socialsTable.social_type,
         }).from(socialsTable)
-            .leftJoin(socialTypesTable, eq(socialTypesTable.id, socialsTable.social_type_id))
-            .orderBy(socialTypesTable.id);
+            .orderBy(desc(socialsTable.social_type));
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to fetch the artist biography.');
+        throw new Error('Failed to fetch the socials.');
     }
 }
 
@@ -103,13 +119,12 @@ export async function fetchContacts(): Promise<Contacts> {
     try {
         const contacts = await db.select({
             contacts: contactsTable.contact,
-            type: contactTypesTable.contact_type,
+            type: contactsTable.contact_type,
         }).from(contactsTable)
-            .leftJoin(contactTypesTable, eq(contactTypesTable.id, contactsTable.contact_type_id))
-            .orderBy(contactTypesTable.id);
+            .orderBy(contactsTable.contact_type);
 
         return contacts.reduce((acc: Record<string, string[]>, {contacts, type}) => {
-            const key = type as string;
+            const key = type as contactType;
             if (acc[key]) {
                 acc[type as string] = [contacts, ...acc[type as string]];
             } else {
@@ -128,23 +143,28 @@ export async function fetchConcerts(locale: string): Promise<ConcertsData> {
     cacheTag('concert');
     cacheLife('days');
 
-    const concerts: Concerts = await db.select({
-        id: sql<string>`to_char
+    try {
+        const concerts: Concerts = await db.select({
+            id: sql<string>`to_char
             (${concertsTable.date}, 'DD_Mon_YY_HH24_MI')`.as('id'),
-        date: concertsTable.date,
-        place: selectTranslated(concertsTable, "place", locale),
-        short_description: selectTranslated(concertsTable, "short_description", locale),
-    }).from(concertsTable)
-        .orderBy(concertsTable.date);
+            date: concertsTable.date,
+            place: selectTranslated(concertsTable, "place", locale),
+            short_description: selectTranslated(concertsTable, "short_description", locale),
+        }).from(concertsTable)
+            .orderBy(concertsTable.date);
 
-    const firstUpcomingConcertIndex = concerts?.findIndex(({date}) => {
-        return date && date.getTime() > Date.now();
-    });
+        const firstUpcomingConcertIndex = concerts?.findIndex(({date}) => {
+            return date && date.getTime() > Date.now();
+        });
 
-    return {
-        concerts,
-        firstUpcomingConcertIndex,
-    } as ConcertsData;
+        return {
+            concerts,
+            firstUpcomingConcertIndex,
+        } as ConcertsData;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch concerts.');
+    }
 }
 
 export async function fetchConcertDescription(id: string, locale: string): Promise<ConcertDescription> {
@@ -164,7 +184,7 @@ export async function fetchConcertDescription(id: string, locale: string): Promi
                         uuid: true,
                     },
                     extras: {
-                        title: selectTranslated(recordsTable, "title", locale),
+                        title: selectTranslated(concertRecordsTable, "title", locale),
                     },
                 },
             },
@@ -181,23 +201,41 @@ export async function fetchConcertDescription(id: string, locale: string): Promi
     }
 }
 
-export async function fetchRecords(): Promise<Records> {
+export async function fetchRecords(locale: string): Promise<Records> {
     'use cache';
     cacheTag('record');
 
-    return db.select({
-        date: recordsTable.date,
-        uuid: recordsTable.uuid,
-        record_type: recordTypesTable.record_type,
-    }).from(recordsTable)
-        .leftJoin(recordTypesTable, eq(recordTypesTable.id, recordsTable.record_type_id))
-        .orderBy(recordsTable.date);
+    try {
+        const concertRecordsSelect = db.select({
+            date: concertsTable.date,
+            uuid: concertRecordsTable.uuid,
+            record_type: sql<recordType>`${relatedRecordTypesEnum.enumValues[0]}`,
+            record_service: concertRecordsTable.record_service,
+            short_description: selectTranslated(concertsTable, "short_description", locale),
+            description: selectTranslated(concertsTable, "description", locale),
+        }).from(concertRecordsTable)
+            .leftJoin(concertsTable, eq(concertsTable.id, concertRecordsTable.concert_id));
+
+        const recordsSelect = db.select({
+            date: recordsTable.date,
+            uuid: recordsTable.uuid,
+            record_type: recordsTable.record_type,
+            record_service: concertRecordsTable.record_service,
+            short_description: selectTranslated(recordsTable, "short_description", locale),
+            description: selectTranslated(recordsTable, "description", locale),
+        }).from(recordsTable);
+
+        return union(concertRecordsSelect, recordsSelect)
+            .orderBy(sql`"date" DESC`);
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch the records.');
+    }
 }
 
 export async function insertEmail(email: string): Promise<boolean> {
     try {
         await db.insert(mailingListTable).values({email}).onConflictDoNothing();
-        console.log(email);
         return true;
     } catch (error) {
         console.error('Database Error:', error);

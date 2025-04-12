@@ -11,13 +11,33 @@ import {ConcertContextType, useConcertContext} from "@/app/[locale]/concerts/con
 const buttonStyle = "px-2 h-full";
 const selectedButtonStyle = "text-beige underline";
 
-export const ConcertMenu = ({className, isCurrentUpcoming, isUpcomingConcertPresented}: {
-    className: string,
+export const ConcertMenu = ({isCurrentUpcoming, isUpcomingConcertPresented}: {
     isCurrentUpcoming: boolean,
     isUpcomingConcertPresented: boolean,
 }) => {
     const {scrollTo} = useConcertContext() as ConcertContextType;
 
+    return (
+        <div className={"w-1/2 py-5 ml-auto text-lg md:text-2xl"}>
+            <ModalCalendar/>
+            <h2 className={"align-middle text-beige"}>Concerts:</h2>
+            {isUpcomingConcertPresented &&
+                <>
+                    <button type={"button"} onClick={() => scrollTo?.forgoing()}
+                            className={clsx(buttonStyle, {[selectedButtonStyle]: !isCurrentUpcoming})}>
+                        forgoing
+                    </button>
+                    /
+                    <button type={"button"} onClick={() => scrollTo?.upcoming()}
+                            className={clsx(buttonStyle, {[selectedButtonStyle]: isCurrentUpcoming})}>
+                        upcoming
+                    </button>
+                </>
+            }
+        </div>);
+};
+
+export const ModalCalendar = () => {
     const [showCalendar, setShowCalendar] = useState(false);
 
     const ref = useRef<HTMLDivElement>(null);
@@ -29,46 +49,27 @@ export const ConcertMenu = ({className, isCurrentUpcoming, isUpcomingConcertPres
     useClickOutside(ref, () => {
         hideCalendar();
     });
-
-    return (<>
-        <Modal show={showCalendar} preventScroll={true}>
-            <div className={"flex w-full items-center justify-center"}>
-                <div ref={ref} className={"bg-black border-[1px] border-white items-start"}>
-                    <div className={"text-3xl  w-full text-center"}>
+    return (
+        <>
+            <Modal show={showCalendar} preventScroll={true}>
+                <div className={"flex w-full items-center justify-center"}>
+                    <div ref={ref} className={"bg-black border-[1px] border-white items-start"}>
+                        <div className={"text-3xl  w-full text-center"}>
                         <span className={"inline-block mt-4"}>
                         Calendar
                         </span>
-                        <button type={"button"} className={"inline-block float-right px-3 py-2 rotate-45"}
-                                onClick={() => setShowCalendar(false)}>+
-                        </button>
+                            <button type={"button"} className={"inline-block float-right px-3 py-2 rotate-45"}
+                                    onClick={() => setShowCalendar(false)}>+
+                            </button>
+                        </div>
+                        <ConcertsCalendar hideCalendar={hideCalendar}/>
                     </div>
-                    <ConcertsCalendar hideCalendar={hideCalendar}/>
                 </div>
-            </div>
-        </Modal>
-        <div
-            className={clsx(className, "fixed z-10 left-0 py-4 justify-around w-full text-lg md:text-2xl")}>
+            </Modal>
             <button type={"button"}
                     onClick={() => setShowCalendar(!showCalendar)}
                     className={clsx(buttonColors, "xl:hidden text-base p-2 whitespace-nowrap transition duration-150")}>
                 Calendar
             </button>
-            <div className={"flex justify-between w-full max-w-[300px] md:max-w-[400px] items-center"}>
-                <h2 className={"align-middle"}>Concerts:</h2>
-                {isUpcomingConcertPresented &&
-                    <>
-                        <button type={"button"} onClick={() => scrollTo?.forgoing()}
-                                className={clsx(buttonStyle, {[selectedButtonStyle]: !isCurrentUpcoming})}>
-                            forgoing
-                        </button>
-                        /
-                        <button type={"button"} onClick={() => scrollTo?.upcoming()}
-                                className={clsx(buttonStyle, {[selectedButtonStyle]: isCurrentUpcoming})}>
-                            upcoming
-                        </button>
-                    </>
-                }
-            </div>
-        </div>
-    </>);
-};
+        </>)
+}

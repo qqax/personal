@@ -5,6 +5,7 @@ import facebookIcon from "../../public/icons/facebook.svg";
 import youtubeIcon from "../../public/icons/youtube.svg";
 import {StaticImport} from "next/dist/shared/lib/get-img-props";
 import {getLocale} from "next-intl/server";
+import {SOCIAL_TYPE_FACEBOOK, SOCIAL_TYPE_YOUTUBE} from "@/app/lib/enums";
 
 const Social = async () => {
     const socialLinks = await fetchSocial();
@@ -17,11 +18,11 @@ const Social = async () => {
                 let alt: string;
                 let src: string | StaticImport;
                 switch (type) {
-                    case "facebook":
+                    case SOCIAL_TYPE_FACEBOOK:
                         alt = `Follow ${artist} on Facebook`;
                         src = facebookIcon;
                         break;
-                    case "youtube":
+                    case SOCIAL_TYPE_YOUTUBE:
                         alt = `Follow ${artist} on Youtube`;
                         src = youtubeIcon;
                         break;

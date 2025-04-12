@@ -4,14 +4,17 @@ import {
     artistTable,
     concertsTable,
     contactsTable,
-    contactTypesTable,
-    recordServicesTable,
-    recordsTable,
-    recordTypesTable,
+    concertRecordsTable,
     socialsTable,
-    socialTypesTable
 } from "@/app/lib/schema";
 import {PgTransaction} from "drizzle-orm/pg-core";
+import {
+    CONTACT_TYPE_EMAIL,
+    CONTACT_TYPE_PHONE,
+    RECORD_SERVICES_YOUTUBE,
+    SOCIAL_TYPE_FACEBOOK,
+    SOCIAL_TYPE_YOUTUBE
+} from "@/app/lib/enums";
 
 const db = drizzle({
     connection: {
@@ -47,90 +50,24 @@ async function seedArtist(tx: PgTransaction<NodePgQueryResultHKT, Record<string,
     }
 }
 
-async function seedSocialTypes(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
-    const socialTypesTableRowNum = await tx.select({count: count()}).from(socialsTable);
-
-    if (socialTypesTableRowNum[0].count !== 3) {
-        const social: typeof socialTypesTable.$inferInsert[] = [
-            {social_type: 'facebook'},
-            {social_type: 'youtube'},
-            {social_type: 'instagram'},
-        ];
-
-        await tx.insert(socialTypesTable).values(social);
-        console.log('Social types created!');
-    } else {
-        console.log('Social types already exists!');
-    }
-}
-
 async function seedSocials(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
     const socials: typeof socialsTable.$inferInsert[] = [
-        {social_type_id: 1, link: 'https://www.facebook.com/alexander.kudryavtseff'},
-        {social_type_id: 2, link: 'https://youtube.com/@alexanderkudryavtsev-d7y?si=y8I-WnrEN3MqVHxk'},
+        {social_type: SOCIAL_TYPE_FACEBOOK, link: 'https://www.facebook.com/alexander.kudryavtseff'},
+        {social_type: SOCIAL_TYPE_YOUTUBE, link: 'https://youtube.com/@alexanderkudryavtsev-d7y?si=y8I-WnrEN3MqVHxk'},
     ];
 
     await tx.insert(socialsTable).values(socials);
     console.log('Socials created!');
 }
 
-
-async function seedContactTypes(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
-    const contactTypesTableRowNum = await tx.select({count: count()}).from(contactTypesTable);
-
-    if (contactTypesTableRowNum[0].count !== 2) {
-        const contactTypes: typeof contactTypesTable.$inferInsert[] = [
-            {contact_type: 'mail'},
-            {contact_type: 'phone'},
-        ];
-
-        await tx.insert(contactTypesTable).values(contactTypes);
-        console.log('Contact types created!');
-    } else {
-        console.log('Contact types already exists!');
-    }
-}
-
 async function seedContacts(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
     const contacts: typeof contactsTable.$inferInsert[] = [
-        {contact_type_id: 1, contact: 'alexanderkudryavtsev87@gmail.com'},
-        {contact_type_id: 2, contact: '+996 (700) 38-63-64'},
+        {contact_type: CONTACT_TYPE_EMAIL, contact: 'alexanderkudryavtsev87@gmail.com'},
+        {contact_type: CONTACT_TYPE_PHONE, contact: '+996 (700) 38-63-64'},
     ];
 
     await tx.insert(contactsTable).values(contacts);
     console.log('Contacts created!');
-}
-
-async function seedRecordTypes(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
-    const recordTypesRowNum = await tx.select({count: count()}).from(recordTypesTable);
-
-    if (recordTypesRowNum[0].count !== 3) {
-        const recordTypes: typeof recordTypesTable.$inferInsert[] = [
-            {record_type: 'live'},
-            {record_type: 'cd'},
-            {record_type: 'self_made'},
-        ];
-
-        await tx.insert(recordTypesTable).values(recordTypes);
-        console.log('Record types created!');
-    } else {
-        console.log('Record types already exists!');
-    }
-}
-
-async function seedRecordServices(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
-    const recordTypesRowNum = await tx.select({count: count()}).from(recordServicesTable);
-
-    if (recordTypesRowNum[0].count !== 1) {
-        const recordTypes: typeof recordServicesTable.$inferInsert[] = [
-            {record_service: 'youtube'},
-        ];
-
-        await tx.insert(recordServicesTable).values(recordTypes);
-        console.log('Record services created!');
-    } else {
-        console.log('Record services already exists!');
-    }
 }
 
 async function seedConcerts(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
@@ -146,7 +83,6 @@ async function seedConcerts(tx: PgTransaction<NodePgQueryResultHKT, Record<strin
             description_ru: null,
             poster: null,
             link: null,
-            record_id: null,
             date: new Date('2025-02-01 19:00'),
         },
     ];
@@ -157,34 +93,30 @@ async function seedConcerts(tx: PgTransaction<NodePgQueryResultHKT, Record<strin
 }
 
 async function seedRecords(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
-    const records: typeof recordsTable.$inferInsert[] = [
+    const records: typeof concertRecordsTable.$inferInsert[] = [
         {
             uuid: "tIADv9ff2Qs",
-            date: [new Date('2024-05-30 18:30')],
-            record_service_id: 1,
-            record_type_id: 1,
+            record_service: RECORD_SERVICES_YOUTUBE,
+            concert_id: 1,
         },
         {
             uuid: "25FJM6fH58Q",
-            date: [new Date('2024-05-12 17:00')],
-            record_service_id: 1,
-            record_type_id: 1,
+            record_service: RECORD_SERVICES_YOUTUBE,
+            concert_id: 1,
         },
         {
             uuid: "Kbv0I14Wjsw",
-            date: [new Date('2024-04-16 17:00')],
-            record_service_id: 1,
-            record_type_id: 1,
+            record_service: RECORD_SERVICES_YOUTUBE,
+            concert_id: 1,
         },
         {
-            uuid: "https://www.youtube.com/embed/gGeMXSF5ehY?si=hQ7Sv1XWQPXlSGP2",
-            date: [new Date('2024-03-28 15:00')],
-            record_service_id: 1,
-            record_type_id: 1,
+            uuid: "gGeMXSF5ehY",
+            record_service: RECORD_SERVICES_YOUTUBE,
+            concert_id: 1,
         },
     ];
 
-    await tx.insert(recordsTable).values(records);
+    await tx.insert(concertRecordsTable).values(records);
 
     console.log('New records created!');
 }
@@ -193,12 +125,8 @@ export async function GET() {
     await db.transaction(async (tx) => {
         try {
             await seedArtist(tx);
-            await seedSocialTypes(tx);
             await seedSocials(tx);
-            await seedContactTypes(tx);
             await seedContacts(tx);
-            await seedRecordTypes(tx);
-            await seedRecordServices(tx);
             await seedRecords(tx);
             await seedConcerts(tx);
         } catch (err) {

@@ -1,6 +1,18 @@
-import {boolean, check, customType, integer, pgTable, primaryKey, text, timestamp, varchar} from "drizzle-orm/pg-core";
-import {relations, sql} from "drizzle-orm";
+import {
+    boolean,
+    check,
+    customType,
+    integer,
+    pgTable,
+    primaryKey,
+    text,
+    timestamp,
+    varchar
+} from "drizzle-orm/pg-core";
+import {sql} from "drizzle-orm";
 import {AdapterAccountType} from "next-auth/adapters";
+import {contactTypesEnum, notRelatedRecordTypesEnum, recordServicesEnum, socialTypesEnum} from "@/app/lib/enums";
+
 
 const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
     dataType() {
@@ -35,28 +47,12 @@ export const mailingListTable = pgTable(
     },
 );
 
-export const contactTypesTable = pgTable(
-    "contact_types",
-    {
-        id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        contact_type: varchar({length: 255}).notNull().unique(),
-    },
-);
-
 export const contactsTable = pgTable(
     "contacts",
     {
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        contact_type_id: integer().references(() => contactTypesTable.id, {onDelete: 'cascade'}).notNull(),
+        contact_type: contactTypesEnum().notNull(),
         contact: text().notNull().unique(),
-    },
-);
-
-export const socialTypesTable = pgTable(
-    "social_types",
-    {
-        id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        social_type: varchar({length: 255}).notNull().unique(),
     },
 );
 
@@ -64,7 +60,7 @@ export const socialsTable = pgTable(
     "socials",
     {
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        social_type_id: integer().references(() => socialTypesTable.id, {onDelete: 'cascade'}).notNull(),
+        social_type: socialTypesEnum().notNull(),
         link: text().notNull().unique(),
     },
 );
@@ -84,31 +80,16 @@ export const concertsTable = pgTable(
         description_ru: text(),
         poster: bytea(),
         link: text(),
-        record_id: integer().references(() => recordsTable.id, {onDelete: 'cascade'}),
     },
 );
 
-export const concertRelations = relations(concertsTable, ({one}) => ({
-    recordsTable: one(recordsTable, {
-        fields: [concertsTable.record_id],
-        references: [recordsTable.id],
-    }),
-}));
-
-export const recordTypesTable = pgTable(
-    "record_types",
+export const concertRecordsTable = pgTable(
+    "concert_records",
     {
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        record_type: varchar({length: 255}).notNull().unique(),
-    },
-);
-
-
-export const recordServicesTable = pgTable(
-    "record_services",
-    {
-        id: integer().primaryKey().generatedAlwaysAsIdentity(),
-        record_service: varchar({length: 255}).notNull().unique(),
+        uuid: text().notNull().unique(),
+        record_service: recordServicesEnum().notNull(),
+        concert_id: integer().notNull().references(() => concertsTable.id, {onDelete: 'cascade'}).notNull(),
     },
 );
 
@@ -117,9 +98,11 @@ export const recordsTable = pgTable(
     {
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
         uuid: text().notNull().unique(),
-        date: timestamp().array().notNull().unique(),
-        record_service_id: integer().references(() => recordServicesTable.id, {onDelete: 'cascade'}).notNull(),
-        record_type_id: integer().references(() => recordTypesTable.id, {onDelete: 'cascade'}).notNull(),
+        date: timestamp().notNull().unique(),
+        description: text().notNull().unique(),
+        description_ru: text().unique(),
+        record_service: recordServicesEnum().notNull(),
+        record_type: notRelatedRecordTypesEnum().notNull(),
     },
 );
 

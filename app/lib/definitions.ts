@@ -1,3 +1,5 @@
+import {recordService, recordType, socialType} from "@/app/lib/enums";
+
 export type Biography = string;
 export type Name = string;
 export type Profession = string;
@@ -27,15 +29,18 @@ export type ConcertDescription = {
     recordsTable: { uuid: string, title: string } | null;
 } | undefined;
 
-export type RecordLinks = {
-    date: Date[] | null;
+export type Record = {
+    date: Date | null;
     uuid: string | null;
-    record_type: string | null;
+    record_service: recordService | null;
+    record_type: recordType | null;
+    short_description: string | null;
+    description: string | null;
 }
 
-export type Records = RecordLinks[];
+export type Records = Record[];
 
-export type Socials = { url: string, type: string | null }[];
+export type Socials = { url: string, type: socialType | null }[];
 export type Contacts = { mail: string[], phone: string[] };
 
 // REVOKE DELETE, TRUNCATE ON public.artist FROM public;

@@ -4,10 +4,16 @@ import Video from "@/app/components/Video";
 import {getIntlDate} from "@/app/utils/dateFuncs";
 import clsx from "clsx";
 import {bgStyle} from "@/app/ui/styles";
+import {
+    NOT_RELATED_RECORD_TYPE_STUDIO, NOT_RELATED_RECORD_TYPE_WORKSHOP,
+    recordType,
+    RELATED_RECORD_TYPE_CONCERT
+} from "@/app/lib/enums";
 
 export default async function RecordPage() {
     const locale = await getLocale();
-    const records = await fetchRecords();
+    const records = await fetchRecords(locale);
+    console.log(records);
 
     return (
         <section className="w-full text-center">
@@ -16,14 +22,12 @@ export default async function RecordPage() {
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-2 sm:p-6">
                 {records.map(({date, uuid, record_type}) => {
-                    const intlDates = date?.sort((date1, date2) => date1.getTime() - date2.getTime())
-                        .map((d) => getIntlDate(locale, d));
+                    const intlDate = getIntlDate(locale, date as Date);
 
                     return (<div key={uuid} className={clsx(bgStyle, "flex flex-col gap-2 w-full p-2")}>
                         <div className={"flex w-full justify-between items-center"}>
-                            {intlDates?.map((date) =>
-                                <span key={date} className={"text-beige"}>{date}</span>)}
-                            <RecordType record_type={record_type as string}/>
+                            <span key={intlDate} className={"text-beige"}>{intlDate}</span>)
+                            <RecordType record_type={record_type as recordType}/>
                         </div>
                         <Video uuid={uuid as string}/>
                     </div>);
@@ -33,17 +37,17 @@ export default async function RecordPage() {
     );
 }
 
-const RecordType = ({record_type}: { record_type: string }) => {
+const RecordType = ({record_type}: { record_type: recordType }) => {
     let recordTypeClass;
 
     switch (record_type) {
-        case "live":
+        case RELATED_RECORD_TYPE_CONCERT:
             recordTypeClass = "bg-green-700";
             break;
-        case "cd":
+        case NOT_RELATED_RECORD_TYPE_STUDIO:
             recordTypeClass = "bg-blue-700";
             break;
-        case "self_made":
+        case NOT_RELATED_RECORD_TYPE_WORKSHOP:
             recordTypeClass = "bg-orange-700";
             break;
         default:
