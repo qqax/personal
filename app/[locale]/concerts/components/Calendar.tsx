@@ -59,6 +59,6 @@ export function ConcertsCalendar({hideCalendar}: { hideCalendar?: () => void }) 
 
                 return null;
             }}
-            className={"w-full h-[330px] p-4"}/>
+            className={"w-full h-[330px]"}/>
     );
 }

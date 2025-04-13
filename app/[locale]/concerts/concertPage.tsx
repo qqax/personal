@@ -1,6 +1,6 @@
 'use client';
 
-import {ConcertMenu} from "@/app/[locale]/concerts/components/concertMenu";
+import {ConcertMenu, ModalCalendar} from "@/app/[locale]/concerts/components/concertMenu";
 import clsx from "clsx";
 import {bgStyle} from "@/app/ui/styles";
 import {ConcertsCalendar} from "@/app/[locale]/concerts/components/Calendar";
@@ -119,20 +119,23 @@ export default function ConcertPage({children, description, concerts, firstUpcom
             setCursorToNext,
             setCursorToPrev,
         }}>
-            <div className={"w-full"}>
-                <ConcertMenu isCurrentUpcoming={isCurrentUpcoming}
-                             isUpcomingConcertPresented={isUpcomingConcertPresented}/>
-                <section
-                    className={clsx("relative mt-10 flex md:overflow-auto w-full md:h-[88vh] xl:gap-8", bgStyle)}>
-                    <div className={"hidden xl:block pl-2"}>
-                        <ConcertsCalendar/>
-                        <NewsForm/>
+            <ConcertMenu isCurrentUpcoming={isCurrentUpcoming}
+                         isUpcomingConcertPresented={isUpcomingConcertPresented}/>
+            <section
+                className={"relative mt-20 flex md:overflow-auto w-full md:h-[88vh] gap-8 m-6"}>
+                <div className={clsx(bgStyle, "hidden xl:block max-h-max p-6")}>
+                    <ConcertsCalendar/>
+                    <NewsForm/>
+                </div>
+                <div>
+                    <div className="hidden sm:block lg:hidden">
+                        <ModalCalendar/>
                     </div>
                     {isMd ? <MdConcertsList/> : <SmConcertsList/>}
-                    {description}
-                    {children}
-                </section>
-            </div>
+                </div>
+                {description}
+                {children}
+            </section>
         </ConcertContext.Provider>
     );
 };

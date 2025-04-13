@@ -149,9 +149,9 @@ const ConcertView = ({
                 return (
                     <li key={concert.id}>
                         {index === 0 && index !== firstUpcomingConcertIndex &&
-                            <p className={"text-beige text-xl py-4"}>Forgoing concerts:</p>}
+                            <p className={"text-beige text-xl p-4"}>Forgoing concerts:</p>}
                         {index === firstUpcomingConcertIndex &&
-                            <p className={clsx("text-beige text-xl py-4", {"mt-8 border-t-[1px] border-red-600": index !== 0})}>Upcoming
+                            <p className={clsx("text-beige text-xl p-4", {"mt-8": index !== 0})}>Upcoming
                                 concerts:</p>}
                         <button
                             id={concert.id}
@@ -171,9 +171,9 @@ const ConcertView = ({
                                 }
                             }}
                             className={clsx(
-                                {"bg-black bg-opacity-40": index % 2},
-                                {"border-opacity-100": index === cursor},
-                                "flex flex-col gap-1.5 w-full text-left outline-0 p-4 border-gray-300 border-[1px] border-opacity-0")}
+                                {"bg-opacity-40": index % 2},
+                                {"bg-opacity-75": index === cursor},
+                                "flex flex-col gap-1.5 w-full text-left outline-0 p-4 bg-amber-50 ")}
                         >
                             <ConcertDate dateTime={concert.date as Date}/>
                             <p>

@@ -147,8 +147,7 @@ export async function fetchConcerts(locale: string): Promise<ConcertsData> {
 
     try {
         const concerts: Concerts = await db.select({
-            id: sql<string>`to_char
-            (${concertsTable.date}, 'DD_Mon_YY_HH24_MI')`.as('id'),
+            id: sql<string>`to_char(${concertsTable.date}, 'DD_Mon_YY_HH24_MI')`.as('id'),
             date: concertsTable.date,
             place: selectTranslated(concertsTable, "place", locale),
             short_description: selectTranslated(concertsTable, "short_description", locale),

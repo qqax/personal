@@ -6,11 +6,12 @@ import {ConcertDescription} from "@/app/lib/definitions";
 import Record from "@/app/components/records/record";
 import {recordService} from "@/app/lib/schema/enums";
 import {RecordName} from "@/app/components/records/recordName";
+import {bgStyle} from "@/app/ui/styles";
 
 //TODO: concert poster
 
 export const DescriptionView = ({concertDescription}: { concertDescription: ConcertDescription }) => {
-    return (<div className={"flex flex-col w-full h-full gap-4 p-4 overflow-x-hidden overflow-y-auto"}>
+    return (<div className={clsx(bgStyle, "flex flex-col w-full h-full gap-4 p-4 overflow-x-hidden overflow-y-auto")}>
         <DescriptionHeader date={concertDescription?.date as Date}/>
         <div className={"text-center text-2xl text-beige"}>Description</div>
         <div className={"flex w-full gap-4"}>
