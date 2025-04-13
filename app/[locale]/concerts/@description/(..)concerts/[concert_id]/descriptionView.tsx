@@ -3,7 +3,8 @@ import clsx from "clsx";
 import Image from "next/image";
 import {Programme} from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/programme";
 import {ConcertDescription} from "@/app/lib/definitions";
-import Video from "@/app/components/Video";
+import Record, {RecordName} from "@/app/components/record";
+import {recordService} from "@/app/lib/enums";
 
 //TODO: concert poster
 
@@ -31,7 +32,15 @@ export const DescriptionView = ({concertDescription}: { concertDescription: Conc
             }
         </div>
         {concertDescription?.description && <Programme programme={concertDescription.description}/>}
-        {concertDescription?.recordsTable &&
-            <Video uuid={concertDescription.recordsTable.uuid}/>}
+        {concertDescription?.records &&
+            concertDescription?.records.map(({uuid, record_service}) => {
+
+                return <div key={uuid} className={clsx("flex flex-col gap-2 w-full p-2")}>
+                    <RecordName uuid={uuid} record_service={record_service as recordService}/>
+                    <Record uuid={uuid} record_service={record_service as recordService}/>
+                </div>
+            })
+        }
     </div>);
 };
+
