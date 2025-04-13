@@ -26,7 +26,7 @@ export type ConcertDescription = {
     description?: string | null;
     poster?: Buffer | null;
     link?: string | null;
-    recordsTable: { uuid: string, title: string } | null;
+    records: { uuid: string, record_service: string }[] | null;
 } | undefined;
 
 export type Record = {

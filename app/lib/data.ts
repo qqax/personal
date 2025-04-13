@@ -179,12 +179,10 @@ export async function fetchConcertDescription(id: string, locale: string): Promi
                 poster: true,
             },
             with: {
-                recordsTable: {
+                records: {
                     columns: {
                         uuid: true,
-                    },
-                    extras: {
-                        title: selectTranslated(concertRecordsTable, "title", locale),
+                        record_service: true,
                     },
                 },
             },
@@ -225,8 +223,9 @@ export async function fetchRecords(locale: string): Promise<Records> {
             description: selectTranslated(recordsTable, "description", locale),
         }).from(recordsTable);
 
-        return union(concertRecordsSelect, recordsSelect)
-            .orderBy(sql`"date" DESC`);
+        const sq = union(concertRecordsSelect, recordsSelect).as('sq');
+
+        return db.select().from(sq).orderBy(sq.date);
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch the records.');

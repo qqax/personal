@@ -9,7 +9,7 @@ import {
     timestamp,
     varchar
 } from "drizzle-orm/pg-core";
-import {sql} from "drizzle-orm";
+import {relations, sql} from "drizzle-orm";
 import {AdapterAccountType} from "next-auth/adapters";
 import {contactTypesEnum, notRelatedRecordTypesEnum, recordServicesEnum, socialTypesEnum} from "@/app/lib/enums";
 
@@ -89,9 +89,20 @@ export const concertRecordsTable = pgTable(
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
         uuid: text().notNull().unique(),
         record_service: recordServicesEnum().notNull(),
-        concert_id: integer().notNull().references(() => concertsTable.id, {onDelete: 'cascade'}).notNull(),
+        concert_id: integer("concert_id").notNull().references(() => concertsTable.id, {onDelete: 'cascade'}).notNull(),
     },
 );
+
+export const concertRelations = relations(concertsTable, ({many}) => ({
+    records: many(concertRecordsTable),
+}));
+
+export const concertRecordsRelations = relations(concertRecordsTable, ({one}) => ({
+    records: one(concertsTable, {
+        fields: [concertRecordsTable.concert_id],
+        references: [concertsTable.id],
+    }),
+}));
 
 export const recordsTable = pgTable(
     "records",
