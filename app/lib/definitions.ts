@@ -1,4 +1,4 @@
-import {recordService, recordType, socialType} from "@/app/lib/enums";
+import {CONTACT_TYPE_EMAIL, CONTACT_TYPE_PHONE, recordService, recordType, socialType} from "@/app/lib/schema/enums";
 
 export type Biography = string;
 export type Name = string;
@@ -41,6 +41,6 @@ export type Record = {
 export type Records = Record[];
 
 export type Socials = { url: string, type: socialType | null }[];
-export type Contacts = { mail: string[], phone: string[] };
+export type Contacts = { [CONTACT_TYPE_EMAIL]: string[], [CONTACT_TYPE_PHONE]: string[] };
 
 // REVOKE DELETE, TRUNCATE ON public.artist FROM public;

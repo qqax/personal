@@ -4,7 +4,7 @@ import Image from "next/image";
 import {Programme} from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/programme";
 import {ConcertDescription} from "@/app/lib/definitions";
 import Record, {RecordName} from "@/app/components/record";
-import {recordService} from "@/app/lib/enums";
+import {recordService} from "@/app/lib/schema/enums";
 
 //TODO: concert poster
 

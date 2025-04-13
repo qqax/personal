@@ -1,6 +1,5 @@
 import {pgEnum} from "drizzle-orm/pg-core";
 
-
 export const RECORD_SERVICES_YOUTUBE = "youtube";
 
 export const CONTACT_TYPE_PHONE = "phone";

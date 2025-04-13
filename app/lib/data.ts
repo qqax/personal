@@ -1,14 +1,16 @@
 "use server";
 
 import {
-    concertsTable,
-    concertRecordsTable,
     mailingListTable,
     artistTable,
     socialsTable,
-    contactsTable,
+    contactsTable
+} from "./schema/schema";
+import {
+    concertRecordsTable,
+    concertsTable,
     recordsTable
-} from "./schema";
+} from "@/app/lib/schema/concert-records";
 import {cacheTag} from "next/dist/server/use-cache/cache-tag";
 import {
     ArtistData,
@@ -25,7 +27,7 @@ import {PgColumn, PgTableWithColumns, union} from "drizzle-orm/pg-core";
 import {cacheLife} from "next/dist/server/use-cache/cache-life";
 import {db} from "@/app/lib/connection";
 import {NotDefaultLocales} from "@/i18n/routing";
-import {contactType, recordType, relatedRecordTypesEnum} from "@/app/lib/enums";
+import {contactType, recordType, relatedRecordTypesEnum} from "@/app/lib/schema/enums";
 
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */

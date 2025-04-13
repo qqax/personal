@@ -8,7 +8,7 @@ import {
     NOT_RELATED_RECORD_TYPE_STUDIO, NOT_RELATED_RECORD_TYPE_WORKSHOP, recordService,
     recordType,
     RELATED_RECORD_TYPE_CONCERT
-} from "@/app/lib/enums";
+} from "@/app/lib/schema/enums";
 
 export default async function RecordPage() {
     const locale = await getLocale();

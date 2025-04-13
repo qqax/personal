@@ -2,11 +2,9 @@ import {drizzle, NodePgQueryResultHKT} from "drizzle-orm/node-postgres";
 import {count, ExtractTablesWithRelations} from "drizzle-orm";
 import {
     artistTable,
-    concertsTable,
     contactsTable,
-    concertRecordsTable,
-    socialsTable, recordsTable,
-} from "@/app/lib/schema";
+    socialsTable,
+} from "@/app/lib/schema/schema";
 import {PgTransaction} from "drizzle-orm/pg-core";
 import {
     CONTACT_TYPE_EMAIL,
@@ -14,7 +12,8 @@ import {
     RECORD_SERVICES_YOUTUBE,
     SOCIAL_TYPE_FACEBOOK,
     SOCIAL_TYPE_YOUTUBE
-} from "@/app/lib/enums";
+} from "@/app/lib/schema/enums";
+import {concertRecordsTable, concertsTable, recordsTable} from "@/app/lib/schema/concert-records";
 
 const db = drizzle({
     connection: {

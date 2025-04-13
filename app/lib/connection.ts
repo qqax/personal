@@ -1,5 +1,5 @@
 import {drizzle} from "drizzle-orm/node-postgres";
-import * as schema from "@/app/lib/schema";
+import * as schema from "@/app/lib/schema/schema";
 
 export const db = drizzle({
     connection: {
