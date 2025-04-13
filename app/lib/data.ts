@@ -5,12 +5,12 @@ import {
     artistTable,
     socialsTable,
     contactsTable
-} from "./schema/schema";
+} from "./schema/common";
 import {
     concertRecordsTable,
     concertsTable,
     recordsTable
-} from "@/app/lib/schema/concert-records";
+} from "./schema/concert-records";
 import {cacheTag} from "next/dist/server/use-cache/cache-tag";
 import {
     ArtistData,
@@ -202,14 +202,14 @@ export async function fetchConcertDescription(id: string, locale: string): Promi
 }
 
 export async function fetchRecords(locale: string): Promise<Records> {
-    'use cache';
-    cacheTag('record');
+    // 'use cache';
+    // cacheTag('record');
 
     try {
         const concertRecordsSelect = db.select({
             date: concertsTable.date,
             uuid: concertRecordsTable.uuid,
-            record_type: sql<recordType>`${relatedRecordTypesEnum.enumValues[0]}`,
+            record_type: sql<recordType>`${relatedRecordTypesEnum.enumValues[0]}`.as("record_type"),
             record_service: concertRecordsTable.record_service,
             short_description: selectTranslated(concertsTable, "short_description", locale),
             description: selectTranslated(concertsTable, "description", locale),
@@ -220,7 +220,7 @@ export async function fetchRecords(locale: string): Promise<Records> {
             date: recordsTable.date,
             uuid: recordsTable.uuid,
             record_type: recordsTable.record_type,
-            record_service: concertRecordsTable.record_service,
+            record_service: recordsTable.record_service,
             short_description: selectTranslated(recordsTable, "short_description", locale),
             description: selectTranslated(recordsTable, "description", locale),
         }).from(recordsTable);

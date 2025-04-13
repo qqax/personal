@@ -46,7 +46,7 @@ export function SmConcertsList() {
     useScroll(() => {
         if (areConcertsPresented) {
             currentConcertHandler(
-                Math.round(window.scrollY) >= ref.current[firstUpcomingConcertID].offsetTop - 100,
+                Math.round(window.scrollY) >= ref.current[firstUpcomingConcertID || 0].offsetTop - 100,
             );
         }
     });
@@ -81,7 +81,7 @@ export function MdConcertsList() {
 
     const onUlScroll: UIEventHandler<HTMLUListElement> = (e) => {
         currentConcertHandler(
-            Math.round((e.target as HTMLElement).scrollTop) >= ref.current[firstUpcomingConcertID].offsetTop);
+            Math.round((e.target as HTMLElement).scrollTop) >= ref.current[firstUpcomingConcertID || 0].offsetTop);
     };
 
     const scrollUl = (id: string) => {

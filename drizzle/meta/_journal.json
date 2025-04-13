@@ -8,6 +8,13 @@
       "when": 1744552139909,
       "tag": "0000_bright_shadowcat",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1744559612309,
+      "tag": "0001_rich_hitman",
+      "breakpoints": true
     }
   ]
 }

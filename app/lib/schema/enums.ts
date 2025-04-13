@@ -29,8 +29,7 @@ export const socialTypesValues = socialTypesEnum.enumValues;
 export type socialType = typeof socialTypesValues[number];
 
 export const relatedRecordTypesEnum = pgEnum("related_record_types", [RELATED_RECORD_TYPE_CONCERT]);
-export const notRelatedRecordTypesEnum = pgEnum("not_related_record_types", [NOT_RELATED_RECORD_TYPE_STUDIO, NOT_RELATED_RECORD_TYPE_WORKSHOP]);
 
-export const recordTypesEnum = pgEnum("record_types", [...relatedRecordTypesEnum.enumValues, ...notRelatedRecordTypesEnum.enumValues]);
+export const recordTypesEnum = pgEnum("record_types", [...relatedRecordTypesEnum.enumValues, NOT_RELATED_RECORD_TYPE_STUDIO, NOT_RELATED_RECORD_TYPE_WORKSHOP]);
 export const recordTypesValues = recordTypesEnum.enumValues;
 export type recordType = typeof recordTypesValues[number];

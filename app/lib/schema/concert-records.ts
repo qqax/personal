@@ -1,6 +1,6 @@
 import {relations} from "drizzle-orm";
 import {integer, pgTable, text, timestamp} from "drizzle-orm/pg-core";
-import {notRelatedRecordTypesEnum, recordServicesEnum} from "@/app/lib/schema/enums";
+import {recordServicesEnum, recordTypesEnum} from "@/app/lib/schema/enums";
 import {bytea} from "@/app/lib/schema/custom_types";
 
 export const concertsTable = pgTable(
@@ -49,6 +49,6 @@ export const recordsTable = pgTable(
         description: text().notNull().unique(),
         description_ru: text().unique(),
         record_service: recordServicesEnum().notNull(),
-        record_type: notRelatedRecordTypesEnum().notNull(),
+        record_type: recordTypesEnum().notNull(),
     },
 );

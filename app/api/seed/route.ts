@@ -4,7 +4,7 @@ import {
     artistTable,
     contactsTable,
     socialsTable,
-} from "@/app/lib/schema/schema";
+} from "@/app/lib/schema/common";
 import {PgTransaction} from "drizzle-orm/pg-core";
 import {
     CONTACT_TYPE_EMAIL,
@@ -93,7 +93,7 @@ async function seedConcerts(tx: PgTransaction<NodePgQueryResultHKT, Record<strin
             description_ru: null,
             poster: null,
             link: null,
-            date: new Date('2024-04-16 17:00'),
+            date: new Date('2024-04-16 17:00 GMT'),
         },
         {
             place: "Bishkek Conservatory",
@@ -141,7 +141,7 @@ async function seedConcerts(tx: PgTransaction<NodePgQueryResultHKT, Record<strin
             description_ru: null,
             poster: null,
             link: null,
-            date: new Date('2024-05-30 18:30'),
+            date: new Date('2024-05-30 18:30 GMT'),
         },
     ];
 
@@ -154,7 +154,7 @@ async function seedRecords(tx: PgTransaction<NodePgQueryResultHKT, Record<string
     const records: typeof recordsTable.$inferInsert[] = [
         {
             uuid: "tNGOFZ5gQcg",
-            date: new Date('2011-04-01 12:00'),
+            date: new Date('2011-04-01 12:00 GMT'),
             short_description: "J.Haydn, Sonata in D major, Hob.XVI:24",
             short_description_ru: "J.Haydn, Sonata in D major, Hob.XVI:24",
             description: "Й. Гайдн, Соната ре мажор, Hob.XVI:24",
@@ -163,8 +163,8 @@ async function seedRecords(tx: PgTransaction<NodePgQueryResultHKT, Record<string
             record_type: NOT_RELATED_RECORD_TYPE_STUDIO,
         },
         {
-            uuid: "25FJM6fH58Q",
-            date: new Date('2011-04-01 14:00'),
+            uuid: "XjlFfwX0Q2Q",
+            date: new Date('2011-04-01 14:00 GMT'),
             short_description: "S. Rachmaninoff, Variations on a Theme of Corelli, Op. 42",
             short_description_ru: "S. Rachmaninoff, Variations on a Theme of Corelli, Op. 42",
             description: "C. Рахманинов, Вариации на тему Корелли, Op. 42",

@@ -13,6 +13,8 @@ export default async function ConcertModal({params}: { params: { concert_id: str
 
     const concertDescription = await fetchConcertDescription(concert_id, locale);
 
+    console.log(concertDescription);
+
     if (!concertDescription) {
         return null;
     }

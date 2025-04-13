@@ -1,6 +1,6 @@
 import {getLocale} from "next-intl/server";
 import {fetchRecords} from "@/app/lib/data";
-import Record from "@/app/components/record";
+import Record from "@/app/components/records/record";
 import {getIntlDate} from "@/app/utils/dateFuncs";
 import clsx from "clsx";
 import {bgStyle} from "@/app/ui/styles";
@@ -26,7 +26,7 @@ export default async function RecordPage() {
 
                     return (<div key={uuid} className={clsx(bgStyle, "flex flex-col gap-2 w-full p-2")}>
                         <div className={"flex w-full justify-between items-center"}>
-                            <span key={intlDate} className={"text-beige"}>{intlDate}</span>)
+                            <span key={intlDate} className={"text-beige"}>{intlDate}</span>
                             <RecordType record_type={record_type as recordType}/>
                         </div>
                         <Record uuid={uuid as string} record_service={record_service as recordService}/>
