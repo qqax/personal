@@ -5,12 +5,12 @@ import {
     concertsTable,
     contactsTable,
     concertRecordsTable,
-    socialsTable,
+    socialsTable, recordsTable,
 } from "@/app/lib/schema";
 import {PgTransaction} from "drizzle-orm/pg-core";
 import {
     CONTACT_TYPE_EMAIL,
-    CONTACT_TYPE_PHONE,
+    CONTACT_TYPE_PHONE, NOT_RELATED_RECORD_TYPE_STUDIO,
     RECORD_SERVICES_YOUTUBE,
     SOCIAL_TYPE_FACEBOOK,
     SOCIAL_TYPE_YOUTUBE
@@ -74,16 +74,75 @@ async function seedConcerts(tx: PgTransaction<NodePgQueryResultHKT, Record<strin
     const concerts: typeof concertsTable.$inferInsert[] = [
         {
             place: "Roerich museum",
-            address: 'Bishkek, Junusalieva 123',
-            short_description: 'Chopin evening',
-            description: 'Ballades and fantasias',
-            place_ru: null,
-            address_ru: null,
-            short_description_ru: null,
+            place_ru: "Бишкек, Музей им. Рериха",
+            address: 'Bishkek, Junusalieva 41',
+            address_ru: "Бишкек, ул. Юнусалиева, 41",
+            short_description: 'Mozart, Chopin, Beethoven',
+            short_description_ru: "Моцарт, Шопен, Бетховен",
+            description: 'Mozart - Sonata #11 K. 331 A-major\n' +
+                'I. Andante grazioso\n' +
+                'II. Menuetto\n' +
+                'III. Rondo alla turca\n' +
+                '\n' +
+                'F. Chopin - Sonata #2 op. 35 b-flat minor\n' +
+                'I. Grave – Doppio movimento\n' +
+                'II. Scherzo\n' +
+                'III. Marche funèbre: Lento\n' +
+                'IV. Finale: Presto\n' +
+                '\n' +
+                'L. van Beethoven - A. Rubinstein - "Turkish March" from the music for the drama "Ruins of Athens (1811)',
             description_ru: null,
             poster: null,
             link: null,
-            date: new Date('2025-02-01 19:00'),
+            date: new Date('2024-04-16 17:00'),
+        },
+        {
+            place: "Bishkek Conservatory",
+            place_ru: "Консерватория им. К. Молдобасанова",
+            address: '115 Jantoshev St., Bishkek',
+            address_ru: "Бишкек, ул. Джантошева, 115",
+            short_description: 'Bach, Mozart, Beethoven, Chopin, Scriabin, Wagner-Liszt',
+            short_description_ru: "Бах, Моцарт, Бетховен, Шопен, Скрябин, Вагнер-Лист",
+            description: "*Part I*\n" +
+                "J.S. Bach— Italian Concerto BWV 971, F Major\n" +
+                "01:12  1. Allegro\n" +
+                "05:34  2. Andante\n" +
+                "11:28  3. Presto\n" +
+                "\n" +
+                "Mozart — Sonata No. 11 K. 331, A Major\n" +
+                "16:22  1. Andante grazioso\n" +
+                "23:33  2. Menuetto\n" +
+                "28:38  3. Rondo alla turca\n" +
+                "\n" +
+                "L. van Beethoven — Sonata No. 12 Op. 26, A-flat Major\n" +
+                "32:52  1. Andante con variazioni\n" +
+                "41:55  2. Scherzo: Allegro molto\n" +
+                "44:30  3. Marcia funebre sulla morte d'un eroe: Maestoso andante\n" +
+                "50:47  4. Rondo: Allegro\n" +
+                "\n" +
+                "*Part II*\n" +
+                "F. Chopin — Sonata No. 2 Op. 35, B-flat Minor\n" +
+                "54:36     1. Grave – Doppio movimento\n" +
+                "1:02:00  2. Scherzo\n" +
+                "1:09:25  3. Marche funèbre: Lento\n" +
+                "1:17:32  4. Finale: Presto\n" +
+                "\n" +
+                "A. Scriabin — Sonata No. 1 Op. 6, F-sharp Minor\n" +
+                "1:20:06  1. Allegro con fuoco\n" +
+                "1:27:52  2. Adagio\n" +
+                "1:32:31  3. Presto\n" +
+                "1:36:00  4. Funèbre\n" +
+                "\n" +
+                "1:41:47 - R. Wagner – F. Liszt — Overture to the opera \"Tannhäuser,\" S. 442\n" +
+                "\n" +
+                "*Extra*\n" +
+                "1:57:30 - P. Tchaikovsky – S. Rachmaninov — Lullaby\n" +
+                "2:01:55 - F. Chopin — Berceuse Op. 57, D-flat Major\n" +
+                "2:05:22 - F. Chopin — Etude Op. 10 №5, G-flat Major",
+            description_ru: null,
+            poster: null,
+            link: null,
+            date: new Date('2024-05-30 18:30'),
         },
     ];
 
@@ -93,26 +152,45 @@ async function seedConcerts(tx: PgTransaction<NodePgQueryResultHKT, Record<strin
 }
 
 async function seedRecords(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
-    const records: typeof concertRecordsTable.$inferInsert[] = [
+    const records: typeof recordsTable.$inferInsert[] = [
         {
-            uuid: "tIADv9ff2Qs",
+            uuid: "tNGOFZ5gQcg",
+            date: new Date('2011-04-01 12:00'),
+            short_description: "J.Haydn, Sonata in D major, Hob.XVI:24",
+            short_description_ru: "J.Haydn, Sonata in D major, Hob.XVI:24",
+            description: "Й. Гайдн, Соната ре мажор, Hob.XVI:24",
+            description_ru: "Й. Гайдн, Соната ре мажор, Hob.XVI:24",
             record_service: RECORD_SERVICES_YOUTUBE,
-            concert_id: 1,
+            record_type: NOT_RELATED_RECORD_TYPE_STUDIO,
         },
         {
             uuid: "25FJM6fH58Q",
+            date: new Date('2011-04-01 14:00'),
+            short_description: "S. Rachmaninoff, Variations on a Theme of Corelli, Op. 42",
+            short_description_ru: "S. Rachmaninoff, Variations on a Theme of Corelli, Op. 42",
+            description: "C. Рахманинов, Вариации на тему Корелли, Op. 42",
+            description_ru: "C. Рахманинов, Вариации на тему Корелли, Op. 42",
             record_service: RECORD_SERVICES_YOUTUBE,
-            concert_id: 1,
+            record_type: NOT_RELATED_RECORD_TYPE_STUDIO,
         },
+    ];
+
+    await tx.insert(recordsTable).values(records);
+
+    console.log('New records created!');
+}
+
+async function seedConcertRecords(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
+    const records: typeof concertRecordsTable.$inferInsert[] = [
         {
             uuid: "Kbv0I14Wjsw",
             record_service: RECORD_SERVICES_YOUTUBE,
             concert_id: 1,
         },
         {
-            uuid: "gGeMXSF5ehY",
+            uuid: "dOywi74R5GY",
             record_service: RECORD_SERVICES_YOUTUBE,
-            concert_id: 1,
+            concert_id: 2,
         },
     ];
 
@@ -127,8 +205,9 @@ export async function GET() {
             await seedArtist(tx);
             await seedSocials(tx);
             await seedContacts(tx);
-            await seedRecords(tx);
             await seedConcerts(tx);
+            await seedConcertRecords(tx);
+            await seedRecords(tx);
         } catch (err) {
             console.error(err);
             tx.rollback();

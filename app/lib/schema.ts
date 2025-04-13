@@ -110,6 +110,8 @@ export const recordsTable = pgTable(
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
         uuid: text().notNull().unique(),
         date: timestamp().notNull().unique(),
+        short_description: text().notNull().unique(),
+        short_description_ru: text().unique(),
         description: text().notNull().unique(),
         description_ru: text().unique(),
         record_service: recordServicesEnum().notNull(),
