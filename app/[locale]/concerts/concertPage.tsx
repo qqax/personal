@@ -127,8 +127,8 @@ export default function ConcertPage({children, description, concerts, firstUpcom
                     <ConcertsCalendar/>
                     <NewsForm/>
                 </div>
-                <div>
-                    <div className="hidden sm:block lg:hidden">
+                <div className={"mx-auto"}>
+                    <div className="block lg:hidden">
                         <ModalCalendar/>
                     </div>
                     {isMd ? <MdConcertsList/> : <SmConcertsList/>}

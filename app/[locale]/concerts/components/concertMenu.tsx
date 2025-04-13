@@ -18,7 +18,7 @@ export const ConcertMenu = ({isCurrentUpcoming, isUpcomingConcertPresented}: {
     const {scrollTo} = useConcertContext() as ConcertContextType;
 
     return (
-        <div className={"fixed flex sm:hidden lg:flex justify-around lg:justify-evenly right-0 w-2/3 lg:w-1/2 py-5 text-lg md:text-2xl"}>
+        <div className={"fixed flex sm:hidden lg:flex justify-around lg:justify-evenly right-0 w-full lg:w-1/2 py-5 text-lg md:text-2xl"}>
             <h2 className={"align-middle text-beige"}>Concerts:</h2>
             {isUpcomingConcertPresented &&
                 <>
@@ -33,7 +33,6 @@ export const ConcertMenu = ({isCurrentUpcoming, isUpcomingConcertPresented}: {
                     </button>
                 </>
             }
-            <ModalCalendar/>
         </div>);
 };
 
