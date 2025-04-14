@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import clsx from "clsx";
-import { buttonColors } from "@/app/ui/styles";
+import { bgStyle, buttonColors } from "@/app/ui/styles";
 import { ConcertsCalendar } from "@/app/[locale]/concerts/components/Calendar";
 import Modal from "@/app/ui/Modal";
 import { useClickOutside } from "@/app/components/hooks";
@@ -72,7 +72,7 @@ export const ModalCalendar = () => {
         <>
             <Modal show={showCalendar} preventScroll={true}>
                 <div className={"flex w-full items-center justify-center"}>
-                    <div ref={ref} className={"bg-black border-[1px] border-white items-start"}>
+                    <div ref={ref} className={clsx(bgStyle, "items-start p-4")}>
                         <div className={"text-3xl  w-full text-center"}>
                         <span className={"inline-block mt-4"}>
                         Calendar
