@@ -171,9 +171,9 @@ const ConcertView = ({
                                 }
                             }}
                             className={clsx(
-                                { "bg-opacity-40": index % 2 },
-                                { "bg-opacity-75": index === cursor },
-                                "flex flex-col gap-1.5 w-full text-left outline-0 p-4 bg-amber-50 ")}
+                                index % 2 ? "bg-opacity-55" : "bg-opacity-75",
+                                { "border-opacity-100   ": index === cursor },
+                                "flex flex-col border-2 border-teal-900 border-opacity-0 gap-1.5 w-full text-left outline-0 p-4 bg-amber-50 backdrop-blur")}
                         >
                             <ConcertDate dateTime={concert.date as Date}/>
                             <p>

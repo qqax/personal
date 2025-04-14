@@ -131,7 +131,7 @@ export default function ConcertPage({ children, description, concerts, firstUpco
             <ConcertMenu isCurrentUpcoming={isCurrentUpcoming}
                          isUpcomingConcertPresented={isUpcomingConcertPresented}/>
             <section
-                className={"relative mt-20 flex md:overflow-auto w-full md:h-[88vh] gap-8 m-6"}>
+                className={"relative mt-36 sm:mt-40 lg:mt-20 flex md:overflow-auto w-full md:h-[88vh] gap-8 m-6"}>
                 <div className={clsx(bgStyle, "hidden xl:block max-h-max p-6")}>
                     <ConcertsCalendar/>
                     <NewsForm/>
