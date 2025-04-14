@@ -1,5 +1,5 @@
-import { getLocale } from "next-intl/server";
-import { fetchRecords } from "@/app/lib/data";
+import { getLocale, getTranslations } from "next-intl/server";
+import { fetchArtistName, fetchRecords } from "@/app/lib/data";
 import Record from "@/app/components/records/record";
 import { getIntlDate } from "@/app/utils/dateFuncs";
 import clsx from "clsx";
@@ -11,6 +11,17 @@ import {
     recordType,
     RELATED_RECORD_TYPE_CONCERT
 } from "@/app/lib/schema/enums";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
+    const t = await getTranslations('RecordsMetadata');
+    const artistName = await fetchArtistName(locale);
+
+    return {
+        title: t('title'),
+        description: t('description', { name: artistName }),
+    };
+}
 
 export default async function RecordPage() {
     const locale = await getLocale();

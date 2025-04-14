@@ -32,6 +32,7 @@ export async function sendMail({
     html?: string;
 }) {
     try {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const isVerified = await transporter.verify();
     } catch (error) {
         console.error('Something Went Wrong', SMTP_SERVER_USERNAME, SMTP_SERVER_PASSWORD, error);

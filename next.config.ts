@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     experimental: {
         dynamicIO: true,
     },
+    transpilePackages: ["next-mdx-remote"],
   /* config options here */
 };
 

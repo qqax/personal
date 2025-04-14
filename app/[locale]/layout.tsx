@@ -9,16 +9,13 @@ import { Locale, routing } from '@/i18n/routing';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import React from "react";
-import { connection } from "next/server";
 import { fetchArtistName, fetchArtistProfession } from "@/app/lib/data";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Background from "@/app/components/background";
 
 const jura = Jura({ subsets: ['latin', 'cyrillic'] });
 
-export async function generateMetadata({ params }: { params: { locale: string } }) {
-    await connection();
-
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
     const t = await getTranslations('Metadata');
     const artistName = await fetchArtistName(locale);
@@ -39,10 +36,8 @@ export default async function RootLayout({
                                              params,
                                          }: Readonly<{
     children: React.ReactNode;
-    params: { locale: string };
+    params: Promise<{ locale: string }>;
 }>) {
-    await connection();
-
     const { locale } = await params;
 
     // Ensure that the incoming `locale` is valid

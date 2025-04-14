@@ -51,7 +51,7 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
             nextAriaLabel={"Next"}
             prev2AriaLabel={"Jump backwards"}
             prevAriaLabel={"Previous"}
-            tileDisabled={({ activeStartDate, date, view }) => {
+            tileDisabled={({ date }) => {
                 return !concertDates.has(date.setHours(0, 0, 0, 0));
             }}
             tileClassName={({ date, view }) => {

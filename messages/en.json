@@ -1,7 +1,15 @@
 {
   "Metadata": {
-    "title": "Biography of artist",
+    "title": "Biography of the artist",
     "description": "{name} ({profession}) is a professional musician, this is his personal site."
+  },
+  "RecordsMetadata": {
+    "title": "Artist's Recordings",
+    "description": "{name} has a number of recordings including concerts, workshops and studio recordings."
+  },
+  "SupportMetadata": {
+    "title": "Support the artist's work",
+    "description": "If you like the artist's work, be sure to support the artist."
   },
   "NewsForm": {
     "title": "Want to know about new recordings and concerts?",
