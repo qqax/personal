@@ -1,12 +1,12 @@
 'use client';
 
-import {Link, usePathname} from "@/i18n/routing";
+import { Link, usePathname } from "@/i18n/routing";
 import clsx from "clsx";
-import {navClassName} from "@/app/ui/styles";
-import {LocaleSwitcher} from "@/app/components/navbar/localeSwitcher";
-import {RefObject, useEffect, useRef, useState} from "react";
-import {MobileMenuButton} from "@/app/ui/Button";
-import {useClickOutside} from "@/app/components/hooks";
+import { navClassName } from "@/app/ui/styles";
+import { LocaleSwitcher } from "@/app/components/navbar/localeSwitcher";
+import { RefObject, useEffect, useRef, useState } from "react";
+import { MobileMenuButton } from "@/app/ui/Button";
+import { useClickOutside } from "@/app/components/hooks";
 import Modal from "@/app/ui/Modal";
 
 export const paths = {
@@ -17,13 +17,13 @@ export const paths = {
 };
 
 const menuItems = [
-    {name: 'About', href: paths.about},
-    {name: 'Concerts', href: paths.concerts},
-    {name: 'Records', href: paths.records},
-    {name: 'Contacts', href: paths.contacts},
+    { name: 'About', href: paths.about },
+    { name: 'Concerts', href: paths.concerts },
+    { name: 'Records', href: paths.records },
+    { name: 'Contacts', href: paths.contacts },
 ];
 
-export default function Navigation() {
+export default function Navbar() {
     const [openMobileMenu, setOpenMobileMenu] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -32,26 +32,27 @@ export default function Navigation() {
         setOpenMobileMenu(false);
     });
 
-    return (<div className={"md:h-full md:flex md:items-end"}>
+    return (<nav className={"fixed text-teal-950 top-0 left-0 flex flex-row w-full lg:w-1/2 z-40 sm:flex sm:items-end"}>
         <Modal show={openMobileMenu} preventScroll={true}
                element={<MobileMenuButton ref={buttonRef} openMobileMenu={openMobileMenu}
                                           setOpenMobileMenu={setOpenMobileMenu}/>}>
             <MobileMenuItems ref={ref} openMobileMenu={openMobileMenu} onClick={() => setOpenMobileMenu(false)}/>
         </Modal>
 
-        <div ref={ref} className={"hidden md:flex z-50 flex-row items-end h-full w-full transition-all duration-500"}>
+        <div ref={ref}
+             className={"hidden sm:flex z-50 h-full w-full transition-all duration-500 backdrop-blur lg:backdrop-blur-0"}>
             <MenuItems/>
         </div>
-    </div>);
+    </nav>);
 }
 
-const MenuItems = ({onClick}: { onClick?: Function }) => {
+const MenuItems = ({ onClick }: { onClick?: (param: boolean) => void }) => {
     const pathname = usePathname();
 
     return (
         <>
             {
-                menuItems.map(({name, href}) => {
+                menuItems.map(({ name, href }) => {
                     const regex = new RegExp(String.raw`^${href}(/.*)?$`, "g");
                     return (<Link key={name}
                                   href={href}
@@ -59,8 +60,8 @@ const MenuItems = ({onClick}: { onClick?: Function }) => {
                                   className={clsx(
                                       navClassName,
                                       regex.test(pathname)
-                                          ? "bg-red-950 md:bg-white md:bg-opacity-20"
-                                          : "md:bg-opacity-0",
+                                          ? "bg-opacity-40"
+                                          : "bg-opacity-0",
                                   )}>
                             {name}
                         </Link>
@@ -71,11 +72,11 @@ const MenuItems = ({onClick}: { onClick?: Function }) => {
     );
 };
 
-const MobileMenuItems = ({ref, openMobileMenu, onClick}:
+const MobileMenuItems = ({ ref, openMobileMenu, onClick }:
                          {
                              ref: RefObject<HTMLDivElement>,
                              openMobileMenu: boolean,
-                             onClick: Function
+                             onClick: (param: boolean) => void,
                          }) => {
     const [visible, setVisible] = useState(false);
 
@@ -87,7 +88,7 @@ const MobileMenuItems = ({ref, openMobileMenu, onClick}:
 
     return (
         <div ref={ref} className={clsx(
-            "relative md:hidden z-50 top-[88px] h-min items-end divide-y-[1px] divide-red-900 transition-all duration-500",
+            "relative flex flex-col justify-center bg-amber-50 bg-opacity-50 items-center sm:hidden z-50 transition-all duration-500 w-full h-min top-24",
             (openMobileMenu && visible) ? "left-0" : "-left-full",
         )}>
             <MenuItems onClick={onClick}/>

@@ -1,6 +1,6 @@
 'use client';
 
-import {useReCaptcha} from "next-recaptcha-v3";
+import { useReCaptcha } from "next-recaptcha-v3";
 
 const {
     /** reCAPTCHA_site_key */

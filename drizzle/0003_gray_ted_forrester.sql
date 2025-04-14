@@ -1,1 +1,0 @@
-ALTER TABLE "records" ALTER COLUMN "date" DROP DEFAULT;

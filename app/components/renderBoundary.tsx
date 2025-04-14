@@ -1,8 +1,8 @@
 'use client';
 
-import {ReactNode, useEffect, useState} from "react";
+import { ReactNode, useEffect, useState } from "react";
 
-export const RenderBoundary = ({children}: { children: ReactNode }) => {
+export const RenderBoundary = ({ children }: { children: ReactNode }) => {
     const [isRendered, setIsRendered] = useState(false);
     useEffect(() => {
         setIsRendered(true);

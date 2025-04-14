@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import {sendContactMail} from "@/app/acions/actions";
-import {Input, InputError, TextArea} from "@/app/ui/Input";
-import {WaitButton} from "@/app/ui/Button";
-import FormHandler, {FormHandlerProps, toastMessages} from "@/app/components/forms/formHandler";
+import { sendContactMail } from "@/app/acitons/actions";
+import { Input, InputError, TextArea } from "@/app/ui/Input";
+import { WaitButton } from "@/app/ui/Button";
+import FormHandler, { FormHandlerProps, toastMessages } from "@/app/components/forms/formHandler";
 
-const ContactFormComponent = ({ref, state, onSubmit, isPending}: FormHandlerProps) => {
-    return (<form ref={ref} onSubmit={onSubmit} className={"flex flex-col"}>
+const ContactFormComponent = ({ ref, state, onSubmit, isPending }: FormHandlerProps) => {
+    return (<form ref={ref} onSubmit={onSubmit} className={"flex flex-col w-full"}>
         <label htmlFor="name" className={"mb-2"}>Name:</label>
         <Input id="name" name={"name"} type="text" disabled={isPending} aria-describedby="name-error" required/>
         <InputError id="name-error" errorMessage={state?.errors?.name?.join(". ")}/>
@@ -21,8 +21,7 @@ const ContactFormComponent = ({ref, state, onSubmit, isPending}: FormHandlerProp
                   required/>
         <InputError id="message-error" errorMessage={state?.errors?.message?.join(". ")}/>
 
-        <WaitButton disabled={isPending} text={"Send message"}
-                    className={"text-black bg-amber-300 hover:bg-amber-200 disabled:bg-amber-200"}/>
+        <WaitButton disabled={isPending} text={"Send message"}/>
     </form>);
 };
 

@@ -1,5 +1,7 @@
 import type {Config} from "tailwindcss";
 
+import generated from "@tailwindcss/typography";
+
 const config: Config = {
     content: [
         "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -13,7 +15,7 @@ const config: Config = {
                 foreground: "var(--foreground)",
             },
             textColor: {
-                beige: "#a19681",
+                beige: "#5a4d3d",
             },
             screens: {
                 'nb': '360px',
@@ -21,7 +23,7 @@ const config: Config = {
         },
     },
     plugins: [
-        require('@tailwindcss/typography'),
+        generated,
     ],
 };
 export default config;

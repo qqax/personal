@@ -11,9 +11,9 @@ import {
     useState,
 } from "react";
 import clsx from "clsx";
-import {ConcertDate} from "@/app/[locale]/concerts/components/concertDate";
-import {useScroll} from "@/app/components/hooks";
-import {ConcertContextType, useConcertContext} from "@/app/[locale]/concerts/concertPage";
+import { ConcertDate } from "@/app/[locale]/concerts/components/concertDate";
+import { useScroll } from "@/app/components/hooks";
+import { ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
 
 export function SmConcertsList() {
     const {
@@ -31,18 +31,22 @@ export function SmConcertsList() {
 
     const scrollWindow = (id: string) => {
         const offsetTop = id === "forgoing" ? 0 : ref.current[id].offsetTop;
-        window.scrollTo({top: offsetTop, behavior: 'smooth'});
+        window.scrollTo({ top: offsetTop, behavior: 'smooth' });
     };
 
     const focusOnConcert = () => {
         ref.current[currConcertID].focus();
-        preventScroll ? setPreventScroll(false) : scrollWindow(currConcertID);
+        if (preventScroll) {
+            setPreventScroll(false);
+        } else {
+            scrollWindow(currConcertID);
+        }
     };
 
     useScroll(() => {
         if (areConcertsPresented) {
             currentConcertHandler(
-                Math.round(window.scrollY) >= ref.current[firstUpcomingConcertID].offsetTop - 100,
+                Math.round(window.scrollY) >= ref.current[firstUpcomingConcertID || 0].offsetTop - 100,
             );
         }
     });
@@ -77,17 +81,21 @@ export function MdConcertsList() {
 
     const onUlScroll: UIEventHandler<HTMLUListElement> = (e) => {
         currentConcertHandler(
-            Math.round((e.target as HTMLElement).scrollTop) >= ref.current[firstUpcomingConcertID].offsetTop);
+            Math.round((e.target as HTMLElement).scrollTop) >= ref.current[firstUpcomingConcertID || 0].offsetTop);
     };
 
     const scrollUl = (id: string) => {
         const offsetTop = id === "forgoing" ? 0 : ref.current[id].offsetTop;
-        ulRef.current?.scrollTo({top: offsetTop});
+        ulRef.current?.scrollTo({ top: offsetTop });
     };
 
     const focusOnConcert = () => {
         ref.current[currConcertID].focus();
-        preventScroll ? setPreventScroll(false) : scrollUl(currConcertID);
+        if (preventScroll) {
+            setPreventScroll(false);
+        } else {
+            scrollUl(currConcertID);
+        }
     };
 
     useEffect(() => {
@@ -141,9 +149,9 @@ const ConcertView = ({
                 return (
                     <li key={concert.id}>
                         {index === 0 && index !== firstUpcomingConcertIndex &&
-                            <p className={"text-beige text-xl py-4"}>Forgoing concerts:</p>}
+                            <p className={"text-beige text-xl p-4"}>Forgoing concerts:</p>}
                         {index === firstUpcomingConcertIndex &&
-                            <p className={clsx("text-beige text-xl py-4", {"mt-8 border-t-[1px] border-red-600": index !== 0})}>Upcoming
+                            <p className={clsx("text-beige text-xl p-4", { "mt-8": index !== 0 })}>Upcoming
                                 concerts:</p>}
                         <button
                             id={concert.id}
@@ -163,9 +171,9 @@ const ConcertView = ({
                                 }
                             }}
                             className={clsx(
-                                {"bg-black bg-opacity-40": index % 2},
-                                {"border-opacity-100": index === cursor},
-                                "flex flex-col gap-1.5 w-full text-left outline-0 p-4 border-gray-300 border-[1px] border-opacity-0")}
+                                index % 2 ? "bg-opacity-55" : "bg-opacity-75",
+                                { "border-opacity-100   ": index === cursor },
+                                "flex flex-col border-2 border-teal-900 border-opacity-0 gap-1.5 w-full text-left outline-0 p-4 bg-amber-50 backdrop-blur")}
                         >
                             <ConcertDate dateTime={concert.date as Date}/>
                             <p>

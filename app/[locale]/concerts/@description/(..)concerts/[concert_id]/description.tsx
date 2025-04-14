@@ -1,11 +1,11 @@
 'use client';
 
-import {useMd} from "@/app/components/hooks";
+import { useMd } from "@/app/components/hooks";
 import DescriptionModal from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/descriptionModal";
-import {ConcertDescription} from "@/app/db/definitions";
-import {DescriptionView} from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/descriptionView";
+import { ConcertDescription } from "@/app/lib/definitions";
+import { DescriptionView } from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/descriptionView";
 
-export const Description = ({concertDescription}: { concertDescription: ConcertDescription }) => {
+export const Description = ({ concertDescription }: { concertDescription: ConcertDescription }) => {
     const isMd = useMd();
 
     if (isMd) {

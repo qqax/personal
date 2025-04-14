@@ -1,17 +1,19 @@
 'use client';
 
-import {RefObject, useEffect, useState} from "react";
+import { RefObject, useEffect, useState } from "react";
 
-export function useClickOutside(ref: RefObject<Element> | RefObject<Element>[], onClickOutside: Function) {
+export function useClickOutside(ref: RefObject<Element> | RefObject<Element>[], onClickOutside: () => void) {
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
 
             if (Array.isArray(ref)) {
-                !ref.some(ref => {
-                    return ref.current && ref.current.contains(event.target as Node);
-                }) && onClickOutside();
+                if (!ref.some(ref => ref.current && ref.current.contains(event.target as Node))) {
+                    onClickOutside();
+                }
             } else {
-                ref.current && !ref.current.contains(event.target as Node) && onClickOutside();
+                if (ref.current && !ref.current.contains(event.target as Node)) {
+                    onClickOutside();
+                }
             }
         }
 
@@ -36,7 +38,7 @@ export function useScroll(onScroll: EventListenerOrEventListenerObject) {
 type WindowDimensionType = { width: number, height: number };
 
 function getWindowDimensions(): WindowDimensionType {
-    const {innerWidth: width, innerHeight: height} = window;
+    const { innerWidth: width, innerHeight: height } = window;
     return {
         width,
         height,
@@ -44,7 +46,7 @@ function getWindowDimensions(): WindowDimensionType {
 }
 
 export function useMd() {
-    const {width} = useWindowDimensions();
+    const { width } = useWindowDimensions();
     const [isMd, setIsMd] = useState(width >= 768);
 
     useEffect(() => {

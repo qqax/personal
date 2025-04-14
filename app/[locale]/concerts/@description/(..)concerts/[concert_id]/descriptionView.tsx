@@ -1,14 +1,17 @@
-import {DescriptionHeader} from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/descriptionHeader";
+import { DescriptionHeader } from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/descriptionHeader";
 import clsx from "clsx";
 import Image from "next/image";
-import {Programme} from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/programme";
-import {ConcertDescription} from "@/app/db/definitions";
-import Video from "@/app/components/Video";
+import { Programme } from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/programme";
+import { ConcertDescription } from "@/app/lib/definitions";
+import Record from "@/app/components/records/record";
+import { recordService } from "@/app/lib/schema/enums";
+import { RecordName } from "@/app/components/records/recordName";
+import { bgStyle } from "@/app/ui/styles";
 
 //TODO: concert poster
 
-export const DescriptionView = ({concertDescription}: { concertDescription: ConcertDescription }) => {
-    return (<div className={"flex flex-col w-full h-full gap-4 p-4 overflow-x-hidden overflow-y-auto"}>
+export const DescriptionView = ({ concertDescription }: { concertDescription: ConcertDescription }) => {
+    return (<div className={clsx(bgStyle, "flex flex-col w-full h-full gap-4 p-4 overflow-x-hidden overflow-y-auto")}>
         <DescriptionHeader date={concertDescription?.date as Date}/>
         <div className={"text-center text-2xl text-beige"}>Description</div>
         <div className={"flex w-full gap-4"}>
@@ -31,7 +34,15 @@ export const DescriptionView = ({concertDescription}: { concertDescription: Conc
             }
         </div>
         {concertDescription?.description && <Programme programme={concertDescription.description}/>}
-        {concertDescription?.recordsTable &&
-            <Video title={concertDescription.recordsTable.title} link={concertDescription.recordsTable.link}/>}
+        {concertDescription?.records &&
+            concertDescription?.records.map(({ uuid, record_service }) => {
+
+                return <div key={uuid} className={clsx("flex flex-col gap-2 w-full")}>
+                    <RecordName uuid={uuid} record_service={record_service as recordService}/>
+                    <Record uuid={uuid} record_service={record_service as recordService}/>
+                </div>
+            })
+        }
     </div>);
 };
+

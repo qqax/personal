@@ -1,10 +1,10 @@
 'use client';
 
-import React, {ReactNode, useEffect, useState} from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import clsx from "clsx";
 
-const Modal = ({show, element, children, preventScroll}: {
+const Modal = ({ show, element, children, preventScroll }: {
     show: boolean;
     element?: ReactNode;
     children?: ReactNode;
@@ -49,7 +49,7 @@ const Modal = ({show, element, children, preventScroll}: {
                 <div
                     onTransitionEnd={() => !show && setVisible(false)}
                     className={clsx(
-                        `fixed z-40 top-0 left-0 flex h-full w-full bg-black transition-all duration-500`,
+                        `fixed z-40 top-0 left-0 flex h-full w-full backdrop-blur-md transition-all duration-500 overflow-auto`,
                         (show && visible) ? "opacity-100 bg-opacity-40" : "opacity-0 bg-opacity-0",
                     )}>
                     {children}

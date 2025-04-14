@@ -1,3 +1,3 @@
-export const bgStyle: string = "bg-black bg-opacity-50 backdrop-blur-md";
-export const navClassName = "flex justify-center w-72 md:w-20 lg:w-24 md:pb-6 py-8 md:pt-1 bg-black hover:bg-opacity-80 md:hover:bg-white md:hover:bg-opacity-30 transition duration-100";
-export const concertSectionButtonColors = "bg-red-600 hover:bg-red-600 bg-opacity-40 hover:bg-opacity-60";
+export const bgStyle: string = "bg-amber-50 bg-opacity-75 backdrop-blur-sm";
+export const navClassName = "w-full bg-amber-50 text-center py-6 hover:bg-opacity-80 sm:hover:bg-opacity-20 transition duration-100";
+export const buttonColors = "bg-teal-900 hover:bg-opacity-80 text-amber-50 rounded-sm";

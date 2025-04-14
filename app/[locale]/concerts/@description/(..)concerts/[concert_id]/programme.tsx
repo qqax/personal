@@ -1,19 +1,18 @@
 "use client";
 
-import {useState, useEffect} from "react";
-import {jsx, jsxs, Fragment} from "react/jsx-runtime";
-import {evaluate} from "@mdx-js/mdx";
-
-import type {ReactNode} from "react";
-import type {MDXProps} from "mdx/types";
-import type {EvaluateOptions} from "@mdx-js/mdx";
+import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
+import { Fragment, jsx, jsxs } from "react/jsx-runtime";
+import type { EvaluateOptions } from "@mdx-js/mdx";
+import { evaluate } from "@mdx-js/mdx";
+import type { MDXProps } from "mdx/types";
 
 type ReactMDXContent = (props: MDXProps) => ReactNode;
 type Runtime = Pick<EvaluateOptions, "jsx" | "jsxs" | "Fragment">;
 
-const runtime = {jsx, jsxs, Fragment} as Runtime;
+const runtime = { jsx, jsxs, Fragment } as Runtime;
 
-export const Programme = ({programme}: { programme: string }) => {
+export const Programme = ({ programme }: { programme: string }) => {
     const [MdxContent, setMdxContent] = useState<ReactMDXContent>(() => () => null);
 
     useEffect(() => {

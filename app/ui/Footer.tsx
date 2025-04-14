@@ -1,13 +1,12 @@
 import clsx from "clsx";
-import {bgStyle} from "@/app/ui/styles";
-import {Suspense} from "react";
-import {fetchArtistName} from "@/app/db/data";
-import {getLocale} from "next-intl/server";
+import { Suspense } from "react";
+import { fetchArtistName } from "@/app/lib/data";
+import { getLocale } from "next-intl/server";
 
 const Footer = async () => {
     return (
         <footer
-            className={clsx("absolute bottom-0 w-full h-20 flex items-center justify-center border-red-600 border-t-4", bgStyle)}>
+            className={clsx("absolute bottom-0 right-0 p-1.5")}>
             <Suspense>
                 <Copyright/>
             </Suspense>

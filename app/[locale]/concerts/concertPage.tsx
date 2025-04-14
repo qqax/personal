@@ -1,26 +1,35 @@
 'use client';
 
-import {ConcertMenu} from "@/app/[locale]/concerts/components/concertMenu";
+import { ConcertMenu } from "@/app/[locale]/concerts/components/concertMenu";
 import clsx from "clsx";
-import {bgStyle, concertSectionButtonColors} from "@/app/ui/styles";
-import {ConcertsCalendar} from "@/app/[locale]/concerts/components/Calendar";
+import { bgStyle } from "@/app/ui/styles";
+import { ConcertsCalendar } from "@/app/[locale]/concerts/components/Calendar";
 import NewsForm from "@/app/components/forms/newsForm";
-import {SmConcertsList, MdConcertsList} from "@/app/[locale]/concerts/components/concertsList";
-import {Concerts} from "@/app/db/definitions";
-import {Dispatch, ReactNode, SetStateAction, useCallback, useContext, useEffect, useMemo, useState} from "react";
-import {useMd} from "@/app/components/hooks";
-import {createContext} from "react";
-import {usePathname, useRouter} from "@/i18n/routing";
-import {paths} from "@/app/components/navbar/navigation";
-import {replaceDynamicSegmentIfExists} from "@/app/utils/pathFuncs";
+import { MdConcertsList, SmConcertsList } from "@/app/[locale]/concerts/components/concertsList";
+import { Concerts } from "@/app/lib/definitions";
+import {
+    createContext,
+    Dispatch,
+    ReactNode,
+    SetStateAction,
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState
+} from "react";
+import { useMd } from "@/app/components/hooks";
+import { usePathname, useRouter } from "@/i18n/routing";
+import { paths } from "@/app/components/navbar/navigation";
+import { replaceDynamicSegmentIfExists } from "@/app/utils/pathFuncs";
 
 export type ScrollConcertType = { forgoing: () => void, upcoming: () => void } | null;
 
 export type ConcertContextType = {
     concerts: Concerts,
     currConcertID: string,
-    firstUpcomingConcertID: string,
-    firstUpcomingConcertIndex: number,
+    firstUpcomingConcertID: string | null,
+    firstUpcomingConcertIndex: number | null,
     areConcertsPresented: boolean,
 
     currentConcertHandler: (isPresented: boolean) => void,
@@ -41,7 +50,7 @@ export function useConcertContext() {
     return useContext(ConcertContext);
 }
 
-export default function ConcertPage({children, description, concerts, firstUpcomingConcertIndex}: {
+export default function ConcertPage({ children, description, concerts, firstUpcomingConcertIndex }: {
     children: ReactNode,
     description: ReactNode,
     concerts: Concerts,
@@ -51,7 +60,9 @@ export default function ConcertPage({children, description, concerts, firstUpcom
     const isUpcomingConcertPresented: boolean = firstUpcomingConcertIndex > 0;
 
     const currentConcertHandler = useCallback((isCurrent: boolean) => {
-        isCurrentUpcoming !== isCurrent && setIsCurrentUpcoming(isCurrent);
+        if (isCurrentUpcoming !== isCurrent) {
+            setIsCurrentUpcoming(isCurrent);
+        }
     }, [isCurrentUpcoming]);
 
     const path = usePathname();
@@ -63,7 +74,9 @@ export default function ConcertPage({children, description, concerts, firstUpcom
 
         setScrollTo({
             forgoing: () => fn("forgoing"),
-            upcoming: () => fn(concerts[firstUpcomingConcertIndex].id),
+            upcoming: () => concerts[firstUpcomingConcertIndex]?.id
+                ? fn(concerts[firstUpcomingConcertIndex]?.id)
+                : null,
         });
     }, [isUpcomingConcertPresented, setScrollTo, concerts, firstUpcomingConcertIndex]);
 
@@ -84,7 +97,9 @@ export default function ConcertPage({children, description, concerts, firstUpcom
         return concerts.length > 0;
     }, [concerts]);
     const setConcertPath = () => {
-        areConcertsPresented && replaceDynamicSegmentIfExists(router, path, paths.concerts, currConcertID);
+        if (areConcertsPresented) {
+            replaceDynamicSegmentIfExists(router, path, paths.concerts, currConcertID);
+        }
     };
 
     const isMd = useMd();
@@ -101,7 +116,7 @@ export default function ConcertPage({children, description, concerts, firstUpcom
             setScrollToFunc,
 
             concerts,
-            firstUpcomingConcertID: concerts[firstUpcomingConcertIndex].id,
+            firstUpcomingConcertID: concerts[firstUpcomingConcertIndex]?.id || null,
             firstUpcomingConcertIndex,
             areConcertsPresented,
             setConcertPath,
@@ -113,15 +128,13 @@ export default function ConcertPage({children, description, concerts, firstUpcom
             setCursorToNext,
             setCursorToPrev,
         }}>
-            <ConcertMenu className={"top-[88px] flex md:hidden backdrop-blur-lg"} isCurrentUpcoming={isCurrentUpcoming}
+            <ConcertMenu isCurrentUpcoming={isCurrentUpcoming}
                          isUpcomingConcertPresented={isUpcomingConcertPresented}/>
             <section
-                className={clsx("relative flex md:overflow-auto pt-[73px] w-full md:h-[78vh] xl:gap-8", bgStyle)}>
-                <ConcertMenu className={"hidden md:flex top-0"} isCurrentUpcoming={isCurrentUpcoming}
-                             isUpcomingConcertPresented={isUpcomingConcertPresented}/>
-                <div className={"hidden xl:block pl-2"}>
+                className={"relative mt-36 sm:mt-40 lg:mt-20 flex md:overflow-auto w-full md:h-[88vh] gap-8 m-6"}>
+                <div className={clsx(bgStyle, "hidden xl:block max-h-max p-6")}>
                     <ConcertsCalendar/>
-                    <NewsForm buttonClassName={concertSectionButtonColors}/>
+                    <NewsForm/>
                 </div>
                 {isMd ? <MdConcertsList/> : <SmConcertsList/>}
                 {description}

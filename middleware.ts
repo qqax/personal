@@ -1,7 +1,7 @@
-import createMiddleware from 'next-intl/middleware';
-import {routing} from '@/i18n/routing';
+import { chain } from '@/middlewares/chain';
+import { withI18nMiddleware } from '@/middlewares/withI18nMiddleware';
 
-export default createMiddleware(routing);
+export default chain([withI18nMiddleware]);
 
 export const config = {
     // Match only internationalized pathnames

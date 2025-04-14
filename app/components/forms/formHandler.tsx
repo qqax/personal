@@ -1,15 +1,16 @@
 import React, {
     FormEvent,
-    FunctionComponent, RefObject,
+    FunctionComponent,
+    RefObject,
     startTransition,
     useActionState,
     useCallback,
     useEffect,
     useRef,
 } from "react";
-import {StatusState} from "@/app/acions/actions";
-import {useReCaptcha} from "next-recaptcha-v3";
-import {toast} from "sonner";
+import { StatusState } from "@/app/acitons/actions";
+import { useReCaptcha } from "next-recaptcha-v3";
+import { toast } from "sonner";
 
 export type FormHandlerProps = {
     ref: RefObject<HTMLFormElement>;
@@ -26,20 +27,19 @@ export type toastMessages = {
     unexpected: string,
 }
 
-export default function FormHandler({Component, action, reCaptchaAction, buttonClassName, toastMessages}: {
-    action: (state: Awaited<StatusState & { errors?: {} }>, payload: FormData) => Promise<StatusState & {
-        errors?: {}
+export default function FormHandler({ Component, action, reCaptchaAction, toastMessages }: {
+    action: (state: Awaited<StatusState & { errors?: object }>, payload: FormData) => Promise<StatusState & {
+        errors?: object
     }>,
     Component: FunctionComponent<FormHandlerProps>,
     reCaptchaAction: string,
-    buttonClassName?: string,
     toastMessages: toastMessages
 }) {
     const ref = useRef<HTMLFormElement>(null);
-    const initialState: StatusState = {errors: {}, status: null};
+    const initialState: StatusState = { errors: {}, status: null };
     const [state, formAction, isPending] = useActionState(action, initialState);
 
-    const {executeRecaptcha} = useReCaptcha();
+    const { executeRecaptcha } = useReCaptcha();
 
     const onSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -77,6 +77,6 @@ export default function FormHandler({Component, action, reCaptchaAction, buttonC
 
     }, [isPending, state.status]);
 
-    return <Component ref={ref} onSubmit={onSubmit} buttonClassName={buttonClassName} isPending={isPending}
+    return <Component ref={ref} onSubmit={onSubmit} isPending={isPending}
                       state={state}/>;
 }
