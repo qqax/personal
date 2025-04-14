@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import {sendContactMail} from "@/app/acitons/actions";
-import {Input, InputError, TextArea} from "@/app/ui/Input";
-import {WaitButton} from "@/app/ui/Button";
-import FormHandler, {FormHandlerProps, toastMessages} from "@/app/components/forms/formHandler";
+import { sendContactMail } from "@/app/acitons/actions";
+import { Input, InputError, TextArea } from "@/app/ui/Input";
+import { WaitButton } from "@/app/ui/Button";
+import FormHandler, { FormHandlerProps, toastMessages } from "@/app/components/forms/formHandler";
 
-const ContactFormComponent = ({ref, state, onSubmit, isPending}: FormHandlerProps) => {
+const ContactFormComponent = ({ ref, state, onSubmit, isPending }: FormHandlerProps) => {
     return (<form ref={ref} onSubmit={onSubmit} className={"flex flex-col w-full"}>
         <label htmlFor="name" className={"mb-2"}>Name:</label>
         <Input id="name" name={"name"} type="text" disabled={isPending} aria-describedby="name-error" required/>

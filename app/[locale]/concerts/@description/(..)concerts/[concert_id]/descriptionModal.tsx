@@ -1,22 +1,22 @@
 'use client';
 
 import Modal from "@/app/ui/Modal";
-import {usePathname, useRouter} from "@/i18n/routing";
-import {deleteLastSegmentIfExists} from "@/app/utils/pathFuncs";
-import {paths} from "@/app/components/navbar/navigation";
-import {ConcertDescription} from "@/app/lib/definitions";
-import {DescriptionView} from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/descriptionView";
-import {useRef} from "react";
-import {useClickOutside} from "@/app/components/hooks";
+import { usePathname, useRouter } from "@/i18n/routing";
+import { deleteLastSegmentIfExists } from "@/app/utils/pathFuncs";
+import { paths } from "@/app/components/navbar/navigation";
+import { ConcertDescription } from "@/app/lib/definitions";
+import { DescriptionView } from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/descriptionView";
+import { useRef } from "react";
+import { useClickOutside } from "@/app/components/hooks";
 
-export default function DescriptionModal({concertDescription}: { concertDescription: ConcertDescription }) {
+export default function DescriptionModal({ concertDescription }: { concertDescription: ConcertDescription }) {
     const router = useRouter();
     const path = usePathname();
     const ref = useRef<HTMLDivElement>(null);
 
     const onClose = () => {
         const newPath = deleteLastSegmentIfExists(path, paths.concerts);
-        router.push({pathname: newPath});
+        router.push({ pathname: newPath });
     };
 
     useClickOutside(ref, () => {

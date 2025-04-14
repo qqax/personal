@@ -1,18 +1,27 @@
 'use client';
 
-import {ConcertMenu, ModalCalendar} from "@/app/[locale]/concerts/components/concertMenu";
+import { ConcertMenu } from "@/app/[locale]/concerts/components/concertMenu";
 import clsx from "clsx";
-import {bgStyle} from "@/app/ui/styles";
-import {ConcertsCalendar} from "@/app/[locale]/concerts/components/Calendar";
+import { bgStyle } from "@/app/ui/styles";
+import { ConcertsCalendar } from "@/app/[locale]/concerts/components/Calendar";
 import NewsForm from "@/app/components/forms/newsForm";
-import {SmConcertsList, MdConcertsList} from "@/app/[locale]/concerts/components/concertsList";
-import {Concerts} from "@/app/lib/definitions";
-import {Dispatch, ReactNode, SetStateAction, useCallback, useContext, useEffect, useMemo, useState} from "react";
-import {useMd} from "@/app/components/hooks";
-import {createContext} from "react";
-import {usePathname, useRouter} from "@/i18n/routing";
-import {paths} from "@/app/components/navbar/navigation";
-import {replaceDynamicSegmentIfExists} from "@/app/utils/pathFuncs";
+import { MdConcertsList, SmConcertsList } from "@/app/[locale]/concerts/components/concertsList";
+import { Concerts } from "@/app/lib/definitions";
+import {
+    createContext,
+    Dispatch,
+    ReactNode,
+    SetStateAction,
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState
+} from "react";
+import { useMd } from "@/app/components/hooks";
+import { usePathname, useRouter } from "@/i18n/routing";
+import { paths } from "@/app/components/navbar/navigation";
+import { replaceDynamicSegmentIfExists } from "@/app/utils/pathFuncs";
 
 export type ScrollConcertType = { forgoing: () => void, upcoming: () => void } | null;
 
@@ -41,7 +50,7 @@ export function useConcertContext() {
     return useContext(ConcertContext);
 }
 
-export default function ConcertPage({children, description, concerts, firstUpcomingConcertIndex}: {
+export default function ConcertPage({ children, description, concerts, firstUpcomingConcertIndex }: {
     children: ReactNode,
     description: ReactNode,
     concerts: Concerts,
@@ -127,12 +136,7 @@ export default function ConcertPage({children, description, concerts, firstUpcom
                     <ConcertsCalendar/>
                     <NewsForm/>
                 </div>
-                <div className={"mx-auto"}>
-                    <div className="block lg:hidden">
-                        <ModalCalendar/>
-                    </div>
-                    {isMd ? <MdConcertsList/> : <SmConcertsList/>}
-                </div>
+                {isMd ? <MdConcertsList/> : <SmConcertsList/>}
                 {description}
                 {children}
             </section>

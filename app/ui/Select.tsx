@@ -1,8 +1,8 @@
-import {ReactNode, useRef} from "react";
+import { ReactNode, useRef } from "react";
 import clsx from "clsx";
-import {useClickOutside, useScroll} from "@/app/components/hooks";
+import { useClickOutside, useScroll } from "@/app/components/hooks";
 
-export const Select = ({children, selectedLabel, setOpen, open, isPending, className}: {
+export const Select = ({ children, selectedLabel, setOpen, open, isPending, className }: {
     children: ReactNode[];
     selectedLabel: ReactNode,
     setOpen: (param: boolean) => void,
@@ -20,7 +20,7 @@ export const Select = ({children, selectedLabel, setOpen, open, isPending, class
             <button type={"button"} className={className} disabled={isPending}
                     onClick={() => setOpen(!open)}>{selectedLabel}</button>
             <div
-                className={clsx("absolute -bottom-full w-full", {"hidden": !open})}>
+                className={clsx("absolute -bottom-full w-full", { "hidden": !open })}>
                 {children}
             </div>
         </div>

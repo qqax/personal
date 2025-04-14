@@ -1,10 +1,10 @@
 'use client';
 
-import React, {ReactNode, useEffect, useState} from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import clsx from "clsx";
 
-const Modal = ({show, element, children, preventScroll}: {
+const Modal = ({ show, element, children, preventScroll }: {
     show: boolean;
     element?: ReactNode;
     children?: ReactNode;

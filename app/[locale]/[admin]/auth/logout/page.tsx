@@ -1,5 +1,5 @@
 import LogoutForm from "@/app/components/forms/logoutForm";
-import {auth} from "@/auth";
+import { auth } from "@/auth";
 
 export default async function LogoutPage() {
     const session = await auth()

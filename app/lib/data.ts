@@ -1,33 +1,26 @@
 "use server";
 
-import {
-    mailingListTable,
-    artistTable,
-    socialsTable,
-    contactsTable
-} from "./schema/common";
-import {
-    concertRecordsTable,
-    concertsTable,
-    recordsTable
-} from "./schema/concert-records";
-import {cacheTag} from "next/dist/server/use-cache/cache-tag";
+import { artistTable, contactsTable, mailingListTable, socialsTable } from "./schema/common";
+import { concertRecordsTable, concertsTable, recordsTable } from "./schema/concert-records";
+import { cacheTag } from "next/dist/server/use-cache/cache-tag";
 import {
     ArtistData,
     Biography,
     ConcertDescription,
     Concerts,
-    ConcertsData, Contacts,
+    ConcertsData,
+    Contacts,
     Name,
     Profession,
-    Records, Socials,
+    Records,
+    Socials,
 } from "@/app/lib/definitions";
-import {desc, eq, sql} from "drizzle-orm";
-import {PgColumn, PgTableWithColumns, union} from "drizzle-orm/pg-core";
-import {cacheLife} from "next/dist/server/use-cache/cache-life";
-import {db} from "@/app/lib/connection";
-import {NotDefaultLocales} from "@/i18n/routing";
-import {contactType, recordType, relatedRecordTypesEnum} from "@/app/lib/schema/enums";
+import { desc, eq, sql } from "drizzle-orm";
+import { PgColumn, PgTableWithColumns, union } from "drizzle-orm/pg-core";
+import { cacheLife } from "next/dist/server/use-cache/cache-life";
+import { db } from "@/app/lib/connection";
+import { NotDefaultLocales } from "@/i18n/routing";
+import { contactType, recordType, relatedRecordTypesEnum } from "@/app/lib/schema/enums";
 
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
@@ -43,7 +36,7 @@ const artistTableQuery = async (column: PgColumn, locale: string): Promise<Artis
     try {
         const data =
             await db.query.artistTable.findFirst({
-                columns: {[column.name]: true},
+                columns: { [column.name]: true },
                 extras: {
                     [column.name]: selectTranslated(artistTable, column.name, locale),
                 },
@@ -125,7 +118,7 @@ export async function fetchContacts(): Promise<Contacts> {
         }).from(contactsTable)
             .orderBy(contactsTable.contact_type);
 
-        return contacts.reduce((acc: Record<string, string[]>, {contacts, type}) => {
+        return contacts.reduce((acc: Record<string, string[]>, { contacts, type }) => {
             const key = type as contactType;
             if (acc[key]) {
                 acc[type as string] = [contacts, ...acc[type as string]];
@@ -154,7 +147,7 @@ export async function fetchConcerts(locale: string): Promise<ConcertsData> {
         }).from(concertsTable)
             .orderBy(concertsTable.date);
 
-        const firstUpcomingConcertIndex = concerts?.findIndex(({date}) => {
+        const firstUpcomingConcertIndex = concerts?.findIndex(({ date }) => {
             return date && date.getTime() > Date.now();
         });
 
@@ -192,7 +185,7 @@ export async function fetchConcertDescription(id: string, locale: string): Promi
                 address: selectTranslated(concertsTable, "address", locale),
                 description: selectTranslated(concertsTable, "description", locale),
             },
-            where: (concertsTable, {eq}) => eq(concertsTable.date, sql.raw(`to_timestamp('${id}', 'DD_Mon_YY_HH24_MI')::timestamp`)),
+            where: (concertsTable, { eq }) => eq(concertsTable.date, sql.raw(`to_timestamp('${id}', 'DD_Mon_YY_HH24_MI')::timestamp`)),
         });
     } catch (error) {
         console.error('Database Error:', error);
@@ -235,7 +228,7 @@ export async function fetchRecords(locale: string): Promise<Records> {
 
 export async function insertEmail(email: string): Promise<boolean> {
     try {
-        await db.insert(mailingListTable).values({email}).onConflictDoNothing();
+        await db.insert(mailingListTable).values({ email }).onConflictDoNothing();
         return true;
     } catch (error) {
         console.error('Database Error:', error);

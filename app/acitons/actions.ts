@@ -1,21 +1,21 @@
 'use server';
 
-import {z} from 'zod';
-import {sendMail} from "@/app/acitons/sendMail";
+import { z } from 'zod';
+import { sendMail } from "@/app/acitons/sendMail";
 import verifyReCaptcha from "@/app/acitons/reCaptcha";
-import {insertEmail} from "@/app/lib/data";
-import {signIn} from "@/auth";
-import {AuthError} from "next-auth";
+import { insertEmail } from "@/app/lib/data";
+import { signIn } from "@/auth";
+import { AuthError } from "next-auth";
 
-const tokenValidation = z.string().min(10, {message: 'Unexpected error occurred.'});
-const mailValidation = z.string().email({message: 'Please Enter a Valid Email Address'});
+const tokenValidation = z.string().min(10, { message: 'Unexpected error occurred.' });
+const mailValidation = z.string().email({ message: 'Please Enter a Valid Email Address' });
 
 const ContactMailSchema = z.object({
-    name: z.string().min(2, {message: 'Please Enter Your Name'}),
+    name: z.string().min(2, { message: 'Please Enter Your Name' }),
     email: mailValidation,
     message: z
         .string()
-        .min(10, {message: 'Please make sure your message is at least 10 characters long.'}),
+        .min(10, { message: 'Please make sure your message is at least 10 characters long.' }),
     token: tokenValidation,
 });
 
@@ -60,7 +60,7 @@ export async function addMailoutEmail(prevState: MailOutState | undefined, formD
         return state;
     }
 
-    const MakeContact = MailoutSchema.omit({token: true});
+    const MakeContact = MailoutSchema.omit({ token: true });
 
     const validatedFields = MakeContact.safeParse({
         email: formData.get('email'),
@@ -73,7 +73,7 @@ export async function addMailoutEmail(prevState: MailOutState | undefined, formD
         return state;
     }
 
-    const {email} = validatedFields.data;
+    const { email } = validatedFields.data;
 
     const result = await insertEmail(email);
 
@@ -103,7 +103,7 @@ export async function sendContactMail(prevState: ContactMailState | undefined, f
         return state;
     }
 
-    const MakeContact = ContactMailSchema.omit({token: true});
+    const MakeContact = ContactMailSchema.omit({ token: true });
 
     const validatedFields = MakeContact.safeParse({
         name: formData.get('name'),
@@ -119,7 +119,7 @@ export async function sendContactMail(prevState: ContactMailState | undefined, f
         return state;
     }
 
-    const {name, email, message} = validatedFields.data;
+    const { name, email, message } = validatedFields.data;
     const mailText = `Name: ${name}\nEmail: ${email}\nMessage: ${message}`;
 
     const response = await sendMail({

@@ -1,19 +1,16 @@
-import {drizzle, NodePgQueryResultHKT} from "drizzle-orm/node-postgres";
-import {count, ExtractTablesWithRelations} from "drizzle-orm";
-import {
-    artistTable,
-    contactsTable,
-    socialsTable,
-} from "@/app/lib/schema/common";
-import {PgTransaction} from "drizzle-orm/pg-core";
+import { drizzle, NodePgQueryResultHKT } from "drizzle-orm/node-postgres";
+import { count, ExtractTablesWithRelations } from "drizzle-orm";
+import { artistTable, contactsTable, socialsTable, } from "@/app/lib/schema/common";
+import { PgTransaction } from "drizzle-orm/pg-core";
 import {
     CONTACT_TYPE_EMAIL,
-    CONTACT_TYPE_PHONE, NOT_RELATED_RECORD_TYPE_STUDIO,
+    CONTACT_TYPE_PHONE,
+    NOT_RELATED_RECORD_TYPE_STUDIO,
     RECORD_SERVICES_YOUTUBE,
     SOCIAL_TYPE_FACEBOOK,
     SOCIAL_TYPE_YOUTUBE
 } from "@/app/lib/schema/enums";
-import {concertRecordsTable, concertsTable, recordsTable} from "@/app/lib/schema/concert-records";
+import { concertRecordsTable, concertsTable, recordsTable } from "@/app/lib/schema/concert-records";
 
 const db = drizzle({
     connection: {
@@ -22,7 +19,7 @@ const db = drizzle({
 });
 
 async function seedArtist(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
-    const artistRowNum = await tx.select({count: count()}).from(artistTable);
+    const artistRowNum = await tx.select({ count: count() }).from(artistTable);
 
     if (artistRowNum[0].count === 0) {
         const artist: typeof artistTable.$inferInsert = {
@@ -51,8 +48,8 @@ async function seedArtist(tx: PgTransaction<NodePgQueryResultHKT, Record<string,
 
 async function seedSocials(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
     const socials: typeof socialsTable.$inferInsert[] = [
-        {social_type: SOCIAL_TYPE_FACEBOOK, link: 'https://www.facebook.com/alexander.kudryavtseff'},
-        {social_type: SOCIAL_TYPE_YOUTUBE, link: 'https://youtube.com/@alexanderkudryavtsev-d7y?si=y8I-WnrEN3MqVHxk'},
+        { social_type: SOCIAL_TYPE_FACEBOOK, link: 'https://www.facebook.com/alexander.kudryavtseff' },
+        { social_type: SOCIAL_TYPE_YOUTUBE, link: 'https://youtube.com/@alexanderkudryavtsev-d7y?si=y8I-WnrEN3MqVHxk' },
     ];
 
     await tx.insert(socialsTable).values(socials);
@@ -61,8 +58,8 @@ async function seedSocials(tx: PgTransaction<NodePgQueryResultHKT, Record<string
 
 async function seedContacts(tx: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>) {
     const contacts: typeof contactsTable.$inferInsert[] = [
-        {contact_type: CONTACT_TYPE_EMAIL, contact: 'alexanderkudryavtsev87@gmail.com'},
-        {contact_type: CONTACT_TYPE_PHONE, contact: '+996 (700) 38-63-64'},
+        { contact_type: CONTACT_TYPE_EMAIL, contact: 'alexanderkudryavtsev87@gmail.com' },
+        { contact_type: CONTACT_TYPE_PHONE, contact: '+996 (700) 38-63-64' },
     ];
 
     await tx.insert(contactsTable).values(contacts);
@@ -210,9 +207,9 @@ export async function GET() {
         } catch (err) {
             console.error(err);
             tx.rollback();
-            return Response.json({err}, {status: 500});
+            return Response.json({ err }, { status: 500 });
         }
     });
 
-    return Response.json({message: 'Database seeded successfully'});
+    return Response.json({ message: 'Database seeded successfully' });
 }

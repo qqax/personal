@@ -1,6 +1,6 @@
-import {RECORD_SERVICES_YOUTUBE, recordService} from "@/app/lib/schema/enums";
+import { RECORD_SERVICES_YOUTUBE, recordService } from "@/app/lib/schema/enums";
 
-const Record = ({uuid, record_service}: { uuid: string, record_service: recordService }) => {
+const Record = ({ uuid, record_service }: { uuid: string, record_service: recordService }) => {
     let url: string;
 
     switch (record_service) {

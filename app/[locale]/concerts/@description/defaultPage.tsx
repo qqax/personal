@@ -1,6 +1,6 @@
 'use client';
 
-import {useMd} from "@/app/components/hooks";
+import { useMd } from "@/app/components/hooks";
 
 export const DefaultPage = () => {
     const isMd = useMd();

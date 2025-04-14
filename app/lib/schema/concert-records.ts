@@ -1,7 +1,7 @@
-import {relations} from "drizzle-orm";
-import {integer, pgTable, text, timestamp} from "drizzle-orm/pg-core";
-import {recordServicesEnum, recordTypesEnum} from "@/app/lib/schema/enums";
-import {bytea} from "@/app/lib/schema/custom_types";
+import { relations } from "drizzle-orm";
+import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { recordServicesEnum, recordTypesEnum } from "@/app/lib/schema/enums";
+import { bytea } from "@/app/lib/schema/custom_types";
 
 export const concertsTable = pgTable(
     "concerts",
@@ -26,13 +26,13 @@ export const concertRecordsTable = pgTable(
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
         uuid: text().notNull().unique(),
         record_service: recordServicesEnum().notNull(),
-        concert_id: integer("concert_id").notNull().references(() => concertsTable.id, {onDelete: 'cascade'}).notNull(),
+        concert_id: integer("concert_id").notNull().references(() => concertsTable.id, { onDelete: 'cascade' }).notNull(),
     },
 );
-export const concertRelations = relations(concertsTable, ({many}) => ({
+export const concertRelations = relations(concertsTable, ({ many }) => ({
     records: many(concertRecordsTable),
 }));
-export const concertRecordsRelations = relations(concertRecordsTable, ({one}) => ({
+export const concertRecordsRelations = relations(concertRecordsTable, ({ one }) => ({
     records: one(concertsTable, {
         fields: [concertRecordsTable.concert_id],
         references: [concertsTable.id],

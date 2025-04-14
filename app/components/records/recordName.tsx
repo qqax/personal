@@ -1,9 +1,9 @@
 'use client'
 
-import {RECORD_SERVICES_YOUTUBE, recordService} from "@/app/lib/schema/enums";
-import {useEffect, useState} from "react";
+import { RECORD_SERVICES_YOUTUBE, recordService } from "@/app/lib/schema/enums";
+import { useEffect, useState } from "react";
 
-export const RecordName = ({uuid, record_service}: { uuid: string, record_service: recordService }) => {
+export const RecordName = ({ uuid, record_service }: { uuid: string, record_service: recordService }) => {
     let url: string;
 
     switch (record_service) {
@@ -17,7 +17,7 @@ export const RecordName = ({uuid, record_service}: { uuid: string, record_servic
     return <RecordNameView url={url}/>;
 }
 
-const RecordNameView = ({url}: { url: string }) => {
+const RecordNameView = ({ url }: { url: string }) => {
     const [data, setData] = useState<{ title: string } | null>(null)
     const [isLoading, setLoading] = useState(true)
 
@@ -25,9 +25,11 @@ const RecordNameView = ({url}: { url: string }) => {
         fetch(url)
             .then((res) => res.json())
             .then((data) => {
-                setData(data)
-                setLoading(false)
-            })
+                setData(data);
+                setLoading(false);
+            }).catch(() => {
+            setLoading(false);
+        });
     }, [url])
 
     if (isLoading) return <p>Loading...</p>;

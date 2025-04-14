@@ -1,11 +1,13 @@
-import {getLocale} from "next-intl/server";
-import {fetchRecords} from "@/app/lib/data";
+import { getLocale } from "next-intl/server";
+import { fetchRecords } from "@/app/lib/data";
 import Record from "@/app/components/records/record";
-import {getIntlDate} from "@/app/utils/dateFuncs";
+import { getIntlDate } from "@/app/utils/dateFuncs";
 import clsx from "clsx";
-import {bgStyle} from "@/app/ui/styles";
+import { bgStyle } from "@/app/ui/styles";
 import {
-    NOT_RELATED_RECORD_TYPE_STUDIO, NOT_RELATED_RECORD_TYPE_WORKSHOP, recordService,
+    NOT_RELATED_RECORD_TYPE_STUDIO,
+    NOT_RELATED_RECORD_TYPE_WORKSHOP,
+    recordService,
     recordType,
     RELATED_RECORD_TYPE_CONCERT
 } from "@/app/lib/schema/enums";
@@ -13,7 +15,6 @@ import {
 export default async function RecordPage() {
     const locale = await getLocale();
     const records = await fetchRecords(locale);
-    console.log(records);
 
     return (
         <section className="w-full text-center">
@@ -21,7 +22,7 @@ export default async function RecordPage() {
                 <span className={"sm:hidden lg:inline"}>Records</span>
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-2 sm:p-6">
-                {records.map(({date, uuid, record_type, record_service}) => {
+                {records.map(({ date, uuid, record_type, record_service }) => {
                     const intlDate = getIntlDate(locale, date as Date);
 
                     return (<div key={uuid} className={clsx(bgStyle, "flex flex-col gap-2 w-full p-2")}>
@@ -37,7 +38,7 @@ export default async function RecordPage() {
     );
 }
 
-const RecordType = ({record_type}: { record_type: recordType }) => {
+const RecordType = ({ record_type }: { record_type: recordType }) => {
     let recordTypeClass;
 
     switch (record_type) {

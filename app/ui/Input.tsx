@@ -10,7 +10,7 @@ export function TextArea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement
                       className={"peer w-full text-black rounded-none border outline-none border-gray-400 p-1 focus:border-teal-900 disabled:cursor-progress"}/>);
 }
 
-export function InputError({id, errorMessage}: { id: string, errorMessage: string | undefined }) {
+export function InputError({ id, errorMessage }: { id: string, errorMessage: string | undefined }) {
     return (
         <div id={id} aria-live="polite" aria-atomic="true" className={"min-h-6"}>
             {errorMessage &&

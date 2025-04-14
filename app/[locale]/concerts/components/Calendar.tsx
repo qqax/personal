@@ -1,18 +1,18 @@
 'use client';
 
-import React, {useEffect, useMemo, useState} from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Calendar from "react-calendar";
 import "./Calendar.css";
-import {useLocale} from "next-intl";
-import {shiftFromUTCToLocale} from "@/app/utils/dateFuncs";
-import {ConcertContextType, useConcertContext} from "@/app/[locale]/concerts/concertPage";
+import { useLocale } from "next-intl";
+import { shiftFromUTCToLocale } from "@/app/utils/dateFuncs";
+import { ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
 
 type DateType = Date | null;
 
 type ConcertDateType = DateType | [DateType, DateType];
 
-export function ConcertsCalendar({hideCalendar}: { hideCalendar?: () => void }) {
-    const {concerts, cursor, setCursor} = useConcertContext() as ConcertContextType;
+export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }) {
+    const { concerts, cursor, setCursor } = useConcertContext() as ConcertContextType;
 
     const [concertDate, setConcertDate] = useState<ConcertDateType>(null);
     const minDate = concerts[0].date || undefined;
@@ -20,12 +20,16 @@ export function ConcertsCalendar({hideCalendar}: { hideCalendar?: () => void }) 
     const locale = useLocale();
 
     const concertDates = useMemo(() => new Set(
-        concerts.map(({date}) => shiftFromUTCToLocale(date))), [concerts]);
+        concerts.map(({ date }) => shiftFromUTCToLocale(date))), [concerts]);
 
     const selectNewDate = (newDate: ConcertDateType) => {
-        const concertIndex = concerts.findIndex(({date}) => shiftFromUTCToLocale(date) === (newDate as DateType)?.getTime());
-        concertIndex >= 0 && setCursor(concertIndex);
-        hideCalendar && hideCalendar();
+        const concertIndex = concerts.findIndex(({ date }) => shiftFromUTCToLocale(date) === (newDate as DateType)?.getTime());
+        if (concertIndex >= 0) {
+            setCursor(concertIndex);
+        }
+        if (!!hideCalendar) {
+            hideCalendar();
+        }
     };
 
     useEffect(() => {
@@ -47,10 +51,10 @@ export function ConcertsCalendar({hideCalendar}: { hideCalendar?: () => void }) 
             nextAriaLabel={"Next"}
             prev2AriaLabel={"Jump backwards"}
             prevAriaLabel={"Previous"}
-            tileDisabled={({activeStartDate, date, view}) => {
+            tileDisabled={({ activeStartDate, date, view }) => {
                 return !concertDates.has(date.setHours(0, 0, 0, 0));
             }}
-            tileClassName={({date, view}) => {
+            tileClassName={({ date, view }) => {
                 if (view !== "month") return;
 
                 if (date.getTime() === (concertDate as DateType)?.getTime()) {

@@ -1,5 +1,5 @@
-import {QueryParams} from "next-intl/navigation";
-import {NavigateOptions} from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { QueryParams } from "next-intl/navigation";
+import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 type Router = {
     push: (href: (string | { pathname: string, query?: QueryParams }), options?: ((Partial<NavigateOptions> & {
@@ -16,6 +16,6 @@ export const replaceDynamicSegmentIfExists = (router: Router, fullPath: string, 
     const newPath = deleteLastSegmentIfExists(fullPath, staticPath) + "/" + segment;
 
     if (newPath !== fullPath) {
-        router.push({pathname: newPath});
+        router.push({ pathname: newPath });
     }
 };

@@ -1,4 +1,4 @@
-import {auth} from "@/auth";
+import { auth } from "@/auth";
 
 export default async function Cms() {
     const session = await auth()

@@ -11,9 +11,9 @@ import {
     useState,
 } from "react";
 import clsx from "clsx";
-import {ConcertDate} from "@/app/[locale]/concerts/components/concertDate";
-import {useScroll} from "@/app/components/hooks";
-import {ConcertContextType, useConcertContext} from "@/app/[locale]/concerts/concertPage";
+import { ConcertDate } from "@/app/[locale]/concerts/components/concertDate";
+import { useScroll } from "@/app/components/hooks";
+import { ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
 
 export function SmConcertsList() {
     const {
@@ -31,7 +31,7 @@ export function SmConcertsList() {
 
     const scrollWindow = (id: string) => {
         const offsetTop = id === "forgoing" ? 0 : ref.current[id].offsetTop;
-        window.scrollTo({top: offsetTop, behavior: 'smooth'});
+        window.scrollTo({ top: offsetTop, behavior: 'smooth' });
     };
 
     const focusOnConcert = () => {
@@ -86,7 +86,7 @@ export function MdConcertsList() {
 
     const scrollUl = (id: string) => {
         const offsetTop = id === "forgoing" ? 0 : ref.current[id].offsetTop;
-        ulRef.current?.scrollTo({top: offsetTop});
+        ulRef.current?.scrollTo({ top: offsetTop });
     };
 
     const focusOnConcert = () => {
@@ -151,7 +151,7 @@ const ConcertView = ({
                         {index === 0 && index !== firstUpcomingConcertIndex &&
                             <p className={"text-beige text-xl p-4"}>Forgoing concerts:</p>}
                         {index === firstUpcomingConcertIndex &&
-                            <p className={clsx("text-beige text-xl p-4", {"mt-8": index !== 0})}>Upcoming
+                            <p className={clsx("text-beige text-xl p-4", { "mt-8": index !== 0 })}>Upcoming
                                 concerts:</p>}
                         <button
                             id={concert.id}
@@ -171,8 +171,8 @@ const ConcertView = ({
                                 }
                             }}
                             className={clsx(
-                                {"bg-opacity-40": index % 2},
-                                {"bg-opacity-75": index === cursor},
+                                { "bg-opacity-40": index % 2 },
+                                { "bg-opacity-75": index === cursor },
                                 "flex flex-col gap-1.5 w-full text-left outline-0 p-4 bg-amber-50 ")}
                         >
                             <ConcertDate dateTime={concert.date as Date}/>

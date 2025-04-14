@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import {addMailoutEmail} from "@/app/acitons/actions";
-import {Input, InputError} from "@/app/ui/Input";
-import {WaitButton} from "@/app/ui/Button";
-import FormHandler, {FormHandlerProps, toastMessages} from "@/app/components/forms/formHandler";
-import {useTranslations} from "next-intl";
+import { addMailoutEmail } from "@/app/acitons/actions";
+import { Input, InputError } from "@/app/ui/Input";
+import { WaitButton } from "@/app/ui/Button";
+import FormHandler, { FormHandlerProps, toastMessages } from "@/app/components/forms/formHandler";
+import { useTranslations } from "next-intl";
 
-const NewsFormComponent = ({ref, state, onSubmit, isPending}: FormHandlerProps) => {
+const NewsFormComponent = ({ ref, state, onSubmit, isPending }: FormHandlerProps) => {
     const t = useTranslations('NewsForm');
 
     return (<form ref={ref} onSubmit={onSubmit} className={"flex flex-col"}>

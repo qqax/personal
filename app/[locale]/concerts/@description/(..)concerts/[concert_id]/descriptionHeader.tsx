@@ -1,12 +1,12 @@
 'use client';
 
 import clsx from "clsx";
-import {ConcertDate} from "@/app/[locale]/concerts/components/concertDate";
-import {buttonColors} from "@/app/ui/styles";
-import {ConcertContextType, useConcertContext} from "@/app/[locale]/concerts/concertPage";
+import { ConcertDate } from "@/app/[locale]/concerts/components/concertDate";
+import { buttonColors } from "@/app/ui/styles";
+import { ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
 
-export function DescriptionHeader({date}: { date: Date }) {
-    const {setCursorToNext, setCursorToPrev} = useConcertContext() as ConcertContextType;
+export function DescriptionHeader({ date }: { date: Date }) {
+    const { setCursorToNext, setCursorToPrev } = useConcertContext() as ConcertContextType;
 
     return (<div className={"flex items-center justify-between gap-3 w-full"}>
         <button type={"button"}

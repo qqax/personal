@@ -1,12 +1,12 @@
 'use client';
 
-import {Link, usePathname} from "@/i18n/routing";
+import { Link, usePathname } from "@/i18n/routing";
 import clsx from "clsx";
-import {navClassName} from "@/app/ui/styles";
-import {LocaleSwitcher} from "@/app/components/navbar/localeSwitcher";
-import {RefObject, useEffect, useRef, useState} from "react";
-import {MobileMenuButton} from "@/app/ui/Button";
-import {useClickOutside} from "@/app/components/hooks";
+import { navClassName } from "@/app/ui/styles";
+import { LocaleSwitcher } from "@/app/components/navbar/localeSwitcher";
+import { RefObject, useEffect, useRef, useState } from "react";
+import { MobileMenuButton } from "@/app/ui/Button";
+import { useClickOutside } from "@/app/components/hooks";
 import Modal from "@/app/ui/Modal";
 
 export const paths = {
@@ -17,10 +17,10 @@ export const paths = {
 };
 
 const menuItems = [
-    {name: 'About', href: paths.about},
-    {name: 'Concerts', href: paths.concerts},
-    {name: 'Records', href: paths.records},
-    {name: 'Contacts', href: paths.contacts},
+    { name: 'About', href: paths.about },
+    { name: 'Concerts', href: paths.concerts },
+    { name: 'Records', href: paths.records },
+    { name: 'Contacts', href: paths.contacts },
 ];
 
 export default function Navbar() {
@@ -39,19 +39,20 @@ export default function Navbar() {
             <MobileMenuItems ref={ref} openMobileMenu={openMobileMenu} onClick={() => setOpenMobileMenu(false)}/>
         </Modal>
 
-        <div ref={ref} className={"hidden sm:flex z-50 h-full w-full transition-all duration-500 backdrop-blur lg:backdrop-blur-0"}>
+        <div ref={ref}
+             className={"hidden sm:flex z-50 h-full w-full transition-all duration-500 backdrop-blur lg:backdrop-blur-0"}>
             <MenuItems/>
         </div>
     </nav>);
 }
 
-const MenuItems = ({onClick}: { onClick?: (param: boolean) => void }) => {
+const MenuItems = ({ onClick }: { onClick?: (param: boolean) => void }) => {
     const pathname = usePathname();
 
     return (
         <>
             {
-                menuItems.map(({name, href}) => {
+                menuItems.map(({ name, href }) => {
                     const regex = new RegExp(String.raw`^${href}(/.*)?$`, "g");
                     return (<Link key={name}
                                   href={href}
@@ -71,7 +72,7 @@ const MenuItems = ({onClick}: { onClick?: (param: boolean) => void }) => {
     );
 };
 
-const MobileMenuItems = ({ref, openMobileMenu, onClick}:
+const MobileMenuItems = ({ ref, openMobileMenu, onClick }:
                          {
                              ref: RefObject<HTMLDivElement>,
                              openMobileMenu: boolean,

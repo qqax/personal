@@ -1,4 +1,4 @@
-import {pgEnum} from "drizzle-orm/pg-core";
+import { pgEnum } from "drizzle-orm/pg-core";
 
 export const RECORD_SERVICES_YOUTUBE = "youtube";
 

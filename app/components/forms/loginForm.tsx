@@ -2,7 +2,7 @@
 
 import { useActionState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import {authenticate} from "@/app/acitons/actions";
+import { authenticate } from "@/app/acitons/actions";
 
 export default function LoginForm() {
     const searchParams = useSearchParams();
@@ -57,7 +57,7 @@ export default function LoginForm() {
                     {/*    </div>*/}
                     {/*</div>*/}
                 </div>
-                <input type="hidden" name="redirectTo" value={callbackUrl} />
+                <input type="hidden" name="redirectTo" value={callbackUrl}/>
                 <button className="mt-4 w-full" aria-disabled={isPending}>
                     Log in
                 </button>

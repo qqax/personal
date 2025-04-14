@@ -1,37 +1,37 @@
 import "../globals.css";
-import {Jura} from 'next/font/google';
+import { Jura } from 'next/font/google';
 import Footer from "@/app/ui/Footer";
 import NavBar from "@/app/components/navbar/navigation";
-import {Toaster} from "sonner";
-import {ReCaptchaProvider} from "next-recaptcha-v3";
-import {notFound} from 'next/navigation';
-import {Locale, routing} from '@/i18n/routing';
-import {NextIntlClientProvider} from 'next-intl';
-import {getMessages, getTranslations, setRequestLocale} from "next-intl/server";
+import { Toaster } from "sonner";
+import { ReCaptchaProvider } from "next-recaptcha-v3";
+import { notFound } from 'next/navigation';
+import { Locale, routing } from '@/i18n/routing';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import React from "react";
-import {connection} from "next/server";
-import {fetchArtistName, fetchArtistProfession} from "@/app/lib/data";
-import {GoogleAnalytics} from "@next/third-parties/google";
+import { connection } from "next/server";
+import { fetchArtistName, fetchArtistProfession } from "@/app/lib/data";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import Background from "@/app/components/background";
 
-const jura = Jura({subsets: ['latin', 'cyrillic']});
+const jura = Jura({ subsets: ['latin', 'cyrillic'] });
 
-export async function generateMetadata({params}: { params: { locale: string } }) {
+export async function generateMetadata({ params }: { params: { locale: string } }) {
     await connection();
 
-    const {locale} = await params;
+    const { locale } = await params;
     const t = await getTranslations('Metadata');
     const artistName = await fetchArtistName(locale);
     const profession = await fetchArtistProfession(locale);
 
     return {
         title: artistName,
-        description: t('description', {name: artistName, profession: profession}),
+        description: t('description', { name: artistName, profession: profession }),
     };
 }
 
 export function generateStaticParams() {
-    return routing.locales.map((locale: string) => ({locale}));
+    return routing.locales.map((locale: string) => ({ locale }));
 }
 
 export default async function RootLayout({
@@ -43,7 +43,7 @@ export default async function RootLayout({
 }>) {
     await connection();
 
-    const {locale} = await params;
+    const { locale } = await params;
 
     // Ensure that the incoming `locale` is valid
     if (!routing.locales.includes(locale as Locale)) {
