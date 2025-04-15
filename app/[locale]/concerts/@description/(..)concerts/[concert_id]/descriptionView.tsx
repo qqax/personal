@@ -27,8 +27,8 @@ export const DescriptionView = ({ concertDescription }: { concertDescription: Co
                     src="/portrait.jpg"
                     alt={"artist_photo"}
                     className={"w-1/3"}
-                    width={1177}
-                    height={1772}
+                    width={1574}
+                    height={2096}
                     priority
                 />
             }
