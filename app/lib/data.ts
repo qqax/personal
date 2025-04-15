@@ -22,7 +22,6 @@ import { db } from "@/app/lib/connection";
 import { NotDefaultLocales } from "@/i18n/routing";
 import { contactType, recordType, relatedRecordTypesEnum } from "@/app/lib/schema/enums";
 
-
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 const selectTranslated = (table: PgTableWithColumns<any>, column: string, locale: string) => {
     if (NotDefaultLocales.includes(locale)) {
@@ -140,7 +139,8 @@ export async function fetchConcerts(locale: string): Promise<ConcertsData> {
 
     try {
         const concerts: Concerts = await db.select({
-            id: sql<string>`to_char(${concertsTable.date}, 'DD_Mon_YY_HH24_MI')`.as('id'),
+            id: sql<string>`to_char
+                (${concertsTable.date}, 'DD_Mon_YY_HH24_MI')`.as('id'),
             date: concertsTable.date,
             place: selectTranslated(concertsTable, "place", locale),
             short_description: selectTranslated(concertsTable, "short_description", locale),
