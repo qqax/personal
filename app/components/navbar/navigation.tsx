@@ -32,7 +32,7 @@ export default function Navbar() {
         setOpenMobileMenu(false);
     });
 
-    return (<nav className={"fixed text-teal-950 top-0 left-0 flex flex-row w-full lg:w-1/2 z-40 sm:flex sm:items-end"}>
+    return (<nav className={"fixed shadow-xl lg:shadow-none text-teal-950 top-0 left-0 flex flex-row w-full lg:w-1/2 z-40 sm:flex sm:items-end"}>
         <Modal show={openMobileMenu} preventScroll={true}
                element={<MobileMenuButton ref={buttonRef} openMobileMenu={openMobileMenu}
                                           setOpenMobileMenu={setOpenMobileMenu}/>}>

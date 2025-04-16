@@ -5,8 +5,10 @@ import { fetchArtistName, fetchBiography } from "@/app/lib/data";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import NewsForm from "@/app/components/forms/newsForm";
-import Social from "@/app/components/social";
 import React from "react";
+import Link from "next/link";
+import clsx from "clsx";
+import { buttonColors } from "@/app/ui/styles";
 
 export default async function Biography() {
     const locale = await getLocale();
@@ -27,12 +29,14 @@ export default async function Biography() {
             <div className={"prose text-lg leading-tight mb-8"}>
                 <MDXRemote source={biography}/>
             </div>
-            <div className={"flex flex-col w-full gap-8"}>
+            <div className={"flex flex-col w-full gap-8 mb-20"}>
                 <div className={"sm:w-1/2 md:w-full"}>
                     <NewsForm/>
                 </div>
-                <div className={"flex sm:hidden gap-8"}>
-                    <Social/>
+                <div className={"flex w-full sm:hidden gap-8 justify-between"}>
+                    <Link href={"/concerts"} className={clsx(buttonColors, "w-full text-center py-1")}>Concerts</Link>
+                    <Link href={"/records"} className={clsx(buttonColors, "w-full text-center p-1")}>Records</Link>
+                    <Link href={"/contact"} className={clsx(buttonColors, "w-full text-center p-1")}>Contact</Link>
                 </div>
             </div>
         </div>
