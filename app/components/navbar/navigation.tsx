@@ -8,19 +8,20 @@ import { RefObject, useEffect, useRef, useState } from "react";
 import { MobileMenuButton } from "@/app/ui/Button";
 import { useClickOutside } from "@/app/components/hooks";
 import Modal from "@/app/ui/Modal";
+import { useTranslations } from "next-intl";
 
 export const paths = {
-    about: "/",
+    biography: "/",
     concerts: "/concerts",
     records: "/records",
     contacts: "/contacts",
 };
 
 const menuItems = [
-    { name: 'About', href: paths.about },
-    { name: 'Concerts', href: paths.concerts },
-    { name: 'Records', href: paths.records },
-    { name: 'Contacts', href: paths.contacts },
+    { name: 'biography', href: paths.biography },
+    { name: 'concerts', href: paths.concerts },
+    { name: 'records', href: paths.records },
+    { name: 'contacts', href: paths.contacts },
 ];
 
 export default function Navbar() {
@@ -48,12 +49,14 @@ export default function Navbar() {
 
 const MenuItems = ({ onClick }: { onClick?: (param: boolean) => void }) => {
     const pathname = usePathname();
+    const t = useTranslations('Titles');
 
     return (
         <>
             {
                 menuItems.map(({ name, href }) => {
                     const regex = new RegExp(String.raw`^${href}(/.*)?$`, "g");
+                    const translatedName = t(name)
                     return (<Link key={name}
                                   href={href}
                                   onClick={() => onClick && onClick(false)}
@@ -63,7 +66,7 @@ const MenuItems = ({ onClick }: { onClick?: (param: boolean) => void }) => {
                                           ? "bg-opacity-40"
                                           : "bg-opacity-0",
                                   )}>
-                            {name}
+                            {translatedName}
                         </Link>
                     );
                 })}

@@ -5,13 +5,16 @@ import Image from "next/image";
 import mailIcon from "@/public/icons/mail.svg";
 import phoneIcon from "@/public/icons/phone.svg";
 import { CONTACT_TYPE_EMAIL, CONTACT_TYPE_PHONE } from "@/app/lib/schema/enums";
+import { getTranslations } from "next-intl/server";
 
 export default async function ContactsPage() {
     const contacts = await fetchContacts();
+    const t = await getTranslations("Titles");
+    const title = t("contacts");
 
     return (
         <>
-            <h2 className={"text-xl sm:text-2xl text-beige text-center mb-1.5 nb:mb-4 sm:mb-6"}>Contacts</h2>
+            <h2 className={"text-xl sm:text-2xl text-beige text-center mb-1.5 nb:mb-4 sm:mb-6"}>{title}</h2>
             <div className={"flex flex-col gap-10 w-full"}>
                 <div className={"flex flex-col gap-4 w-60"}>
                     {contacts[CONTACT_TYPE_EMAIL].map((item) => <Link key={item}

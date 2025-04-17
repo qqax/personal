@@ -1,6 +1,6 @@
 'use server'
 
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { fetchArtistName, fetchBiography } from "@/app/lib/data";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
@@ -14,6 +14,8 @@ export default async function Biography() {
     const locale = await getLocale();
     const name = await fetchArtistName(locale);
     const biography = await fetchBiography(locale);
+    const t = await getTranslations("Titles");
+    const title = t("biography");
 
     return (
         <div>
@@ -25,7 +27,7 @@ export default async function Biography() {
                 className={"nb:float-right nb:w-1/2 nb:pl-4 nb:max-h-96 nb:max-w-64 object-cover pb-8"}
                 priority
             />
-            <h2 className={"text-2xl text-beige mb-8"}>Biography</h2>
+            <h2 className={"text-2xl text-beige mb-8"}>{title}</h2>
             <div className={"prose text-lg leading-tight mb-8"}>
                 <MDXRemote source={biography}/>
             </div>

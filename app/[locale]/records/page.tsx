@@ -14,7 +14,7 @@ import {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
-    const t = await getTranslations('RecordsMetadata');
+    const t = await getTranslations('Metadata.records');
     const artistName = await fetchArtistName(locale);
 
     return {
@@ -26,11 +26,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function RecordPage() {
     const locale = await getLocale();
     const records = await fetchRecords(locale);
+    const t = await getTranslations("Titles");
+    const title = t("concerts");
 
     return (
         <section className="w-full text-center">
             <h2 className={"text-2xl w-1/2 ml-auto py-6 text-beige sm:mb-4 lg:mb-0"}>
-                <span className={"sm:hidden lg:inline"}>Records</span>
+                <span className={"sm:hidden lg:inline"}>{title}</span>
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-2 sm:p-6">
                 {records.map(({ date, uuid, record_type, record_service }) => {

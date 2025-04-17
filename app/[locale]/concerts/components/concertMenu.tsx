@@ -7,6 +7,7 @@ import { ConcertsCalendar } from "@/app/[locale]/concerts/components/Calendar";
 import Modal from "@/app/ui/Modal";
 import { useClickOutside } from "@/app/components/hooks";
 import { ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
+import { useTranslations } from "next-intl";
 
 const buttonStyle = "px-2 text-lg h-full";
 const selectedButtonStyle = "text-beige underline";
@@ -15,7 +16,8 @@ export const ConcertMenu = ({ isCurrentUpcoming, isUpcomingConcertPresented }: {
     isCurrentUpcoming: boolean,
     isUpcomingConcertPresented: boolean,
 }) => {
-    const title = "Concerts";
+    const t = useTranslations("Titles");
+    const title = t("concerts");
 
     return (
         <div

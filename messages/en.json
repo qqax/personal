@@ -1,15 +1,37 @@
 {
   "Metadata": {
-    "title": "Biography of the artist",
-    "description": "{name} ({profession}) is a professional musician, this is his personal site."
+    "main": {
+      "title": "Biography of the artist",
+      "description": "{name} ({profession}) is a professional musician, this is his personal site."
+    },
+    "records": {
+      "title": "Artist's Recordings",
+      "description": "{name} has a number of recordings including concerts, workshops and studio recordings."
+    },
+    "concerts": {
+      "title": "Концерты артиста",
+      "description": "{name} ({profession}) - профессиональный музыкант, это его персональный сайт."
+    },
+    "contacts": {
+      "title": "Контакты артиста",
+      "description": "{name} ({profession}) - профессиональный музыкант, это его персональный сайт."
+    },
+    "support": {
+      "title": "Support the artist's work",
+      "description": "If you like the artist's work, be sure to support the artist."
+    }
   },
-  "RecordsMetadata": {
-    "title": "Artist's Recordings",
-    "description": "{name} has a number of recordings including concerts, workshops and studio recordings."
-  },
-  "SupportMetadata": {
-    "title": "Support the artist's work",
-    "description": "If you like the artist's work, be sure to support the artist."
+  "Titles": {
+    "biography": "Biography",
+    "concerts": "Concerts",
+    "records": "Records",
+    "contacts": "Contacts",
+    "support": {
+      "title": "Support",
+      "KG": "For citizens of Kyrgyzstan:",
+      "RU": "For citizens of Russia:",
+      "default": "For other countries:"
+    }
   },
   "NewsForm": {
     "title": "Want to know about new recordings and concerts?",

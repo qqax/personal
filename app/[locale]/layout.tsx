@@ -17,7 +17,7 @@ const jura = Jura({ subsets: ['latin', 'cyrillic'] });
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
-    const t = await getTranslations('Metadata');
+    const t = await getTranslations('Metadata.main');
     const artistName = await fetchArtistName(locale);
     const profession = await fetchArtistProfession(locale);
 
