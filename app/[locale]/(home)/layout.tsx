@@ -6,12 +6,16 @@ import React, { ReactNode } from "react";
 import clsx from "clsx";
 import { bgStyle } from "@/app/ui/styles";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 export default async function HomeLayout({
                                              children,
                                          }: {
     children: ReactNode;
 }) {
+    const t = await getTranslations("Titles.support");
+    const supportButtonText = t("button");
+
     return (
         <main className={"flex flex-col lg:flex-row w-full overflow-hidden"}>
             <div
@@ -24,7 +28,7 @@ export default async function HomeLayout({
                     <Social/>
                 </div>
                 <Link href={"/support"}
-                      className={"bg-orange-900 text-sm sm:text-base hover:bg-opacity-80 text-amber-50 rounded p-1.5 nb:p-2 lg:p-4"}>Support</Link>
+                      className={"bg-orange-900 text-sm sm:text-base hover:bg-opacity-80 text-amber-50 p-1.5 nb:p-2 lg:p-4"}>{supportButtonText}</Link>
             </div>
             <div
                 className={clsx(bgStyle, "flex flex-col mt-[250px] lg:mt-0 lg:justify-center items-center min-h-screen lg:ml-auto lg:w-1/2 p-2 nb:p-5 sm:p-10")}>

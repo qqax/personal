@@ -1,41 +1,27 @@
 import { headers } from "next/headers";
-import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+import CountriesSupport from "@/app/[locale]/(home)/support/countriesSupport";
 
 export default async function SupportPage() {
     const t = await getTranslations("Titles.support");
     const mainTitle = t("title");
-    const titleKG = t("KG");
-    const titleRU = t("RU");
-    const titleDefault = t("default");
 
     const ip = await headers().then(headers => {
         return headers.get("x-forwarded-for")
     });
-    let country
+    let country: string | undefined = undefined;
+
     if (ip) {
         try {
-            country = await fetch(`https://api.country.is/${ip}`);
-            console.log(country);
+            const response = await fetch(`https://api.country.is/${ip}`).then(response => response.json());
+            country = response?.country;
         } catch (err) {
             console.log(err);
         }
     }
 
-    return (<section className={"flex flex-col gap-4"}>
-        <h2>{mainTitle}</h2>
-        <h3>{titleKG}</h3>
-        <Image
-            src="/demir.jpg"
-            alt={"demir_bank_qr"}
-            className={"w-full"}
-            width={400}
-            height={400}
-            priority/>
-        <h3>{titleRU}</h3>
-        <h3>{titleDefault}</h3>
-
-        <>{ip}</>
-
+    return (<section className={"flex flex-col gap-4 h-full w-full"}>
+        <h2 className={"text-center text-beige text-2xl"}>{mainTitle}</h2>
+        <CountriesSupport country={country} />
     </section>)
 }

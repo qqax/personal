@@ -27,10 +27,11 @@
     "records": "Records",
     "contacts": "Contacts",
     "support": {
-      "title": "Support",
-      "KG": "For citizens of Kyrgyzstan:",
-      "RU": "For citizens of Russia:",
-      "default": "For other countries:"
+      "button": "Support",
+      "title": "Support the artist's work!",
+      "KG": "For citizens of Kyrgyzstan",
+      "RU": "For citizens of Russia",
+      "default": "For other countries"
     }
   },
   "NewsForm": {
