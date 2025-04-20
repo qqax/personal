@@ -6,11 +6,16 @@ import mailIcon from "@/public/icons/mail.svg";
 import phoneIcon from "@/public/icons/phone.svg";
 import { CONTACT_TYPE_EMAIL, CONTACT_TYPE_PHONE } from "@/app/lib/schema/enums";
 import { getTranslations } from "next-intl/server";
+import BottomMenu from "@/app/components/navbar/bottomMenuLink";
+import React from "react";
+
+import { MenuTitle } from "@/app/components/navbar/menuTypes";
 
 export default async function ContactsPage() {
     const contacts = await fetchContacts();
     const t = await getTranslations("Titles");
     const title = t("contacts");
+    const bottomMenuTitles: MenuTitle[] = ["biography", "concerts", "records"] as const;
 
     return (
         <>
@@ -42,6 +47,7 @@ export default async function ContactsPage() {
                 </div>
                 <ContactForm/>
             </div>
+            <BottomMenu titles={bottomMenuTitles}/>
         </>
     );
 }

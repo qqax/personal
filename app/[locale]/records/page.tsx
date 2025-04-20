@@ -27,7 +27,7 @@ export default async function RecordPage() {
     const locale = await getLocale();
     const records = await fetchRecords(locale);
     const t = await getTranslations("Titles");
-    const title = t("concerts");
+    const title = t("records");
 
     return (
         <section className="w-full text-center">

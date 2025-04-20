@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import CountriesSupport from "@/app/[locale]/(home)/support/countriesSupport";
+import React from "react";
 
 export default async function SupportPage() {
     const t = await getTranslations("Titles.support");

@@ -6,9 +6,8 @@ import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import NewsForm from "@/app/components/forms/newsForm";
 import React from "react";
-import Link from "next/link";
-import clsx from "clsx";
-import { buttonColors } from "@/app/ui/styles";
+import BottomMenu from "@/app/components/navbar/bottomMenuLink";
+import { MenuTitle } from "@/app/components/navbar/menuTypes";
 
 export default async function Biography() {
     const locale = await getLocale();
@@ -16,6 +15,7 @@ export default async function Biography() {
     const biography = await fetchBiography(locale);
     const t = await getTranslations("Titles");
     const title = t("biography");
+    const bottomMenuTitles: MenuTitle[] = ["concerts", "records", "contacts"] as const;
 
     return (
         <div>
@@ -31,15 +31,11 @@ export default async function Biography() {
             <div className={"prose text-lg leading-tight mb-8"}>
                 <MDXRemote source={biography}/>
             </div>
-            <div className={"flex flex-col w-full gap-8 mb-20"}>
+            <div className={"flex flex-col w-full mb-20"}>
                 <div className={"sm:w-1/2 md:w-full"}>
                     <NewsForm/>
                 </div>
-                <div className={"flex w-full sm:hidden gap-8 justify-between"}>
-                    <Link href={"/concerts"} className={clsx(buttonColors, "w-full text-center py-1")}>Concerts</Link>
-                    <Link href={"/records"} className={clsx(buttonColors, "w-full text-center p-1")}>Records</Link>
-                    <Link href={"/contact"} className={clsx(buttonColors, "w-full text-center p-1")}>Contact</Link>
-                </div>
+                <BottomMenu titles={bottomMenuTitles}/>
             </div>
         </div>
     )

@@ -20,8 +20,8 @@ import {
 } from "react";
 import { useMd } from "@/app/components/hooks";
 import { usePathname, useRouter } from "@/i18n/routing";
-import { paths } from "@/app/components/navbar/navigation";
 import { replaceDynamicSegmentIfExists } from "@/app/utils/pathFuncs";
+import { paths } from "@/app/components/navbar/menuTypes";
 
 export type ScrollConcertType = { forgoing: () => void, upcoming: () => void } | null;
 

@@ -9,20 +9,7 @@ import { MobileMenuButton } from "@/app/ui/Button";
 import { useClickOutside } from "@/app/components/hooks";
 import Modal from "@/app/ui/Modal";
 import { useTranslations } from "next-intl";
-
-export const paths = {
-    biography: "/",
-    concerts: "/concerts",
-    records: "/records",
-    contacts: "/contacts",
-};
-
-const menuItems = [
-    { name: 'biography', href: paths.biography },
-    { name: 'concerts', href: paths.concerts },
-    { name: 'records', href: paths.records },
-    { name: 'contacts', href: paths.contacts },
-];
+import { menuItems } from "@/app/components/navbar/menuTypes";
 
 export default function Navbar() {
     const [openMobileMenu, setOpenMobileMenu] = useState(false);
