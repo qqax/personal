@@ -31,7 +31,7 @@ export default async function Biography() {
             <div className={"prose text-lg leading-tight mb-8"}>
                 <MDXRemote source={biography}/>
             </div>
-            <div className={"flex flex-col w-full mb-20"}>
+            <div className={"flex flex-col w-full mt-14 mb-20"}>
                 <div className={"sm:w-1/2 md:w-full"}>
                     <NewsForm/>
                 </div>

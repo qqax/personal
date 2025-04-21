@@ -31,7 +31,7 @@ export default async function HomeLayout({
                       className={"bg-orange-900 text-sm sm:text-base hover:bg-opacity-80 text-amber-50 p-1.5 nb:p-2 lg:p-4"}>{supportButtonText}</Link>
             </div>
             <div
-                className={clsx(bgStyle, "flex flex-col mt-[250px] lg:mt-0 lg:justify-center items-center min-h-screen lg:ml-auto lg:w-1/2 p-2 nb:p-5 sm:p-10")}>
+                className={clsx(bgStyle, "flex flex-col mt-[250px] lg:mt-0 lg:justify-center items-center min-h-screen lg:ml-auto lg:w-1/2 px-2 py-6 nb:py-10 mb:px-5 sm:p-10")}>
                 {children}
             </div>
         </main>
