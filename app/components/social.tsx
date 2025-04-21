@@ -7,12 +7,14 @@ import instagramIcon from "../../public/icons/instagram.svg";
 import telegramIcon from "../../public/icons/telegram.svg";
 import linkedinIcon from "../../public/icons/linkedin.svg";
 import twitterIcon from "../../public/icons/twitter.svg";
+import patreonIcon from "../../public/icons/patreon.svg";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { getLocale } from "next-intl/server";
 import {
     SOCIAL_TYPE_FACEBOOK,
     SOCIAL_TYPE_INSTAGRAM,
     SOCIAL_TYPE_LINKEDIN,
+    SOCIAL_TYPE_PATREON,
     SOCIAL_TYPE_TELEGRAM,
     SOCIAL_TYPE_TWITTER,
     SOCIAL_TYPE_YOUTUBE
@@ -52,6 +54,10 @@ const Social = async () => {
                     case SOCIAL_TYPE_LINKEDIN:
                         alt = `Follow ${artist} on LinkedIn`;
                         src = linkedinIcon;
+                        break;
+                    case SOCIAL_TYPE_PATREON:
+                        alt = `Follow ${artist} on Patreon`;
+                        src = patreonIcon;
                         break;
                     default:
                         throw new Error(`Unsupported type "${type}"`);

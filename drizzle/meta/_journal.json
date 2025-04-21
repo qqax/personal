@@ -22,6 +22,13 @@
       "when": 1745255207725,
       "tag": "0002_ambitious_otto_octavius",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1745256459961,
+      "tag": "0003_breezy_vertigo",
+      "breakpoints": true
     }
   ]
 }
