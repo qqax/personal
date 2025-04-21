@@ -15,6 +15,13 @@
       "when": 1744559612309,
       "tag": "0001_rich_hitman",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1745255207725,
+      "tag": "0002_ambitious_otto_octavius",
+      "breakpoints": true
     }
   ]
 }

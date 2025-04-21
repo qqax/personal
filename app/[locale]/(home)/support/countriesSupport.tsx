@@ -36,13 +36,7 @@ const CountriesSupport = ({country}: {country: string | undefined}) => {
             height={400}
             priority/>
         <button className={clsx(buttonColors, "p-1")} onClick={() => setOpenDefault(!openDefault)}>{titleDefault}</button>
-        <Image
-            src="/demir.jpg"
-            alt={"demir_bank_qr"}
-            className={clsx(openDefault ? "static" : "hidden", "w-full")}
-            width={400}
-            height={400}
-            priority/>
+        <a href={"https://www.patreon.com/alexanderkudryavtsev/membership?view_as=patron&redirect=true"}>Support me on Patreon</a>
     </>)
 }
 

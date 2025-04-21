@@ -10,6 +10,7 @@ export const SOCIAL_TYPE_TWITTER = "twitter";
 export const SOCIAL_TYPE_LINKEDIN = "linkedin";
 export const SOCIAL_TYPE_YOUTUBE = "youtube";
 export const SOCIAL_TYPE_INSTAGRAM = "instagram";
+export const SOCIAL_TYPE_TELEGRAM = "telegram";
 
 export const RELATED_RECORD_TYPE_CONCERT = "concert";
 
@@ -24,7 +25,7 @@ export const contactTypesEnum = pgEnum("contact_types", [CONTACT_TYPE_PHONE, CON
 export const contactTypesValues = contactTypesEnum.enumValues;
 export type contactType = typeof contactTypesValues[number];
 
-export const socialTypesEnum = pgEnum("social_types", [SOCIAL_TYPE_FACEBOOK, SOCIAL_TYPE_YOUTUBE, SOCIAL_TYPE_INSTAGRAM, SOCIAL_TYPE_TWITTER, SOCIAL_TYPE_LINKEDIN]);
+export const socialTypesEnum = pgEnum("social_types", [SOCIAL_TYPE_FACEBOOK, SOCIAL_TYPE_YOUTUBE, SOCIAL_TYPE_INSTAGRAM, SOCIAL_TYPE_TWITTER, SOCIAL_TYPE_LINKEDIN, SOCIAL_TYPE_TELEGRAM]);
 export const socialTypesValues = socialTypesEnum.enumValues;
 export type socialType = typeof socialTypesValues[number];
 
