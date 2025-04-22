@@ -12,6 +12,12 @@ const CountriesSupport = ({ country }: { country: string | undefined }) => {
     const [openRU, setOpenRU] = useState(country === "RU");
     const [openDefault, setOpenDefault] = useState(!country);
 
+    if (!openKG && !openRU && !openDefault) {
+        setOpenKG(true);
+        setOpenRU(true);
+        setOpenDefault(true);
+    }
+
     const t = useTranslations("Titles.support");
 
     const titleKG = t("KG");
@@ -22,7 +28,7 @@ const CountriesSupport = ({ country }: { country: string | undefined }) => {
     return (<>
         <div className={"w-full flex flex-col gap-4"}>
             <button className={clsx(buttonColors, "p-1")} onClick={() => setOpenKG(!openKG)}>{titleKG}</button>
-            <div className={clsx(openRU ? "static" : "hidden", "w-full flex flex-col gap-4")}>
+            <div className={clsx(openKG ? "static" : "hidden", "w-full flex flex-col gap-4")}>
                 Demir bank:
                 <Image
                     src="/demir.jpg"
@@ -48,7 +54,7 @@ const CountriesSupport = ({ country }: { country: string | undefined }) => {
         <div className={"w-full flex flex-col gap-4"}>
             <button className={clsx(buttonColors, "p-1")}
                     onClick={() => setOpenDefault(!openDefault)}>{titleDefault}</button>
-            <div className={clsx(openRU ? "static" : "hidden", "w-full")}>
+            <div className={clsx(openDefault ? "static" : "hidden", "w-full")}>
                 <a className={"underline hover:text-beige flex items-center gap-2"}
                    href={"https://www.patreon.com/alexanderkudryavtsev/membership?view_as=patron&redirect=true"}>
                     <Image
