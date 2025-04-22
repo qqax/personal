@@ -21,7 +21,7 @@ export default async function SupportPage() {
         }
     }
 
-    return (<section className={"flex flex-col gap-4 h-full w-full"}>
+    return (<section className={"flex flex-col gap-10 h-full md:max-w-96 w-full"}>
         <h2 className={"text-center text-beige text-2xl"}>{mainTitle}</h2>
         <CountriesSupport country={country}/>
     </section>)
