@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import clsx from "clsx";
@@ -12,11 +12,13 @@ const CountriesSupport = ({ country }: { country: string | undefined }) => {
     const [openRU, setOpenRU] = useState(country === "RU");
     const [openDefault, setOpenDefault] = useState(!country);
 
-    if (!openKG && !openRU && !openDefault) {
-        setOpenKG(true);
-        setOpenRU(true);
-        setOpenDefault(true);
-    }
+    useEffect(() => {
+        if (!openKG && !openRU && !openDefault) {
+            setOpenKG(true);
+            setOpenRU(true);
+            setOpenDefault(true);
+        }
+    }, [])
 
     const t = useTranslations("Titles.support");
 
