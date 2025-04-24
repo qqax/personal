@@ -13,7 +13,7 @@ export const ExpandableDiv = ({ children, open, setOpen, title }: {
     const contentRef = useRef<HTMLDivElement>(null);
 
     return (<div className={"w-full flex flex-col"}>
-        <button className={clsx(buttonColors, "p-1 flex gap-4")} onClick={() => setOpen(!open)}>
+        <button className={clsx(buttonColors, "p-1 flex items-center gap-4")} onClick={() => setOpen(!open)}>
             <Image
                 src={arrowUp}
                 alt={"arrow"}
