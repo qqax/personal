@@ -31,7 +31,12 @@
       "title": "Support the artist's work!",
       "KG": "For citizens of Kyrgyzstan",
       "RU": "For citizens of Russia",
-      "default": "For other countries"
+      "default": "For other countries",
+      "card": "Card number:",
+      "download": "Download",
+      "Tinkoff": "Tinkoff bank:",
+      "Demir": "Demir bank:",
+      "Patreon": "Support on Patreon"
     }
   },
   "NewsForm": {

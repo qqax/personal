@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import clsx from "clsx";
-import { buttonColors } from "@/app/ui/styles";
 import patreonIcon from "@/public/icons/patreon.svg";
-import arrowUp from "@/public/icons/arrow-up.svg";
+import demir from "@/public/demir.jpg";
+import tinkoff from "@/public/tinkoff.jpg";
+import { ExpandableDiv } from "@/app/ui/Expandable";
+import { buttonColors } from "@/app/ui/styles";
+import clsx from "clsx";
 
 const CountriesSupport = ({ country }: { country: string | undefined }) => {
     const [openKG, setOpenKG] = useState(country === "KG");
@@ -26,64 +28,38 @@ const CountriesSupport = ({ country }: { country: string | undefined }) => {
     const titleKG = t("KG");
     const titleRU = t("RU");
     const titleDefault = t("default");
+    const download = t("download");
 
+    const divStyle = "flex flex-col mx-auto gap-4 mt-4";
 
     return (<>
-        <div className={"w-full flex flex-col gap-4"}>
-            <button className={clsx(buttonColors, "p-1 flex gap-4")} onClick={() => setOpenKG(!openKG)}>
+        <ExpandableDiv open={openKG} setOpen={setOpenKG} title={titleKG}>
+            <div className={divStyle}>
+                <span>{t("Demir")}</span>
                 <Image
-                    src={arrowUp}
-                    alt={"arrow"}
-                    width={10}
-                    height={10}
-                    className={clsx("ml-2 transition duration-500", openKG ? "rotate-0" : "rotate-180")}
-                />
-                {titleKG}
-            </button>
-            <div className={clsx(openKG ? "static" : "hidden", "w-full flex flex-col gap-4")}>
-                Demir bank:
-                <Image
-                    src="/demir.jpg"
+                    src={demir}
                     alt={"demir_bank_qr"}
                     width={400}
                     height={400}/>
+                <a className={clsx(buttonColors, "ml-auto max-w-48 p-1")} href={"/demir.jpg"}
+                   download="demir_bank_qr">{download}</a>
             </div>
-        </div>
-
-        <div className={"w-full flex flex-col gap-4"}>
-            <button className={clsx(buttonColors, "p-1 flex gap-4")} onClick={() => setOpenRU(!openRU)}>
+        </ExpandableDiv>
+        <ExpandableDiv open={openRU} setOpen={setOpenRU} title={titleRU}>
+            <div className={divStyle}>
+                <span>{t("Tinkoff")}</span>
                 <Image
-                    src={arrowUp}
-                    alt={"arrow"}
-                    width={10}
-                    height={10}
-                    className={clsx("ml-2 transition duration-500", openRU ? "rotate-0" : "rotate-180")}
-                />
-                {titleRU}
-            </button>
-            <div className={clsx(openRU ? "static" : "hidden", "w-full flex flex-col gap-4")}>
-                Tinkoff bank:
-                <Image
-                    src="/tinkoff.jpg"
+                    src={tinkoff}
                     alt={"tinkoff_bank_qr"}
                     width={400}
                     height={400}/>
-                Cart number: 2200 7009 5249 1149
+                <a className={clsx(buttonColors, "ml-auto max-w-48 p-1")} href={"/tinkoff.jpg"}
+                   download="tinkoff_bank_qr">{download}</a>
+                <span>{`${t("card")} 2200 7009 5249 1149`}</span>
             </div>
-        </div>
-
-        <div className={"w-full flex flex-col gap-4"}>
-            <button className={clsx(buttonColors, "p-1 flex gap-4")} onClick={() => setOpenDefault(!openDefault)}>
-                <Image
-                    src={arrowUp}
-                    alt={"arrow"}
-                    width={10}
-                    height={10}
-                    className={clsx("ml-2 transition duration-500", openDefault ? "rotate-0" : "rotate-180")}
-                />
-                {titleDefault}
-            </button>
-            <div className={clsx(openDefault ? "static" : "hidden", "w-full")}>
+        </ExpandableDiv>
+        <ExpandableDiv open={openDefault} setOpen={setOpenDefault} title={titleDefault}>
+            <div className={divStyle}>
                 <a className={"underline hover:text-beige flex items-center gap-2"}
                    href={"https://www.patreon.com/alexanderkudryavtsev/membership?view_as=patron&redirect=true"}>
                     <Image
@@ -91,9 +67,9 @@ const CountriesSupport = ({ country }: { country: string | undefined }) => {
                         alt={"Support me on Patreon"}
                         className={"w-5"}
                     />
-                    Support me on Patreon</a>
+                    {t("Patreon")}</a>
             </div>
-        </div>
+        </ExpandableDiv>
     </>)
 }
 
