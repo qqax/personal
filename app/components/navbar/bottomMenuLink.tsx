@@ -1,10 +1,10 @@
 import { getTranslations } from "next-intl/server";
-import Link from "next/link";
 import clsx from "clsx";
 import { navClassName } from "@/app/ui/styles";
 import React from "react";
 
 import { MenuTitle, paths } from "@/app/components/navbar/menuTypes";
+import { Link } from "@/i18n/routing";
 
 export async function BottomMenuLink({ menuTitle }: { menuTitle: MenuTitle }) {
     const t = await getTranslations("Titles");
@@ -14,7 +14,7 @@ export async function BottomMenuLink({ menuTitle }: { menuTitle: MenuTitle }) {
 }
 
 export default async function BottomMenu({ titles }: { titles: MenuTitle[] }) {
-    return (<div className={"flex w-full sm:hidden mt-16 justify-between divide-x-2 divide-opacity-0"}>
+    return (<div className={"flex w-full sm:hidden mt-16 justify-between gap-0.5"}>
         {titles.map((title) => (
             <BottomMenuLink key={title} menuTitle={title}/>
         ))}
