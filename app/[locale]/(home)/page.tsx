@@ -8,6 +8,7 @@ import NewsForm from "@/app/components/forms/newsForm";
 import React from "react";
 import BottomMenu from "@/app/components/navbar/bottomMenuLink";
 import { MenuTitle } from "@/app/components/navbar/menuTypes";
+import Social from "@/app/components/social";
 
 export default async function Biography() {
     const locale = await getLocale();
@@ -18,7 +19,7 @@ export default async function Biography() {
     const bottomMenuTitles: MenuTitle[] = ["concerts", "records", "contacts"] as const;
 
     return (
-        <div>
+        <div className={"animate-fade"}>
             <Image
                 src="/portrait.jpg"
                 alt={name || "artist_photo"}
@@ -31,9 +32,12 @@ export default async function Biography() {
             <div className={"prose text-lg leading-tight mb-8"}>
                 <MDXRemote source={biography}/>
             </div>
-            <div className={"flex flex-col w-full mt-14 mb-20"}>
+            <div className={"flex flex-col w-full mt-14 mb-20 gap-10"}>
                 <div className={"sm:w-1/2 md:w-full"}>
                     <NewsForm/>
+                </div>
+                <div className={"flex lg:hidden justify-center items-center gap-6"}>
+                    <Social/>
                 </div>
                 <BottomMenu titles={bottomMenuTitles}/>
             </div>

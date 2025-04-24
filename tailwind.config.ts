@@ -20,6 +20,15 @@ const config: Config = {
             screens: {
                 'nb': '360px',
             },
+            animation: {
+                fade: 'fadeOut 0.25s ease-in-out',
+            },
+            keyframes: () => ({
+                fadeOut: {
+                    '0%': { opacity: "0" },
+                    '100%': {  opacity: "1" },
+                },
+            }),
         },
     },
     plugins: [

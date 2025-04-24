@@ -14,7 +14,7 @@ export async function BottomMenuLink({ menuTitle }: { menuTitle: MenuTitle }) {
 }
 
 export default async function BottomMenu({ titles }: { titles: MenuTitle[] }) {
-    return (<div className={"flex w-full sm:hidden mt-16 justify-between gap-0.5"}>
+    return (<div className={"flex w-full sm:hidden justify-between gap-0.5"}>
         {titles.map((title) => (
             <BottomMenuLink key={title} menuTitle={title}/>
         ))}

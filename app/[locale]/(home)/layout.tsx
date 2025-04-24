@@ -23,8 +23,8 @@ export default async function HomeLayout({
                 <Artist/>
             </div>
             <div
-                className={"fixed flex justify-between items-center lg:items-end w-full lg:w-1/2 max-h-max top-48 nb:top-44 lg:top-auto bottom-0 right-auto lg:left-0 nb:gap-6 sm:gap-8 p-4 xl:p-8 mb-4"}>
-                <div className={"flex lg:flex-col items-center gap-4 lg:gap-8"}>
+                className={"fixed flex justify-end lg:justify-between items-center lg:items-end w-full lg:w-1/2 max-h-max top-2 sm:top-44 lg:top-auto bottom-0 sm:right-auto lg:left-0 nb:gap-6 sm:gap-8 p-4 xl:p-8 mb-4"}>
+                <div className={"hidden lg:flex flex-col items-center gap-8"}>
                     <Social/>
                 </div>
                 <Link href={"/support"}

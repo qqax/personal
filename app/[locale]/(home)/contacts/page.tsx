@@ -10,6 +10,7 @@ import BottomMenu from "@/app/components/navbar/bottomMenuLink";
 import React from "react";
 
 import { MenuTitle } from "@/app/components/navbar/menuTypes";
+import Social from "@/app/components/social";
 
 export default async function ContactsPage() {
     const contacts = await fetchContacts();
@@ -18,8 +19,8 @@ export default async function ContactsPage() {
     const bottomMenuTitles: MenuTitle[] = ["biography", "concerts", "records"] as const;
 
     return (
-        <>
-            <h2 className={"text-xl sm:text-2xl text-beige text-center mb-1.5 nb:mb-4 sm:mb-6"}>{title}</h2>
+        <div className={"animate-fade flex flex-col gap-10"}>
+            <h2 className={"text-xl sm:text-2xl text-beige text-center"}>{title}</h2>
             <div className={"flex flex-col gap-10 w-full"}>
                 <div className={"flex flex-col gap-4 w-60"}>
                     {contacts[CONTACT_TYPE_EMAIL].map((item) => <Link key={item}
@@ -47,7 +48,10 @@ export default async function ContactsPage() {
                 </div>
                 <ContactForm/>
             </div>
+            <div className={"flex lg:hidden justify-center items-center gap-6"}>
+                <Social/>
+            </div>
             <BottomMenu titles={bottomMenuTitles}/>
-        </>
+        </div>
     );
 }
