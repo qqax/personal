@@ -11,6 +11,8 @@ import React from "react";
 
 import { MenuTitle } from "@/app/components/navbar/menuTypes";
 import Social from "@/app/components/social";
+import { homePageStyle } from "@/app/ui/styles";
+import clsx from "clsx";
 
 export default async function ContactsPage() {
     const contacts = await fetchContacts();
@@ -19,7 +21,7 @@ export default async function ContactsPage() {
     const bottomMenuTitles: MenuTitle[] = ["biography", "concerts", "records"] as const;
 
     return (
-        <div className={"animate-fade flex flex-col gap-10"}>
+        <div className={clsx(homePageStyle, "flex flex-col gap-10")}>
             <h2 className={"text-xl sm:text-2xl text-beige text-center"}>{title}</h2>
             <div className={"flex flex-col gap-10 w-full"}>
                 <div className={"flex flex-col gap-4 w-60"}>

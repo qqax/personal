@@ -9,6 +9,7 @@ import React from "react";
 import BottomMenu from "@/app/components/navbar/bottomMenuLink";
 import { MenuTitle } from "@/app/components/navbar/menuTypes";
 import Social from "@/app/components/social";
+import { homePageStyle } from "@/app/ui/styles";
 
 export default async function Biography() {
     const locale = await getLocale();
@@ -19,7 +20,7 @@ export default async function Biography() {
     const bottomMenuTitles: MenuTitle[] = ["concerts", "records", "contacts"] as const;
 
     return (
-        <div className={"animate-fade"}>
+        <div className={homePageStyle}>
             <Image
                 src="/portrait.jpg"
                 alt={name || "artist_photo"}

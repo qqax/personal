@@ -2,6 +2,8 @@ import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import CountriesSupport from "@/app/[locale]/(home)/support/countriesSupport";
 import React from "react";
+import clsx from "clsx";
+import { homePageStyle } from "@/app/ui/styles";
 
 export default async function SupportPage() {
     const t = await getTranslations("Titles.support");
@@ -21,7 +23,7 @@ export default async function SupportPage() {
         }
     }
 
-    return (<section className={"flex flex-col gap-10 h-full md:max-w-96 w-full"}>
+    return (<section className={clsx(homePageStyle, "flex flex-col gap-10 h-full md:max-w-96 w-full")}>
         <h2 className={"text-center text-beige text-2xl"}>{mainTitle}</h2>
         <CountriesSupport country={country}/>
     </section>)
