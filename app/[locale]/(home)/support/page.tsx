@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { homePageStyle } from "@/app/ui/styles";
 
 export default async function SupportPage() {
-    const t = await getTranslations("Titles.support");
+    const t = await getTranslations("Support");
     const mainTitle = t("title");
 
     const ip = await headers().then(headers => {

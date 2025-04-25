@@ -39,6 +39,9 @@ const ConcertSelect = ({ isCurrentUpcoming, isUpcomingConcertPresented }: {
     isCurrentUpcoming: boolean,
     isUpcomingConcertPresented: boolean,
 }) => {
+    const t = useTranslations("Concerts");
+    const forgoingTitle = t("forgoing");
+    const upcomingTitle = t("upcoming");
     const { scrollTo } = useConcertContext() as ConcertContextType;
 
     return (<>
@@ -46,12 +49,12 @@ const ConcertSelect = ({ isCurrentUpcoming, isUpcomingConcertPresented }: {
             <>
                 <button type={"button"} onClick={() => scrollTo?.forgoing()}
                         className={clsx(buttonStyle, { [selectedButtonStyle]: !isCurrentUpcoming })}>
-                    forgoing
+                    {forgoingTitle}
                 </button>
                 /
                 <button type={"button"} onClick={() => scrollTo?.upcoming()}
                         className={clsx(buttonStyle, { [selectedButtonStyle]: isCurrentUpcoming })}>
-                    upcoming
+                    {upcomingTitle}
                 </button>
             </>
         }
@@ -70,18 +73,19 @@ export const ModalCalendar = () => {
     useClickOutside(ref, () => {
         hideCalendar();
     });
+
+    const t = useTranslations("Concerts");
+    const calendarTitle = t("calendar");
     return (
         <>
             <Modal show={showCalendar} preventScroll={true}>
                 <div className={"flex w-full items-center justify-center"}>
                     <div ref={ref} className={clsx(bgStyle, "items-start p-4")}>
+                        <button type={"button"} className={"fixed top-0 right-0 text-3xl inline-block float-right px-3 py-2 rotate-45"}
+                                onClick={() => setShowCalendar(false)}>+
+                        </button>
                         <div className={"text-3xl  w-full text-center"}>
-                        <span className={"inline-block mt-4"}>
-                        Calendar
-                        </span>
-                            <button type={"button"} className={"inline-block float-right px-3 py-2 rotate-45"}
-                                    onClick={() => setShowCalendar(false)}>+
-                            </button>
+                            <span className={"inline-block mb-6 mt-2"}>{calendarTitle}</span>
                         </div>
                         <ConcertsCalendar hideCalendar={hideCalendar}/>
                     </div>
@@ -90,7 +94,7 @@ export const ModalCalendar = () => {
             <button type={"button"}
                     onClick={() => setShowCalendar(!showCalendar)}
                     className={clsx(buttonColors, "xl:hidden text-base p-2 whitespace-nowrap transition duration-150")}>
-                Calendar
+                {calendarTitle}
             </button>
         </>)
 }

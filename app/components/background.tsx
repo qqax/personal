@@ -11,7 +11,7 @@ export default function Background() {
                 quality={100}
                 fill
                 sizes="100vw"
-                className={"object-cover -z-50"}
+                className={"object-cover -z-50 w-auto"}
             />
         </div>
 

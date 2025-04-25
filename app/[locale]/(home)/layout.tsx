@@ -13,8 +13,8 @@ export default async function HomeLayout({
                                          }: {
     children: ReactNode;
 }) {
-    const t = await getTranslations("Titles.support");
-    const supportButtonText = t("button");
+    const t = await getTranslations("Titles");
+    const supportButtonText = t("support");
 
     return (
         <main className={"flex flex-col lg:flex-row w-full overflow-hidden"}>

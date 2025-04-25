@@ -7,13 +7,17 @@ import Record from "@/app/components/records/record";
 import { recordService } from "@/app/lib/schema/enums";
 import { RecordName } from "@/app/components/records/recordName";
 import { bgStyle } from "@/app/ui/styles";
+import { useTranslations } from "next-intl";
 
 //TODO: concert poster
 
 export const DescriptionView = ({ concertDescription }: { concertDescription: ConcertDescription }) => {
+    const t = useTranslations("Concerts");
+    const descriptionTitle = t("description");
+
     return (<div className={clsx(bgStyle, "flex flex-col w-full h-full gap-4 p-4 overflow-x-hidden overflow-y-auto")}>
         <DescriptionHeader date={concertDescription?.date as Date}/>
-        <div className={"text-center text-2xl text-beige"}>Description</div>
+        <div className={"text-center text-2xl text-beige"}>{descriptionTitle}</div>
         <div className={"flex w-full gap-4"}>
             <div className={clsx("relative flex flex-col gap-4", concertDescription?.poster ? "w-2/3" : "w-full")}>
                 <div>{concertDescription?.place}</div>

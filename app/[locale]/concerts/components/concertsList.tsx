@@ -14,6 +14,8 @@ import clsx from "clsx";
 import { ConcertDate } from "@/app/[locale]/concerts/components/concertDate";
 import { useScroll } from "@/app/components/hooks";
 import { ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
+import { bgStyle } from "@/app/ui/styles";
+import { useTranslations } from "next-intl";
 
 export function SmConcertsList() {
     const {
@@ -141,18 +143,22 @@ const ConcertView = ({
         }
     }, [setCursorToNext, setCursorToPrev]);
 
+    const t = useTranslations("Concerts");
+    const forgoingConcertsTitle = t("forgoing_concerts");
+    const upcomingConcertsTitle = t("upcoming_concerts");
+    const moreTitle = t("more");
+
     return (
         <ul ref={ulRef} onScroll={onUlScroll}
-            className={"relative mx-auto w-full min-w-64 max-w-96 overflow-auto scroll-smooth"}
+            className={"relative flex flex-col gap-6 mx-auto w-full min-w-64 max-w-96 overflow-auto scroll-smooth"}
             onKeyDown={onKeyDown}>
             {concerts?.map((concert, index) => {
                 return (
                     <li key={concert.id}>
                         {index === 0 && index !== firstUpcomingConcertIndex &&
-                            <p className={"text-beige text-xl p-4"}>Forgoing concerts:</p>}
+                            <p className={"text-beige text-xl p-4"}>{forgoingConcertsTitle}</p>}
                         {index === firstUpcomingConcertIndex &&
-                            <p className={clsx("text-beige text-xl p-4", { "mt-8": index !== 0 })}>Upcoming
-                                concerts:</p>}
+                            <p className={clsx("text-beige text-xl p-4", { "mt-8": index !== 0 })}>{upcomingConcertsTitle}</p>}
                         <button
                             id={concert.id}
                             onClick={() => {
@@ -171,18 +177,13 @@ const ConcertView = ({
                                 }
                             }}
                             className={clsx(
-                                index % 2 ? "bg-opacity-55" : "bg-opacity-75",
+                                bgStyle,
                                 { "border-opacity-100   ": index === cursor },
-                                "flex flex-col border-2 border-teal-900 border-opacity-0 gap-1.5 w-full text-left outline-0 p-4 bg-amber-50 backdrop-blur")}
-                        >
+                                "flex flex-col border-2 border-teal-900 border-opacity-0 gap-1.5 w-full text-left outline-0 p-4")}>
                             <ConcertDate dateTime={concert.date as Date}/>
-                            <p>
-                                {concert.place}
-                            </p>
-                            <p>
-                                {concert.short_description}
-                            </p>
-                            <span className={"text-beige ml-auto md:hidden"}>More...</span>
+                            <p>{concert.place}</p>
+                            <p>{concert.short_description}</p>
+                            <span className={"text-beige ml-auto md:hidden"}>{moreTitle}</span>
                         </button>
                     </li>
                 );

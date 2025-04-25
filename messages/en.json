@@ -26,18 +26,31 @@
     "concerts": "Concerts",
     "records": "Records",
     "contacts": "Contacts",
-    "support": {
-      "button": "Support",
-      "title": "Support the artist's work!",
-      "KG": "For citizens of Kyrgyzstan",
-      "RU": "For citizens of Russia",
-      "default": "For other countries",
-      "card": "Card number:",
-      "download": "Download",
-      "Tinkoff": "Tinkoff bank:",
-      "Demir": "Demir bank:",
-      "Patreon": "Support on Patreon"
-    }
+    "support": "Support"
+  },
+  "Concerts": {
+    "forgoing_concerts": "Forgoing concerts:",
+    "upcoming_concerts": "Upcoming concerts:",
+    "forgoing": "forgoing",
+    "upcoming": "upcoming",
+    "description": "Description",
+    "programme": "Programme",
+    "prev": "< Prev.",
+    "next": "Next >",
+    "more": "More...",
+    "no_data": "No Data",
+    "calendar": "Calendar"
+  },
+  "Support": {
+    "title": "Support the artist's work!",
+    "KG": "For citizens of Kyrgyzstan",
+    "RU": "For citizens of Russia",
+    "default": "For other countries",
+    "card": "Card number:",
+    "download": "Download",
+    "Tinkoff": "Tinkoff bank:",
+    "Demir": "Demir bank:",
+    "Patreon": "Support on Patreon"
   },
   "NewsForm": {
     "title": "Want to know about new recordings and concerts?",

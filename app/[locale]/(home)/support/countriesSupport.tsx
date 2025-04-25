@@ -23,7 +23,7 @@ const CountriesSupport = ({ country }: { country: string | undefined }) => {
         }
     }, [])
 
-    const t = useTranslations("Titles.support");
+    const t = useTranslations("Support");
 
     const titleKG = t("KG");
     const titleRU = t("RU");

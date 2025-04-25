@@ -20,7 +20,7 @@ export default async function Biography() {
     const bottomMenuTitles: MenuTitle[] = ["concerts", "records", "contacts"] as const;
 
     return (
-        <div className={homePageStyle}>
+        <section className={homePageStyle}>
             <Image
                 src="/portrait.jpg"
                 alt={name || "artist_photo"}
@@ -42,6 +42,6 @@ export default async function Biography() {
                 </div>
                 <BottomMenu titles={bottomMenuTitles}/>
             </div>
-        </div>
+        </section>
     )
 }

@@ -21,7 +21,7 @@ export default async function ContactsPage() {
     const bottomMenuTitles: MenuTitle[] = ["biography", "concerts", "records"] as const;
 
     return (
-        <div className={clsx(homePageStyle, "flex flex-col gap-10")}>
+        <section className={clsx(homePageStyle, "flex flex-col gap-10")}>
             <h2 className={"text-xl sm:text-2xl text-beige text-center"}>{title}</h2>
             <div className={"flex flex-col gap-10 w-full"}>
                 <div className={"flex flex-col gap-4 w-60"}>
@@ -54,6 +54,6 @@ export default async function ContactsPage() {
                 <Social/>
             </div>
             <BottomMenu titles={bottomMenuTitles}/>
-        </div>
+        </section>
     );
 }
