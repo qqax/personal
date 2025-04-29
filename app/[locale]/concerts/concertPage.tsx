@@ -6,12 +6,12 @@ import { bgStyle } from "@/app/ui/styles";
 import { ConcertsCalendar } from "@/app/[locale]/concerts/components/Calendar";
 import NewsForm from "@/app/components/forms/newsForm";
 import { MdConcertsList, SmConcertsList } from "@/app/[locale]/concerts/components/concertsList";
-import { Concerts } from "@/app/lib/definitions";
+import type { Concerts } from "@/app/lib/definitions";
 import {
     createContext,
-    Dispatch,
-    ReactNode,
-    SetStateAction,
+    type Dispatch,
+    type ReactNode,
+    type SetStateAction,
     useCallback,
     useContext,
     useEffect,
@@ -27,7 +27,7 @@ export type ScrollConcertType = { forgoing: () => void, upcoming: () => void } |
 
 export type ConcertContextType = {
     concerts: Concerts,
-    currConcertID: string,
+    currConcertID: string | undefined,
     firstUpcomingConcertID: string | null,
     firstUpcomingConcertIndex: number | null,
     areConcertsPresented: boolean,
@@ -91,13 +91,13 @@ export default function ConcertPage({ children, description, concerts, firstUpco
     }, [setCursor, cursor, concerts]);
 
     const currConcertID = useMemo(() => {
-        return concerts[cursor].id;
+        return concerts[cursor]?.id;
     }, [concerts, cursor]);
     const areConcertsPresented = useMemo(() => {
         return concerts.length > 0;
     }, [concerts]);
     const setConcertPath = () => {
-        if (areConcertsPresented) {
+        if (areConcertsPresented && currConcertID) {
             replaceDynamicSegmentIfExists(router, path, paths.concerts, currConcertID);
         }
     };

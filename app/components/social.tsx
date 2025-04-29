@@ -8,7 +8,7 @@ import telegramIcon from "../../public/icons/telegram.svg";
 import linkedinIcon from "../../public/icons/linkedin.svg";
 import twitterIcon from "../../public/icons/twitter.svg";
 import patreonIcon from "../../public/icons/patreon.svg";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import type { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { getLocale } from "next-intl/server";
 import {
     SOCIAL_TYPE_FACEBOOK,

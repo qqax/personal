@@ -2,7 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { Link, routing, usePathname } from "@/i18n/routing";
-import { ReactNode, useMemo, useState, useTransition } from "react";
+import { type ReactNode, useMemo, useState, useTransition } from "react";
 import { Select } from "@/app/ui/Select";
 import clsx from "clsx";
 import { navClassName } from "@/app/ui/styles";

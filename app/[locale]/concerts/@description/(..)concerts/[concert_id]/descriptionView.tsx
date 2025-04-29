@@ -2,9 +2,9 @@ import { DescriptionHeader } from "@/app/[locale]/concerts/@description/(..)conc
 import clsx from "clsx";
 import Image from "next/image";
 import { Programme } from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/programme";
-import { ConcertDescription } from "@/app/lib/definitions";
+import type { ConcertDescription } from "@/app/lib/definitions";
 import Record from "@/app/components/records/record";
-import { recordService } from "@/app/lib/schema/enums";
+import type { recordService } from "@/app/lib/schema/enums";
 import { RecordName } from "@/app/components/records/recordName";
 import { bgStyle } from "@/app/ui/styles";
 import { useTranslations } from "next-intl";

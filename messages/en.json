@@ -41,6 +41,11 @@
     "no_data": "No Data",
     "calendar": "Calendar"
   },
+  "Contacts": {
+    "name": "Name:",
+    "message": "Your message:",
+    "send": "Send"
+  },
   "Support": {
     "title": "Support the artist's work!",
     "KG": "For citizens of Kyrgyzstan",
@@ -60,5 +65,19 @@
   "LocaleSwitcher": {
     "label": "Change language",
     "locale": "{locale, select, ru {\uD83C\uDDF7\uD83C\uDDFA RU} en {\uD83C\uDDEC\uD83C\uDDE7 EN} other {Unknown}}"
+  },
+  "Toast": {
+    "News": {
+      "success": "Email added to newsletter.",
+      "rejected": "Wrong email.",
+      "error": "Failed to add email to newsletter.",
+      "unexpected": "Unexpected error."
+    },
+    "Contacts": {
+      "success": "Email sent successfully.",
+      "rejected": "Wrong form submission.",
+      "error": "Failed to send email.",
+      "unexpected": "Unexpected error."
+    }
   }
 }

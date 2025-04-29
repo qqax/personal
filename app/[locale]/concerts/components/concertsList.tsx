@@ -1,10 +1,10 @@
 'use client';
 
 import {
-    KeyboardEventHandler,
-    MutableRefObject,
-    RefObject,
-    UIEventHandler,
+    type KeyboardEventHandler,
+    type MutableRefObject,
+    type RefObject,
+    type UIEventHandler,
     useCallback,
     useEffect,
     useRef,
@@ -13,7 +13,7 @@ import {
 import clsx from "clsx";
 import { ConcertDate } from "@/app/[locale]/concerts/components/concertDate";
 import { useScroll } from "@/app/components/hooks";
-import { ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
+import { type ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
 import { bgStyle } from "@/app/ui/styles";
 import { useTranslations } from "next-intl";
 
@@ -32,23 +32,31 @@ export function SmConcertsList() {
     const [preventScroll, setPreventScroll] = useState(false);
 
     const scrollWindow = (id: string) => {
-        const offsetTop = id === "forgoing" ? 0 : ref.current[id].offsetTop;
+        const currentOffsetTop = ref.current[id]?.offsetTop;
+        const offsetTop = id === "forgoing" || !currentOffsetTop ? 0 : currentOffsetTop;
         window.scrollTo({ top: offsetTop, behavior: 'smooth' });
     };
 
     const focusOnConcert = () => {
-        ref.current[currConcertID].focus();
+        const currentRef = currConcertID ? ref.current[currConcertID] : undefined;
+
+        if (!!currentRef) {
+            currentRef.focus();
+        }
+
         if (preventScroll) {
             setPreventScroll(false);
-        } else {
+        } else if (!!currConcertID) {
             scrollWindow(currConcertID);
         }
     };
 
     useScroll(() => {
-        if (areConcertsPresented) {
+        const currentOffsetTop = ref.current[firstUpcomingConcertID || 0]?.offsetTop;
+
+        if (areConcertsPresented && currentOffsetTop) {
             currentConcertHandler(
-                Math.round(window.scrollY) >= ref.current[firstUpcomingConcertID || 0].offsetTop - 100,
+                Math.round(window.scrollY) >= currentOffsetTop - 100,
             );
         }
     });
@@ -82,20 +90,29 @@ export function MdConcertsList() {
     const [preventScroll, setPreventScroll] = useState(false);
 
     const onUlScroll: UIEventHandler<HTMLUListElement> = (e) => {
-        currentConcertHandler(
-            Math.round((e.target as HTMLElement).scrollTop) >= ref.current[firstUpcomingConcertID || 0].offsetTop);
+        const currentOffsetTop = ref.current[firstUpcomingConcertID || 0]?.offsetTop;
+
+        if (currentOffsetTop) {
+            currentConcertHandler(Math.round((e.target as HTMLElement).scrollTop) >=currentOffsetTop);
+        }
     };
 
     const scrollUl = (id: string) => {
-        const offsetTop = id === "forgoing" ? 0 : ref.current[id].offsetTop;
+        const currentOffsetTop = ref.current[id]?.offsetTop;
+        const offsetTop = id === "forgoing" || !currentOffsetTop ? 0 : currentOffsetTop;
         ulRef.current?.scrollTo({ top: offsetTop });
     };
 
     const focusOnConcert = () => {
-        ref.current[currConcertID].focus();
+        const currentRef = currConcertID ? ref.current[currConcertID] : undefined;
+
+        if (!!currentRef) {
+            currentRef.focus();
+        }
+
         if (preventScroll) {
             setPreventScroll(false);
-        } else {
+        } else if (!!currConcertID) {
             scrollUl(currConcertID);
         }
     };

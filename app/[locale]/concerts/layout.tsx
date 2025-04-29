@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { getLocale } from "next-intl/server";
 import { fetchConcerts } from "@/app/lib/data";
 import ConcertPage from "@/app/[locale]/concerts/concertPage";

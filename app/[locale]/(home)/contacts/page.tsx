@@ -9,7 +9,7 @@ import { getTranslations } from "next-intl/server";
 import BottomMenu from "@/app/components/navbar/bottomMenuLink";
 import React from "react";
 
-import { MenuTitle } from "@/app/components/navbar/menuTypes";
+import type { MenuTitle } from "@/app/components/navbar/menuTypes";
 import Social from "@/app/components/social";
 import { homePageStyle } from "@/app/ui/styles";
 import clsx from "clsx";

@@ -1,4 +1,10 @@
-import { CONTACT_TYPE_EMAIL, CONTACT_TYPE_PHONE, recordService, recordType, socialType } from "@/app/lib/schema/enums";
+import {
+    CONTACT_TYPE_EMAIL,
+    CONTACT_TYPE_PHONE,
+    type recordService,
+    type recordType,
+    type socialType
+} from "@/app/lib/schema/enums";
 
 export type Biography = string;
 export type Name = string;

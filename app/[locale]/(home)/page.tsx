@@ -7,7 +7,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import NewsForm from "@/app/components/forms/newsForm";
 import React from "react";
 import BottomMenu from "@/app/components/navbar/bottomMenuLink";
-import { MenuTitle } from "@/app/components/navbar/menuTypes";
+import type { MenuTitle } from "@/app/components/navbar/menuTypes";
 import Social from "@/app/components/social";
 import { homePageStyle } from "@/app/ui/styles";
 

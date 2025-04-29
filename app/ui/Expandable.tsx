@@ -1,4 +1,4 @@
-import { ReactNode, useRef } from "react";
+import { type ReactNode, useRef } from "react";
 import clsx from "clsx";
 import { buttonColors } from "@/app/ui/styles";
 import Image from "next/image";

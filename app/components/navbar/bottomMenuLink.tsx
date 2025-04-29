@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { navClassName } from "@/app/ui/styles";
 import React from "react";
 
-import { MenuTitle, paths } from "@/app/components/navbar/menuTypes";
+import { type MenuTitle, paths } from "@/app/components/navbar/menuTypes";
 import { Link } from "@/i18n/routing";
 
 export async function BottomMenuLink({ menuTitle }: { menuTitle: MenuTitle }) {

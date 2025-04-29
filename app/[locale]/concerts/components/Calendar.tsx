@@ -5,7 +5,7 @@ import Calendar from "react-calendar";
 import "./Calendar.css";
 import { useLocale } from "next-intl";
 import { shiftFromUTCToLocale } from "@/app/utils/dateFuncs";
-import { ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
+import { type ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
 
 type DateType = Date | null;
 
@@ -15,8 +15,8 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
     const { concerts, cursor, setCursor } = useConcertContext() as ConcertContextType;
 
     const [concertDate, setConcertDate] = useState<ConcertDateType>(null);
-    const minDate = concerts[0].date || undefined;
-    const maxDate = concerts[concerts.length - 1].date || undefined;
+    const minDate = concerts[0]?.date || undefined;
+    const maxDate = concerts[concerts.length - 1]?.date || undefined;
     const locale = useLocale();
 
     const concertDates = useMemo(() => new Set(
@@ -33,7 +33,7 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
     };
 
     useEffect(() => {
-        const activeDate = shiftFromUTCToLocale(concerts[cursor].date);
+        const activeDate = shiftFromUTCToLocale(concerts[cursor]?.date);
         setConcertDate(new Date(activeDate));
     }, [cursor]);
 

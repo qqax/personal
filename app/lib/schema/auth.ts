@@ -1,5 +1,5 @@
 import { boolean, integer, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
-import { AdapterAccountType } from "next-auth/adapters";
+import type { AdapterAccountType } from "next-auth/adapters";
 
 export const users = pgTable("user", {
     id: text("id")

@@ -1,6 +1,6 @@
 'use client'
 
-import { RECORD_SERVICES_YOUTUBE, recordService } from "@/app/lib/schema/enums";
+import { RECORD_SERVICES_YOUTUBE, type recordService } from "@/app/lib/schema/enums";
 import { useEffect, useState } from "react";
 
 export const RecordName = ({ uuid, record_service }: { uuid: string, record_service: recordService }) => {

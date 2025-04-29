@@ -6,7 +6,7 @@ import { bgStyle, buttonColors } from "@/app/ui/styles";
 import { ConcertsCalendar } from "@/app/[locale]/concerts/components/Calendar";
 import Modal from "@/app/ui/Modal";
 import { useClickOutside } from "@/app/components/hooks";
-import { ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
+import { type ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
 import { useTranslations } from "next-intl";
 
 const buttonStyle = "px-2 text-lg h-full";

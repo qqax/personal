@@ -4,7 +4,7 @@ import { Link, usePathname } from "@/i18n/routing";
 import clsx from "clsx";
 import { navClassName } from "@/app/ui/styles";
 import { LocaleSwitcher } from "@/app/components/navbar/localeSwitcher";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { type RefObject, useEffect, useRef, useState } from "react";
 import { MobileMenuButton } from "@/app/ui/Button";
 import { useClickOutside } from "@/app/components/hooks";
 import Modal from "@/app/ui/Modal";

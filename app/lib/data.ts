@@ -3,7 +3,7 @@
 import { artistTable, contactsTable, mailingListTable, socialsTable } from "./schema/common";
 import { concertRecordsTable, concertsTable, recordsTable } from "./schema/concert-records";
 import { cacheTag } from "next/dist/server/use-cache/cache-tag";
-import {
+import type {
     ArtistData,
     Biography,
     ConcertDescription,
@@ -16,11 +16,11 @@ import {
     Socials,
 } from "@/app/lib/definitions";
 import { desc, eq, sql } from "drizzle-orm";
-import { PgColumn, PgTableWithColumns, union } from "drizzle-orm/pg-core";
+import { PgColumn, type PgTableWithColumns, union } from "drizzle-orm/pg-core";
 import { cacheLife } from "next/dist/server/use-cache/cache-life";
 import { db } from "@/app/lib/connection";
 import { NotDefaultLocales } from "@/i18n/routing";
-import { contactType, recordType, relatedRecordTypesEnum } from "@/app/lib/schema/enums";
+import { type contactType, type recordType, relatedRecordTypesEnum } from "@/app/lib/schema/enums";
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 const selectTranslated = (table: PgTableWithColumns<any>, column: string, locale: string) => {
@@ -117,12 +117,12 @@ export async function fetchContacts(): Promise<Contacts> {
         }).from(contactsTable)
             .orderBy(contactsTable.contact_type);
 
-        return contacts.reduce((acc: Record<string, string[]>, { contacts, type }) => {
-            const key = type as contactType;
+        return contacts.reduce((acc: Record<string, string[]>, { contacts, type: keyType }) => {
+            const key = keyType as contactType;
             if (acc[key]) {
-                acc[type as string] = [contacts, ...acc[type as string]];
+                acc[keyType as string] = [contacts, ...acc[keyType as string] as string[]];
             } else {
-                acc[type as string] = [contacts];
+                acc[keyType as string] = [contacts];
             }
             return acc;
         }, {}) as Contacts;

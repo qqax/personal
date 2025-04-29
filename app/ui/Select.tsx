@@ -1,4 +1,4 @@
-import { ReactNode, useRef } from "react";
+import { type ReactNode, useRef } from "react";
 import clsx from "clsx";
 import { useClickOutside, useScroll } from "@/app/components/hooks";
 

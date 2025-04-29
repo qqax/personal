@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Dispatch, RefObject, SetStateAction } from "react";
+import type { Dispatch, RefObject, SetStateAction } from "react";
 import { buttonColors } from "@/app/ui/styles";
 
 export const WaitButton = ({ disabled, className, text }: { disabled: boolean, className?: string, text: string }) => {

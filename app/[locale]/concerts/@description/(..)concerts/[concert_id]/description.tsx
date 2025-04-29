@@ -2,7 +2,7 @@
 
 import { useMd } from "@/app/components/hooks";
 import DescriptionModal from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/descriptionModal";
-import { ConcertDescription } from "@/app/lib/definitions";
+import type { ConcertDescription } from "@/app/lib/definitions";
 import { DescriptionView } from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/descriptionView";
 
 export const Description = ({ concertDescription }: { concertDescription: ConcertDescription }) => {
