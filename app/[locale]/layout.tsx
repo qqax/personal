@@ -5,7 +5,7 @@ import NavBar from "@/app/components/navbar/navigation";
 import { Toaster } from "sonner";
 import { ReCaptchaProvider } from "next-recaptcha-v3";
 import { notFound } from 'next/navigation';
-import { Locale, routing } from '@/i18n/routing';
+import { type Locale, routing } from '@/i18n/routing';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import React from "react";

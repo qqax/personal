@@ -1,5 +1,5 @@
-import { QueryParams } from "next-intl/navigation";
-import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import type { QueryParams } from "next-intl/navigation";
+import type { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 type Router = {
     push: (href: (string | { pathname: string, query?: QueryParams }), options?: ((Partial<NavigateOptions> & {

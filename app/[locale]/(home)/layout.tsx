@@ -2,7 +2,7 @@
 
 import Artist from "@/app/components/artist";
 import Social from "@/app/components/social";
-import React, { ReactNode } from "react";
+import React, { type ReactNode } from "react";
 import clsx from "clsx";
 import { bgStyle } from "@/app/ui/styles";
 import Link from "next/link";

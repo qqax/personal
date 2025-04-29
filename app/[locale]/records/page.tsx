@@ -7,8 +7,8 @@ import { bgStyle } from "@/app/ui/styles";
 import {
     NOT_RELATED_RECORD_TYPE_STUDIO,
     NOT_RELATED_RECORD_TYPE_WORKSHOP,
-    recordService,
-    recordType,
+    type recordService,
+    type recordType,
     RELATED_RECORD_TYPE_CONCERT
 } from "@/app/lib/schema/enums";
 
