@@ -67,6 +67,7 @@ const Social = async () => {
                     <Image
                         src={src}
                         alt={alt}
+                        className={"w-10"}
                     />
                 </Link>)
             })}

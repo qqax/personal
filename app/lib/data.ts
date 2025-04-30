@@ -22,6 +22,8 @@ import { db } from "@/app/lib/connection";
 import { NotDefaultLocales } from "@/i18n/routing";
 import { type contactType, type recordType, relatedRecordTypesEnum } from "@/app/lib/schema/enums";
 
+type CacheTag = "name" | "biography" | "profession" | "concerts" | "social" | "contacts" | "records";
+
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 const selectTranslated = (table: PgTableWithColumns<any>, column: string, locale: string) => {
     if (NotDefaultLocales.includes(locale)) {
@@ -51,7 +53,7 @@ const artistTableQuery = async (column: PgColumn, locale: string): Promise<Artis
 export async function fetchArtistName(locale: string): Promise<Name> {
     'use cache';
 
-    const column = 'name';
+    const column: CacheTag = 'name';
     cacheTag(column);
 
     try {
@@ -65,7 +67,7 @@ export async function fetchArtistName(locale: string): Promise<Name> {
 export async function fetchArtistProfession(locale: string): Promise<Profession> {
     'use cache';
 
-    const column = 'profession';
+    const column: CacheTag = 'profession';
     cacheTag(column);
 
     try {
@@ -79,7 +81,7 @@ export async function fetchArtistProfession(locale: string): Promise<Profession>
 export async function fetchBiography(locale: string): Promise<Biography> {
     'use cache';
 
-    const column = 'biography';
+    const column: CacheTag = 'biography';
     cacheTag(column);
 
     try {
@@ -92,7 +94,9 @@ export async function fetchBiography(locale: string): Promise<Biography> {
 
 export async function fetchSocial(): Promise<Socials> {
     'use cache';
-    cacheTag('social');
+
+    const tag: CacheTag = 'social';
+    cacheTag(tag);
 
     try {
         return db.select({
@@ -108,7 +112,9 @@ export async function fetchSocial(): Promise<Socials> {
 
 export async function fetchContacts(): Promise<Contacts> {
     'use cache';
-    cacheTag('contacts');
+
+    const tag: CacheTag = 'contacts';
+    cacheTag(tag);
 
     try {
         const contacts = await db.select({
@@ -134,7 +140,9 @@ export async function fetchContacts(): Promise<Contacts> {
 
 export async function fetchConcerts(locale: string): Promise<ConcertsData> {
     'use cache';
-    cacheTag('concert');
+
+    const tag: CacheTag = 'concerts';
+    cacheTag(tag);
     cacheLife('days');
 
     try {
@@ -163,7 +171,8 @@ export async function fetchConcerts(locale: string): Promise<ConcertsData> {
 
 export async function fetchConcertDescription(id: string, locale: string): Promise<ConcertDescription> {
     'use cache';
-    cacheTag('concert');
+    const tag: CacheTag = 'concerts';
+    cacheTag(tag);
 
     try {
         return await db.query.concertsTable.findFirst({
@@ -194,8 +203,9 @@ export async function fetchConcertDescription(id: string, locale: string): Promi
 }
 
 export async function fetchRecords(locale: string): Promise<Records> {
-    // 'use cache';
-    // cacheTag('record');
+    'use cache';
+    const tag: CacheTag = 'records';
+    cacheTag(tag);
 
     try {
         const concertRecordsSelect = db.select({

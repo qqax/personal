@@ -132,12 +132,14 @@ export default function ConcertPage({ children, description, concerts, firstUpco
                          isUpcomingConcertPresented={isUpcomingConcertPresented}/>
             <section
                 className={"relative mt-36 sm:mt-40 lg:mt-20 flex md:overflow-auto w-full md:h-[88vh] gap-8 m-6"}>
-                <div className={clsx(bgStyle, "hidden xl:block max-h-max p-6")}>
+                <div className={clsx(bgStyle, "hidden xl:block max-h-max max-w-80 p-6")}>
                     <ConcertsCalendar/>
                     <NewsForm/>
                 </div>
-                {isMd ? <MdConcertsList/> : <SmConcertsList/>}
-                {description}
+                <div className={"grid grid-cols-1 md:grid-cols-2 gap-8 w-full"}>
+                    {isMd ? <MdConcertsList/> : <SmConcertsList/>}
+                    {description}
+                </div>
                 {children}
             </section>
         </ConcertContext.Provider>

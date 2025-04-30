@@ -10,9 +10,7 @@ export const Description = ({ concertDescription }: { concertDescription: Concer
 
     if (isMd) {
         return (
-            <div className={"block w-full"}>
-                <DescriptionView concertDescription={concertDescription}/>
-            </div>
+            <DescriptionView concertDescription={concertDescription}/>
         );
     }
 

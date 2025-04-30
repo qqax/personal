@@ -167,7 +167,7 @@ const ConcertView = ({
 
     return (
         <ul ref={ulRef} onScroll={onUlScroll}
-            className={"relative flex flex-col gap-6 mx-auto w-full min-w-64 max-w-96 overflow-auto scroll-smooth"}
+            className={"relative flex flex-col gap-6 mx-auto w-full min-w-64 overflow-auto scroll-smooth"}
             onKeyDown={onKeyDown}>
             {concerts?.map((concert, index) => {
                 return (
@@ -196,7 +196,7 @@ const ConcertView = ({
                             className={clsx(
                                 bgStyle,
                                 { "border-opacity-100   ": index === cursor },
-                                "flex flex-col border-2 border-teal-900 border-opacity-0 gap-1.5 w-full text-left outline-0 p-4")}>
+                                "flex flex-col border-2 border-beige border-opacity-0 gap-1.5 w-full text-left outline-0 p-4")}>
                             <ConcertDate dateTime={concert.date as Date}/>
                             <p>{concert.place}</p>
                             <p>{concert.short_description}</p>

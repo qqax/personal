@@ -1,6 +1,8 @@
-import type {Config} from "tailwindcss";
+import type { Config } from "tailwindcss";
 
 import generated from "@tailwindcss/typography";
+
+const beige = "#5a4d3d";
 
 const config: Config = {
     content: [
@@ -14,8 +16,14 @@ const config: Config = {
                 background: "var(--background)",
                 foreground: "var(--foreground)",
             },
+            backgroundColor: {
+                beige,
+            },
+            borderColor: {
+                beige
+            },
             textColor: {
-                beige: "#5a4d3d",
+                beige,
             },
             screens: {
                 'nb': '360px',
@@ -26,7 +34,7 @@ const config: Config = {
             keyframes: () => ({
                 fadeOut: {
                     '0%': { opacity: "0" },
-                    '100%': {  opacity: "1" },
+                    '100%': { opacity: "1" },
                 },
             }),
         },

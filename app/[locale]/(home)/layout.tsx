@@ -19,7 +19,7 @@ export default async function HomeLayout({
     return (
         <main className={"flex flex-col lg:flex-row w-full overflow-hidden"}>
             <div
-                className={"fixed flex flex-col lg:items-center lg:mt-52 top-20 p-4 sm:pl-10 sm:top-20 w-full lg:w-1/2"}>
+                className={"fixed flex flex-col xl:ml-20 lg:mt-32 top-20 p-6 sm:pl-10 sm:top-20"}>
                 <Artist/>
             </div>
             <div

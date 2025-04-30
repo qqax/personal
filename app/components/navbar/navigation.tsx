@@ -20,7 +20,7 @@ export default function Navbar() {
         setOpenMobileMenu(false);
     });
 
-    return (<nav className={"fixed shadow-xl lg:shadow-none text-teal-950 top-0 left-0 flex flex-row w-full lg:w-1/2 z-40 sm:flex sm:items-end"}>
+    return (<nav className={"fixed shadow-xl lg:shadow-none top-0 left-0 flex flex-row w-full lg:w-1/2 z-40 sm:flex sm:items-end"}>
         <Modal show={openMobileMenu} preventScroll={true}
                element={<MobileMenuButton ref={buttonRef} openMobileMenu={openMobileMenu}
                                           setOpenMobileMenu={setOpenMobileMenu}/>}>
@@ -28,7 +28,7 @@ export default function Navbar() {
         </Modal>
 
         <div ref={ref}
-             className={"hidden sm:flex z-50 h-full w-full transition-all duration-500 backdrop-blur lg:backdrop-blur-0"}>
+             className={"hidden sm:flex z-50 h-full w-full transition-all duration-500 backdrop-blur-[2px] lg:backdrop-blur-0"}>
             <MenuItems/>
         </div>
     </nav>);

@@ -21,11 +21,11 @@ export const ConcertMenu = ({ isCurrentUpcoming, isUpcomingConcertPresented }: {
 
     return (
         <div
-            className={"fixed z-10 backdrop-blur-md lg:backdrop-blur-0 flex flex-col lg:flex justify-around lg:justify-evenly right-0 w-full lg:w-1/2 text-lg md:text-2xl"}>
+            className={"fixed z-10 flex flex-col lg:flex justify-around lg:justify-evenly right-0 w-full lg:w-1/2 text-lg md:text-2xl"}>
             <h2 className={"py-6 h-[72px] align-middle text-beige text-center lg:hidden"}>
                 <span className={"sm:hidden lg:inline"}>{title}</span>
             </h2>
-            <div className="flex justify-around py-2 sm:py-6 ">
+            <div className="flex justify-around py-2 sm:py-6">
                 <ModalCalendar/>
                 <div>
                     <ConcertSelect isUpcomingConcertPresented={isUpcomingConcertPresented}
