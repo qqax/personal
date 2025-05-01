@@ -13,7 +13,7 @@ export const ExpandableDiv = ({ children, open, setOpen, title }: {
 
     return (<div className={"w-full flex flex-col"}>
         <button className={clsx(buttonColors, "p-1 flex items-center gap-4")} onClick={() => setOpen(!open)}>
-            <ArrowLabel title={title} open={open}/>
+            <ArrowLabel open={open}>{title}</ArrowLabel>
         </button>
         <div
             ref={contentRef}
