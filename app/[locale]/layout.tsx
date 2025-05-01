@@ -1,29 +1,29 @@
 import "../globals.css";
-import { Jura } from 'next/font/google';
+import { Jura } from "next/font/google";
 import Footer from "@/app/ui/Footer";
 import NavBar from "@/app/components/navbar/navigation";
 import { Toaster } from "sonner";
 import { ReCaptchaProvider } from "next-recaptcha-v3";
-import { notFound } from 'next/navigation';
-import { type Locale, routing } from '@/i18n/routing';
-import { NextIntlClientProvider } from 'next-intl';
+import { notFound } from "next/navigation";
+import { type Locale, routing } from "@/i18n/routing";
+import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import React from "react";
 import { fetchArtistName, fetchArtistProfession } from "@/app/lib/data";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Background from "@/app/components/background";
 
-const jura = Jura({ subsets: ['latin', 'cyrillic'] });
+const jura = Jura({ subsets: ["latin", "cyrillic"] });
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
-    const t = await getTranslations('Metadata.main');
+    const t = await getTranslations("Metadata.main");
     const artistName = await fetchArtistName(locale);
     const profession = await fetchArtistProfession(locale);
 
     return {
         title: artistName,
-        description: t('description', { name: artistName, profession: profession }),
+        description: t("description", { name: artistName, profession: profession }),
     };
 }
 
@@ -67,10 +67,10 @@ export default async function RootLayout({
                         <Toaster toastOptions={{
                             unstyled: true,
                             classNames: {
-                                error: 'p-4 flex items-center gap-2 border-[1px] border-white bg-red-400',
-                                success: 'p-4 flex items-center gap-2 border-[1px] border-white bg-green-600',
-                                warning: 'p-4 flex items-center gap-2 border-[1px] border-white bg-yellow-400',
-                                info: 'p-4 flex items-center gap-2 border-[1px] border-white bg-blue-400',
+                                error: "p-4 flex items-center gap-2 border-[1px] border-white bg-red-400",
+                                success: "p-4 flex items-center gap-2 border-[1px] border-white bg-green-600",
+                                warning: "p-4 flex items-center gap-2 border-[1px] border-white bg-yellow-400",
+                                info: "p-4 flex items-center gap-2 border-[1px] border-white bg-blue-400",
                             },
                         }}/>
                     </div>

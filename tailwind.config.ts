@@ -26,15 +26,15 @@ const config: Config = {
                 beige,
             },
             screens: {
-                'nb': '360px',
+                "nb": "360px",
             },
             animation: {
-                fade: 'fadeOut 0.25s ease-in-out',
+                fade: "fadeOut 0.25s ease-in-out",
             },
             keyframes: () => ({
                 fadeOut: {
-                    '0%': { opacity: "0" },
-                    '100%': { opacity: "1" },
+                    "0%": { opacity: "0" },
+                    "100%": { opacity: "1" },
                 },
             }),
         },

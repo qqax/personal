@@ -9,7 +9,7 @@ type Router = {
 
 export const deleteLastSegmentIfExists = (fullPath: string, staticPath: string) => {
     const regExp = new RegExp(String.raw`(${staticPath}).*$`, "g");
-    return fullPath.replace(regExp, '$1');
+    return fullPath.replace(regExp, "$1");
 };
 
 export const replaceDynamicSegmentIfExists = (router: Router, fullPath: string, staticPath: string, segment: string) => {

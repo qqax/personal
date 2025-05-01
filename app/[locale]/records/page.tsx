@@ -14,12 +14,12 @@ import {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
-    const t = await getTranslations('Metadata.records');
+    const t = await getTranslations("Metadata.records");
     const artistName = await fetchArtistName(locale);
 
     return {
-        title: t('title'),
-        description: t('description', { name: artistName }),
+        title: t("title"),
+        description: t("description", { name: artistName }),
     };
 }
 

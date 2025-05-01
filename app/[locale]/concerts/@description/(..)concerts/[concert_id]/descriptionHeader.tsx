@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import clsx from "clsx";
 import { ConcertDate } from "@/app/[locale]/concerts/components/concertDate";

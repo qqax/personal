@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import { sendContactMail } from "@/app/acitons/actions";
 import { Input, InputError, TextArea } from "@/app/ui/Input";
 import { WaitButton } from "@/app/ui/Button";

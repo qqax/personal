@@ -1,11 +1,15 @@
-'use client';
+"use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import "./Calendar.css";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { shiftFromUTCToLocale } from "@/app/utils/dateFuncs";
 import { type ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
+import { useClickOutside } from "@/app/components/hooks.ts";
+import Modal from "@/app/ui/Modal.tsx";
+import clsx from "clsx";
+import { bgStyle, lightButtonStyle } from "@/app/ui/styles.ts";
 
 type DateType = Date | null;
 
@@ -58,7 +62,7 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
                 if (view !== "month") return;
 
                 if (date.getTime() === (concertDate as DateType)?.getTime()) {
-                    return 'react-calendar__tile--highlight';
+                    return "react-calendar__tile--highlight";
                 }
 
                 return null;
@@ -66,3 +70,42 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
             className={"w-full h-[330px]"}/>
     );
 }
+
+export const ModalCalendar = () => {
+    const [showCalendar, setShowCalendar] = useState(false);
+
+    const ref = useRef<HTMLDivElement>(null);
+
+    const hideCalendar = () => {
+        setShowCalendar(false);
+    };
+
+    useClickOutside(ref, () => {
+        hideCalendar();
+    });
+
+    const t = useTranslations("Concerts");
+    const calendarTitle = t("calendar");
+    return (
+        <>
+            <Modal show={showCalendar} preventScroll={true}>
+                <div className={"flex w-full items-center justify-center"}>
+                    <div ref={ref} className={clsx(bgStyle, "items-start p-4")}>
+                        <button type={"button"}
+                                className={"fixed top-0 right-0 text-3xl inline-block float-right px-3 py-2 rotate-45"}
+                                onClick={() => setShowCalendar(false)}>+
+                        </button>
+                        <div className={"text-3xl  w-full text-center"}>
+                            <span className={"inline-block mb-6 mt-2"}>{calendarTitle}</span>
+                        </div>
+                        <ConcertsCalendar hideCalendar={hideCalendar}/>
+                    </div>
+                </div>
+            </Modal>
+            <button type={"button"}
+                    onClick={() => setShowCalendar(!showCalendar)}
+                    className={clsx(lightButtonStyle, "xl:hidden pl-4 pr-4 whitespace-nowrap transition duration-150")}>
+                {calendarTitle}
+            </button>
+        </>);
+};

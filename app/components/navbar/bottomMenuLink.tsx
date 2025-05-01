@@ -10,7 +10,7 @@ export async function BottomMenuLink({ menuTitle }: { menuTitle: MenuTitle }) {
     const t = await getTranslations("Titles");
     const title = t(menuTitle);
 
-    return <Link href={paths[menuTitle]} className={clsx(navClassName, "bg-opacity-60")}>{title}</Link>
+    return <Link href={paths[menuTitle]} className={clsx(navClassName, "bg-opacity-60")}>{title}</Link>;
 }
 
 export default async function BottomMenu({ titles }: { titles: MenuTitle[] }) {
@@ -18,5 +18,5 @@ export default async function BottomMenu({ titles }: { titles: MenuTitle[] }) {
         {titles.map((title) => (
             <BottomMenuLink key={title} menuTitle={title}/>
         ))}
-    </div>)
+    </div>);
 }

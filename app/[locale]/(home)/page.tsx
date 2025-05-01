@@ -1,4 +1,4 @@
-'use server'
+"use server";
 
 import { getLocale, getTranslations } from "next-intl/server";
 import { fetchArtistName, fetchBiography } from "@/app/lib/data";
@@ -43,5 +43,5 @@ export default async function Biography() {
                 <BottomMenu titles={bottomMenuTitles}/>
             </div>
         </section>
-    )
+    );
 }

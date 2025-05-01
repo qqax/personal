@@ -15,13 +15,15 @@ export const MobileMenuButton = ({ ref, openMobileMenu, setOpenMobileMenu }: {
     openMobileMenu: boolean,
     setOpenMobileMenu: Dispatch<SetStateAction<boolean>>
 }) => {
+    const mobileMenuStyle = "relative w-full border-[1px] border-beige transition-all duration-500";
+
     return (
         <button ref={ref} onClick={() => setOpenMobileMenu(!openMobileMenu)}
                 className={"fixed top-5 left-4 z-50 flex flex-col sm:hidden w-10 justify-evenly h-10"}>
             <div
-                className={clsx("relative top-0 w-full border-[1px] border-orange-900 transition-all duration-500", { "rotate-[135deg] top-2": openMobileMenu })}></div>
+                className={clsx(mobileMenuStyle, "top-0", { "rotate-[135deg] top-2": openMobileMenu })}></div>
             <div
-                className={clsx("relative bottom-0 w-full border-[1px] border-orange-900 transition-all duration-500", { "rotate-[225deg] bottom-1.5": openMobileMenu })}></div>
+                className={clsx(mobileMenuStyle, "bottom-0", { "rotate-[225deg] bottom-1.5": openMobileMenu })}></div>
         </button>
     );
 };

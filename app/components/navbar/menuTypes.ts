@@ -1,11 +1,11 @@
-export const MenuTitles = ['biography', 'concerts', 'records', 'contacts'] as const;
+export const MenuTitles = ["biography", "concerts", "records", "contacts"] as const;
 export type MenuTitle = typeof MenuTitles[number];
 export type PathsType = Record<MenuTitle, string>;
 export const paths = MenuTitles.reduce((acc: PathsType, p, i) => {
     if (i === 0) {
-        acc[p] = '/';
+        acc[p] = "/";
     } else {
-        acc[p] = '/' + p;
+        acc[p] = "/" + p;
     }
 
     return acc;

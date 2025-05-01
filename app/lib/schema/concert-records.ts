@@ -26,7 +26,7 @@ export const concertRecordsTable = pgTable(
         id: integer().primaryKey().generatedAlwaysAsIdentity(),
         uuid: text().notNull().unique(),
         record_service: recordServicesEnum().notNull(),
-        concert_id: integer("concert_id").notNull().references(() => concertsTable.id, { onDelete: 'cascade' }).notNull(),
+        concert_id: integer("concert_id").notNull().references(() => concertsTable.id, { onDelete: "cascade" }).notNull(),
     },
 );
 export const concertRelations = relations(concertsTable, ({ many }) => ({

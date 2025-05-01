@@ -54,16 +54,16 @@ export default function FormHandler({ Component, action, reCaptchaAction, toastM
     useEffect(() => {
         if (!isPending && !!state.status) {
             switch (state.status) {
-                case 'success':
+                case "success":
                     ref.current?.reset();
                     state.status = null;
                     state.errors = {};
                     toast.success(t("success"));
                     break;
-                case 'rejected':
+                case "rejected":
                     toast.error(t("rejected"));
                     break;
-                case 'error':
+                case "error":
                     toast.error(t("error"));
                     break;
                 default:

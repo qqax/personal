@@ -8,7 +8,7 @@ import FormHandler, { type FormHandlerProps } from "@/app/components/forms/formH
 import { useTranslations } from "next-intl";
 
 const NewsFormComponent = ({ ref, state, onSubmit, isPending }: FormHandlerProps) => {
-    const t = useTranslations('NewsForm');
+    const t = useTranslations("NewsForm");
 
     return (<form ref={ref} onSubmit={onSubmit} className={"flex flex-col"}>
         <label htmlFor="email" className={"sr-only"}>{t("title")}</label>

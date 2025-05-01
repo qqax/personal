@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useActionState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useActionState } from "react";
+import { useSearchParams } from "next/navigation";
 import { authenticate } from "@/app/acitons/actions";
 
 export default function LoginForm() {
     const searchParams = useSearchParams();
-    const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+    const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
     const [errorMessage, formAction, isPending] = useActionState(
         authenticate,
         undefined,

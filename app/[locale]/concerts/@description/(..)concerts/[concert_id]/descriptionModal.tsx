@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Modal from "@/app/ui/Modal";
 import { usePathname, useRouter } from "@/i18n/routing";

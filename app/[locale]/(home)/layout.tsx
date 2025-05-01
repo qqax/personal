@@ -1,4 +1,4 @@
-'use server'
+"use server";
 
 import Artist from "@/app/components/artist";
 import Social from "@/app/components/social";

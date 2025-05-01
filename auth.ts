@@ -1,11 +1,11 @@
-import NextAuth from 'next-auth';
-import {DrizzleAdapter} from "@auth/drizzle-adapter"
-import {authConfig} from './auth.config';
-import {randomBytes, randomUUID} from "node:crypto";
-import {db} from "@/app/lib/connection";
+import NextAuth from "next-auth";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { authConfig } from "./auth.config";
+import { randomBytes, randomUUID } from "node:crypto";
+import { db } from "@/app/lib/connection";
 import Nodemailer from "@auth/core/providers/nodemailer";
 
-export const {handlers, signIn, signOut, auth} = NextAuth({
+export const { handlers, signIn, signOut, auth } = NextAuth({
     ...authConfig,
     adapter: DrizzleAdapter(db),
     providers: [
@@ -34,7 +34,7 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
         // The session token is usually either a random UUID or string, however if you
         // need a more customized session token string, you can define your own generate function.
         generateSessionToken: () => {
-            return randomUUID?.() ?? randomBytes(32).toString("hex")
+            return randomUUID?.() ?? randomBytes(32).toString("hex");
         }
     }
 });

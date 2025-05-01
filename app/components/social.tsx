@@ -69,7 +69,7 @@ const Social = async () => {
                         alt={alt}
                         className={"w-10"}
                     />
-                </Link>)
+                </Link>);
             })}
         </>
     );

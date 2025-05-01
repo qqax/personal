@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { useClickOutside, useScroll } from "@/app/components/hooks";
 
 export const Select = ({ children, selectedLabel, setOpen, open, isPending, className }: {
-    children: ReactNode[];
+    children: ReactNode[] | ReactNode,
     selectedLabel: ReactNode,
     setOpen: (param: boolean) => void,
     open: boolean,

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { ConcertMenu } from "@/app/[locale]/concerts/components/concertMenu";
 import clsx from "clsx";

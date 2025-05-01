@@ -44,7 +44,7 @@ export const DescriptionView = ({ concertDescription }: { concertDescription: Co
                 return <div key={uuid} className={clsx("flex flex-col gap-2 w-full")}>
                     <RecordName uuid={uuid} record_service={record_service as recordService}/>
                     <Record uuid={uuid} record_service={record_service as recordService}/>
-                </div>
+                </div>;
             })
         }
     </div>);

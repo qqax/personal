@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Link, usePathname } from "@/i18n/routing";
 import clsx from "clsx";
@@ -20,7 +20,8 @@ export default function Navbar() {
         setOpenMobileMenu(false);
     });
 
-    return (<nav className={"fixed shadow-xl lg:shadow-none top-0 left-0 flex flex-row w-full lg:w-1/2 z-40 sm:flex sm:items-end"}>
+    return (<nav
+        className={"fixed shadow-xl lg:shadow-none top-0 left-0 flex flex-row w-full lg:w-1/2 z-40 sm:flex sm:items-end"}>
         <Modal show={openMobileMenu} preventScroll={true}
                element={<MobileMenuButton ref={buttonRef} openMobileMenu={openMobileMenu}
                                           setOpenMobileMenu={setOpenMobileMenu}/>}>
@@ -36,14 +37,14 @@ export default function Navbar() {
 
 const MenuItems = ({ onClick }: { onClick?: (param: boolean) => void }) => {
     const pathname = usePathname();
-    const t = useTranslations('Titles');
+    const t = useTranslations("Titles");
 
     return (
         <>
             {
                 menuItems.map(({ name, href }) => {
                     const regex = new RegExp(String.raw`^${href}(/.*)?$`, "g");
-                    const translatedName = t(name)
+                    const translatedName = t(name);
                     return (<Link key={name}
                                   href={href}
                                   onClick={() => onClick && onClick(false)}

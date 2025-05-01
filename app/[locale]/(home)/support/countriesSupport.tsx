@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -21,7 +21,7 @@ const CountriesSupport = ({ country }: { country: string | undefined }) => {
             setOpenRU(true);
             setOpenDefault(true);
         }
-    }, [])
+    }, []);
 
     const t = useTranslations("Support");
 
@@ -70,7 +70,7 @@ const CountriesSupport = ({ country }: { country: string | undefined }) => {
                     {t("Patreon")}</a>
             </div>
         </ExpandableDiv>
-    </>)
-}
+    </>);
+};
 
 export default CountriesSupport;

@@ -10,7 +10,7 @@ export const users = pgTable("user", {
     emailVerified: timestamp("emailVerified", { mode: "date" }),
     password: text("password"),
     image: text("image"),
-})
+});
 
 export const accounts = pgTable(
     "account",
@@ -36,7 +36,7 @@ export const accounts = pgTable(
             }),
         },
     ]
-)
+);
 
 export const sessions = pgTable(
     "session",
@@ -47,7 +47,7 @@ export const sessions = pgTable(
             .references(() => users.id, { onDelete: "cascade" }),
         expires: timestamp("expires", { mode: "date" }).notNull(),
     }
-)
+);
 
 export const verificationTokens = pgTable(
     "verification_token",
@@ -63,7 +63,7 @@ export const verificationTokens = pgTable(
             }),
         },
     ]
-)
+);
 
 export const authenticators = pgTable(
     "authenticator",
@@ -86,4 +86,4 @@ export const authenticators = pgTable(
             }),
         },
     ]
-)
+);

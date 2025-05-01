@@ -10,7 +10,7 @@ export default async function SupportPage() {
     const mainTitle = t("title");
 
     const ip = await headers().then(headers => {
-        return headers.get("x-forwarded-for")
+        return headers.get("x-forwarded-for");
     });
     let country: string | undefined = undefined;
 
@@ -26,5 +26,5 @@ export default async function SupportPage() {
     return (<section className={clsx(homePageStyle, "flex flex-col gap-10 h-full md:max-w-96 w-full mb-16")}>
         <h2 className={"text-center text-beige text-2xl"}>{mainTitle}</h2>
         <CountriesSupport country={country}/>
-    </section>)
+    </section>);
 }

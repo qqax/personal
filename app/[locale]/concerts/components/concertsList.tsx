@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
     type KeyboardEventHandler,
@@ -34,7 +34,7 @@ export function SmConcertsList() {
     const scrollWindow = (id: string) => {
         const currentOffsetTop = ref.current[id]?.offsetTop;
         const offsetTop = id === "forgoing" || !currentOffsetTop ? 0 : currentOffsetTop;
-        window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+        window.scrollTo({ top: offsetTop, behavior: "smooth" });
     };
 
     const focusOnConcert = () => {
@@ -85,15 +85,15 @@ export function MdConcertsList() {
     } = useConcertContext() as ConcertContextType;
 
     const ref: MutableRefObject<Record<string, HTMLButtonElement>> = useRef({});
-    const ulRef: RefObject<HTMLUListElement> = useRef(null);
+    const ulRef: RefObject<HTMLDivElement> = useRef(null);
 
     const [preventScroll, setPreventScroll] = useState(false);
 
-    const onUlScroll: UIEventHandler<HTMLUListElement> = (e) => {
+    const onUlScroll: UIEventHandler<HTMLDivElement> = (e) => {
         const currentOffsetTop = ref.current[firstUpcomingConcertID || 0]?.offsetTop;
 
         if (currentOffsetTop) {
-            currentConcertHandler(Math.round((e.target as HTMLElement).scrollTop) >=currentOffsetTop);
+            currentConcertHandler(Math.round((e.target as HTMLElement).scrollTop) >= currentOffsetTop);
         }
     };
 
@@ -136,21 +136,17 @@ const ConcertView = ({
                          ref,
                      }: {
     ref: MutableRefObject<Record<string, HTMLButtonElement>>
-    ulRef?: RefObject<HTMLUListElement>,
-    onUlScroll?: UIEventHandler<HTMLUListElement>,
+    ulRef?: RefObject<HTMLDivElement>,
+    onUlScroll?: UIEventHandler<HTMLDivElement>,
     setPreventScroll: (v: boolean) => void
 }) => {
     const {
-        cursor,
         firstUpcomingConcertIndex,
-        setCursor,
         setCursorToNext,
         setCursorToPrev,
-        setConcertPath,
-        concerts,
     } = useConcertContext() as ConcertContextType;
 
-    const onKeyDown: KeyboardEventHandler<HTMLUListElement> = useCallback((event) => {
+    const onKeyDown: KeyboardEventHandler<HTMLDivElement> = useCallback((event) => {
         if (event.key === "ArrowDown") {
             event.preventDefault();
             setCursorToNext();
@@ -161,50 +157,69 @@ const ConcertView = ({
     }, [setCursorToNext, setCursorToPrev]);
 
     const t = useTranslations("Concerts");
-    const forgoingConcertsTitle = t("forgoing_concerts");
-    const upcomingConcertsTitle = t("upcoming_concerts");
-    const moreTitle = t("more");
 
     return (
-        <ul ref={ulRef} onScroll={onUlScroll}
+        <div ref={ulRef} onScroll={onUlScroll}
             className={"relative flex flex-col gap-6 mx-auto w-full min-w-64 overflow-auto scroll-smooth"}
             onKeyDown={onKeyDown}>
-            {concerts?.map((concert, index) => {
-                return (
-                    <li key={concert.id}>
-                        {index === 0 && index !== firstUpcomingConcertIndex &&
-                            <p className={"text-beige text-xl p-4"}>{forgoingConcertsTitle}</p>}
-                        {index === firstUpcomingConcertIndex &&
-                            <p className={clsx("text-beige text-xl p-4", { "mt-8": index !== 0 })}>{upcomingConcertsTitle}</p>}
-                        <button
-                            id={concert.id}
-                            onClick={() => {
-                                setCursor(index);
-                                setConcertPath();
-                                setPreventScroll(true);
-                            }}
-                            tabIndex={index}
-                            onFocus={() => setCursor(index)}
-                            type={"button"}
-                            ref={element => {
-                                if (element) {
-                                    ref.current[concert.id] = element;
-                                } else {
-                                    delete ref.current[concert.id];
-                                }
-                            }}
-                            className={clsx(
-                                bgStyle,
-                                { "border-opacity-100   ": index === cursor },
-                                "flex flex-col border-2 border-beige border-opacity-0 gap-1.5 w-full text-left outline-0 p-4")}>
-                            <ConcertDate dateTime={concert.date as Date}/>
-                            <p>{concert.place}</p>
-                            <p>{concert.short_description}</p>
-                            <span className={"text-beige ml-auto md:hidden"}>{moreTitle}</span>
-                        </button>
-                    </li>
-                );
-            })}
-        </ul>
+            <ListItems ref={ref} title={t("forgoing_concerts")} from={0} to={firstUpcomingConcertIndex} setPreventScroll={setPreventScroll}/>
+
+            {firstUpcomingConcertIndex !== null && <ListItems ulClassName={"min-h-screen"} ref={ref} title={t("upcoming_concerts")} from={firstUpcomingConcertIndex}
+                        setPreventScroll={setPreventScroll}/>}
+        </div>
     );
+};
+
+const ListItems = ({ title, from, to, setPreventScroll, ref, ulClassName }: {
+    title: string, from: number, to?: number | null, ulClassName?: string, ref: MutableRefObject<Record<string, HTMLButtonElement>>, setPreventScroll: (v: boolean) => void
+}) => {
+    const {
+        cursor,
+        setCursor,
+        setConcertPath,
+        concerts,
+    } = useConcertContext() as ConcertContextType;
+
+    const t = useTranslations("Concerts");
+    const moreTitle = t("more");
+
+    return (<>
+        <h3 className={"text-beige text-xl p-4 backdrop-blur bg-amber-50 bg-opacity-35 mb-4"}>{title}</h3>
+        <ul className={clsx(ulClassName ? ulClassName : "", "flex flex-col gap-6 mb-10")}>
+        {concerts?.slice(from, to || concerts.length).map((concert, index) => {
+            const adjustedIndex = from + index;
+
+            return (
+                <li key={concert.id}>
+                    <button
+                        id={concert.id}
+                        onClick={() => {
+                            setCursor(adjustedIndex);
+                            setConcertPath();
+                            setPreventScroll(true);
+                        }}
+                        tabIndex={adjustedIndex}
+                        onFocus={() => setCursor(adjustedIndex)}
+                        type={"button"}
+                        ref={element => {
+                            if (element) {
+                                ref.current[concert.id] = element;
+                            } else {
+                                delete ref.current[concert.id];
+                            }
+                        }}
+                        className={clsx(
+                            bgStyle,
+                            { "border-opacity-100   ": adjustedIndex === cursor },
+                            "flex flex-col border-2 border-beige border-opacity-0 gap-1.5 w-full text-left outline-0 p-4")}>
+                        <ConcertDate dateTime={concert.date as Date}/>
+                        <p>{concert.place}</p>
+                        <p>{concert.short_description}</p>
+                        <span className={"text-beige ml-auto md:hidden"}>{moreTitle}</span>
+                    </button>
+                </li>
+            );
+        })}
+        </ul>
+    </>);
 };

@@ -22,7 +22,8 @@ import { db } from "@/app/lib/connection";
 import { NotDefaultLocales } from "@/i18n/routing";
 import { type contactType, type recordType, relatedRecordTypesEnum } from "@/app/lib/schema/enums";
 
-type CacheTag = "name" | "biography" | "profession" | "concerts" | "social" | "contacts" | "records";
+type Columns = "name" | "biography" | "profession";
+type CacheTag = Columns | "concerts" | "socials" | "contacts" | "records";
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 const selectTranslated = (table: PgTableWithColumns<any>, column: string, locale: string) => {
@@ -45,57 +46,57 @@ const artistTableQuery = async (column: PgColumn, locale: string): Promise<Artis
 
         return data?.[column.name] as ArtistData;
     } catch (error) {
-        console.error('Database Error:', error);
+        console.error("Database Error:", error);
         throw new Error(`Failed to fetch the ${column}.`);
     }
 };
 
 export async function fetchArtistName(locale: string): Promise<Name> {
-    'use cache';
+    "use cache";
 
-    const column: CacheTag = 'name';
+    const column: Columns = "name";
     cacheTag(column);
 
     try {
         return await artistTableQuery(artistTable[column], locale) as Name;
     } catch (error) {
-        console.error('Database Error:', error);
+        console.error("Database Error:", error);
         throw new Error(`Failed to fetch the ${column}.`);
     }
 }
 
 export async function fetchArtistProfession(locale: string): Promise<Profession> {
-    'use cache';
+    "use cache";
 
-    const column: CacheTag = 'profession';
+    const column: Columns = "profession";
     cacheTag(column);
 
     try {
         return await artistTableQuery(artistTable[column], locale) as Profession;
     } catch (error) {
-        console.error('Database Error:', error);
+        console.error("Database Error:", error);
         throw new Error(`Failed to fetch the ${column}.`);
     }
 }
 
 export async function fetchBiography(locale: string): Promise<Biography> {
-    'use cache';
+    "use cache";
 
-    const column: CacheTag = 'biography';
+    const column: Columns = "biography";
     cacheTag(column);
 
     try {
         return await artistTableQuery(artistTable[column], locale) as Biography;
     } catch (error) {
-        console.error('Database Error:', error);
+        console.error("Database Error:", error);
         throw new Error(`Failed to fetch the ${column}.`);
     }
 }
 
 export async function fetchSocial(): Promise<Socials> {
-    'use cache';
+    "use cache";
 
-    const tag: CacheTag = 'social';
+    const tag: CacheTag = "socials";
     cacheTag(tag);
 
     try {
@@ -105,15 +106,15 @@ export async function fetchSocial(): Promise<Socials> {
         }).from(socialsTable)
             .orderBy(desc(socialsTable.social_type));
     } catch (error) {
-        console.error('Database Error:', error);
-        throw new Error('Failed to fetch the socials.');
+        console.error("Database Error:", error);
+        throw new Error("Failed to fetch the socials.");
     }
 }
 
 export async function fetchContacts(): Promise<Contacts> {
-    'use cache';
+    "use cache";
 
-    const tag: CacheTag = 'contacts';
+    const tag: CacheTag = "contacts";
     cacheTag(tag);
 
     try {
@@ -133,22 +134,22 @@ export async function fetchContacts(): Promise<Contacts> {
             return acc;
         }, {}) as Contacts;
     } catch (error) {
-        console.error('Database Error:', error);
-        throw new Error('Failed to fetch the artist contacts.');
+        console.error("Database Error:", error);
+        throw new Error("Failed to fetch the artist contacts.");
     }
 }
 
 export async function fetchConcerts(locale: string): Promise<ConcertsData> {
-    'use cache';
+    "use cache";
 
-    const tag: CacheTag = 'concerts';
+    const tag: CacheTag = "concerts";
     cacheTag(tag);
-    cacheLife('days');
+    cacheLife("days");
 
     try {
         const concerts: Concerts = await db.select({
             id: sql<string>`to_char
-                (${concertsTable.date}, 'DD_Mon_YY_HH24_MI')`.as('id'),
+                (${concertsTable.date}, 'DD_Mon_YY_HH24_MI')`.as("id"),
             date: concertsTable.date,
             place: selectTranslated(concertsTable, "place", locale),
             short_description: selectTranslated(concertsTable, "short_description", locale),
@@ -164,14 +165,14 @@ export async function fetchConcerts(locale: string): Promise<ConcertsData> {
             firstUpcomingConcertIndex,
         } as ConcertsData;
     } catch (error) {
-        console.error('Database Error:', error);
-        throw new Error('Failed to fetch concerts.');
+        console.error("Database Error:", error);
+        throw new Error("Failed to fetch concerts.");
     }
 }
 
 export async function fetchConcertDescription(id: string, locale: string): Promise<ConcertDescription> {
-    'use cache';
-    const tag: CacheTag = 'concerts';
+    "use cache";
+    const tag: CacheTag = "concerts";
     cacheTag(tag);
 
     try {
@@ -197,14 +198,14 @@ export async function fetchConcertDescription(id: string, locale: string): Promi
             where: (concertsTable, { eq }) => eq(concertsTable.date, sql.raw(`to_timestamp('${id}', 'DD_Mon_YY_HH24_MI')::timestamp`)),
         });
     } catch (error) {
-        console.error('Database Error:', error);
+        console.error("Database Error:", error);
         throw new Error(`Failed to fetch the concert's description.`);
     }
 }
 
 export async function fetchRecords(locale: string): Promise<Records> {
-    'use cache';
-    const tag: CacheTag = 'records';
+    "use cache";
+    const tag: CacheTag = "records";
     cacheTag(tag);
 
     try {
@@ -227,12 +228,12 @@ export async function fetchRecords(locale: string): Promise<Records> {
             description: selectTranslated(recordsTable, "description", locale),
         }).from(recordsTable);
 
-        const sq = union(concertRecordsSelect, recordsSelect).as('sq');
+        const sq = union(concertRecordsSelect, recordsSelect).as("sq");
 
         return db.select().from(sq).orderBy(sq.date);
     } catch (error) {
-        console.error('Database Error:', error);
-        throw new Error('Failed to fetch the records.');
+        console.error("Database Error:", error);
+        throw new Error("Failed to fetch the records.");
     }
 }
 
@@ -241,7 +242,7 @@ export async function insertEmail(email: string): Promise<boolean> {
         await db.insert(mailingListTable).values({ email }).onConflictDoNothing();
         return true;
     } catch (error) {
-        console.error('Database Error:', error);
+        console.error("Database Error:", error);
         return false;
     }
 }

@@ -1,5 +1,5 @@
-import { defineRouting } from 'next-intl/routing';
-import { createNavigation } from 'next-intl/navigation';
+import { defineRouting } from "next-intl/routing";
+import { createNavigation } from "next-intl/navigation";
 
 export const Locales = ["en", "ru"];
 const defaultLocale = Locales[0] as string;
@@ -8,7 +8,7 @@ export const NotDefaultLocales: string[] = Locales.filter(l => l !== defaultLoca
 export const routing = defineRouting({
     locales: Locales,
     defaultLocale: defaultLocale,
-    localePrefix: 'as-needed',
+    localePrefix: "as-needed",
 });
 
 export type Locale = (typeof routing.locales)[number];

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useMd } from "@/app/components/hooks";
 import DescriptionModal from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/descriptionModal";

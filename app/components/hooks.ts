@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { type RefObject, useEffect, useState } from "react";
 
@@ -66,8 +66,8 @@ function useWindowDimensions() {
             setWindowDimensions(getWindowDimensions());
         }
 
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     return windowDimensions;

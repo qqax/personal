@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import wet_meadow from '@/public/wet_meadow.jpg';
+import Image from "next/image";
+import wet_meadow from "@/public/wet_meadow.jpg";
 
 export default function Background() {
     return (

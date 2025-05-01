@@ -5,7 +5,7 @@ const Record = ({ uuid, record_service }: { uuid: string, record_service: record
 
     switch (record_service) {
         case RECORD_SERVICES_YOUTUBE:
-            url = `https://www.youtube.com/embed/${uuid}`
+            url = `https://www.youtube.com/embed/${uuid}`;
             break;
         default:
             throw new Error(`Unknown record service: ${record_service}`);

@@ -1,6 +1,6 @@
-import type { NextAuthConfig } from 'next-auth';
+import type { NextAuthConfig } from "next-auth";
 
-const authorizedRoute = "/cms"
+const authorizedRoute = "/cms";
 
 export const authConfig = {
     pages: {
