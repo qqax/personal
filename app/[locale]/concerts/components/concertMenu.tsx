@@ -17,7 +17,7 @@ export const ConcertMenu = ({ isCurrentUpcoming, isUpcomingConcertPresented }: {
     const title = t("concerts");
 
     return (
-        <h2 className={"fixed z-10 w-full flex gap-6 px-20 shadow-xl py-6 h-[72px] items-center backdrop-blur text-beige text-center lg:w-1/2 text-lg md:text-2xl"}>
+        <h2 className={"fixed z-50 w-full flex gap-6 px-20 py-6 h-[72px] items-center text-beige text-center lg:w-1/2 text-lg md:text-2xl"}>
             <span className={"block"}>{title}</span>
             {isUpcomingConcertPresented && <ConcertSelect isCurrentUpcoming={isCurrentUpcoming}/>}
             <ModalCalendar/>

@@ -30,9 +30,9 @@ export default async function RecordPage() {
     const title = t("records");
 
     return (
-        <section className="w-full text-center">
-            <h2 className={"text-2xl w-1/2 ml-auto py-6 text-beige sm:mb-4 lg:mb-0"}>
-                <span className={"sm:hidden lg:inline"}>{title}</span>
+        <section className="w-full text-center mt-[72px]">
+            <h2 className={"fixed sm:hidden lg:block lg:w-1/2 lg:right-0 z-50 right-10 top-4 text-2xl text-beige"}>
+                {title}
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-2 sm:p-6">
                 {records.map(({ date, uuid, record_type, record_service }) => {

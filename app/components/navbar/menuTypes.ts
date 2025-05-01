@@ -13,3 +13,5 @@ export const paths = MenuTitles.reduce((acc: PathsType, p, i) => {
 export const menuItems = Object.entries(paths).map(([name, href]) => {
     return { name, href };
 });
+export const homeMenuLayoutPaths = ["/", "/contacts", "/support"] as const;
+export type homeMenuLayoutPath = typeof homeMenuLayoutPaths[number];
