@@ -17,8 +17,8 @@ export const ConcertMenu = ({ isCurrentUpcoming, isUpcomingConcertPresented }: {
     const title = t("concerts");
 
     return (
-        <h2 className={"fixed z-50 w-full flex gap-6 px-20 py-6 h-[72px] items-center text-beige text-center lg:w-1/2 text-lg md:text-2xl"}>
-            <span className={"block"}>{title}</span>
+        <h2 className={"fixed z-50 justify-between w-full flex gap-6 pl-20 pr-4 nb:pr-10 sm:pr-20 py-6 h-[72px] items-center text-beige text-center lg:w-1/2 text-lg md:text-2xl"}>
+            <span className={clsx({"hidden": isUpcomingConcertPresented}, "lg:block")}>{title}</span>
             {isUpcomingConcertPresented && <ConcertSelect isCurrentUpcoming={isCurrentUpcoming}/>}
             <ModalCalendar/>
         </h2>
@@ -48,14 +48,16 @@ const ConcertSelect = ({ isCurrentUpcoming }: {
 
     const [open, setOpen] = useState(false);
 
-    return (<Select open={open} setOpen={setOpen} className={"w-[8.75rem] "}
-                    selectedLabel={<ArrowLabel className={lightButtonStyle}
-                                               arrowStyle={{ filter: "invert(100%)" }} open={open}>
-                        {currentLabel}
-                    </ArrowLabel>}>
-        <button key={label} type={"button"} onClick={scrollFn}
-                className={clsx(lightButtonStyle, "animate-fade w-full")}>
-            {label}
-        </button>
-    </Select>);
+    return (<div className={"w-[8.75rem] mx-auto"}>
+        <Select open={open} setOpen={setOpen} className={"w-full"}
+                selectedLabel={<ArrowLabel className={clsx(lightButtonStyle, "py-1 pr-2 bg-amber-50")}
+                                           arrowStyle={{ filter: "invert(29%) sepia(5%) saturate(2153%) hue-rotate(353deg) brightness(96%) contrast(86%)" }} open={open}>
+                    {currentLabel}
+                </ArrowLabel>}>
+            <button key={label} type={"button"} onClick={scrollFn}
+                    className={clsx(lightButtonStyle, "py-1 pl-[1.625rem] pr-2 animate-fade w-[8.75rem] text-left")}>
+                {label}
+            </button>
+        </Select>
+    </div>);
 };

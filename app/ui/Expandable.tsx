@@ -13,7 +13,7 @@ export const ExpandableDiv = ({ children, open, setOpen, title }: {
 
     return (<div className={"w-full flex flex-col"}>
         <button className={clsx(buttonColors, "p-1 flex items-center gap-4")} onClick={() => setOpen(!open)}>
-            <ArrowLabel open={open}>{title}</ArrowLabel>
+            <ArrowLabel open={open} arrowStyle={{ filter: "invert(100%) sepia(18%) saturate(5849%) hue-rotate(305deg) brightness(123%) contrast(106%)" }}>{title}</ArrowLabel>
         </button>
         <div
             ref={contentRef}

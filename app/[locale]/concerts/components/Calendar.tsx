@@ -10,6 +10,8 @@ import { useClickOutside } from "@/app/components/hooks.ts";
 import Modal from "@/app/ui/Modal.tsx";
 import clsx from "clsx";
 import { bgStyle, lightButtonStyle } from "@/app/ui/styles.ts";
+import calendarIcon from "@/public/icons/calendar.svg";
+import Image from "next/image";
 
 type DateType = Date | null;
 
@@ -95,7 +97,7 @@ export const ModalCalendar = () => {
                                 className={"fixed top-0 right-0 text-3xl inline-block float-right px-3 py-2 rotate-45"}
                                 onClick={() => setShowCalendar(false)}>+
                         </button>
-                        <div className={"text-3xl  w-full text-center"}>
+                        <div className={"text-3xl w-full text-center"}>
                             <span className={"inline-block mb-6 mt-2"}>{calendarTitle}</span>
                         </div>
                         <ConcertsCalendar hideCalendar={hideCalendar}/>
@@ -104,8 +106,14 @@ export const ModalCalendar = () => {
             </Modal>
             <button type={"button"}
                     onClick={() => setShowCalendar(!showCalendar)}
-                    className={clsx(lightButtonStyle, "xl:hidden pl-4 pr-4 whitespace-nowrap transition duration-150")}>
-                {calendarTitle}
+                    className={clsx(lightButtonStyle, "xl:hidden sm:px-4 sm:py-1 whitespace-nowrap transition duration-150")}>
+                <span className={"hidden sm:inline w-10"}>{calendarTitle}</span>
+                <Image
+                    src={calendarIcon}
+                    alt={calendarTitle}
+                    style={{ filter: "invert(29%) sepia(5%) saturate(2153%) hue-rotate(353deg) brightness(96%) contrast(86%)" }}
+                    className={"w-10 sm:hidden"}
+                />
             </button>
         </>);
 };

@@ -185,7 +185,7 @@ const ListItems = ({ title, from, to, setPreventScroll, ref, ulClassName }: {
 
     return (<>
         <h3 className={"text-beige text-xl p-4 backdrop-blur bg-amber-50 bg-opacity-35 mb-4"}>{title}</h3>
-        <ul className={clsx(ulClassName ? ulClassName : "", "flex flex-col gap-6 mb-10")}>
+        <ul className={clsx({ [ulClassName!]: !!ulClassName }, "flex flex-col gap-6 mb-10")}>
         {concerts?.slice(from, to || concerts.length).map((concert, index) => {
             const adjustedIndex = from + index;
 
