@@ -20,11 +20,6 @@ type Concert = {
 
 export type Concerts = Concert[];
 
-export type ConcertsData = {
-    concerts: Concerts;
-    firstUpcomingConcertIndex: number;
-};
-
 export type ConcertDescription = {
     date: Date | null;
     place: string | null;

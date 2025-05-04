@@ -9,17 +9,22 @@ import { useTranslations } from "next-intl";
 import { Select } from "@/app/ui/Select.tsx";
 import { ArrowLabel } from "@/app/ui/Label.tsx";
 
-export const ConcertMenu = ({ isCurrentUpcoming, isUpcomingConcertPresented }: {
+export const ConcertMenu = ({ isCurrentUpcoming }: {
     isCurrentUpcoming: boolean,
-    isUpcomingConcertPresented: boolean,
 }) => {
+    const {
+        scrollTo,
+    } = useConcertContext() as ConcertContextType;
+
     const t = useTranslations("Titles");
     const title = t("concerts");
 
+    console.log(scrollTo);
+
     return (
         <h2 className={"fixed z-50 justify-between w-full flex gap-6 pl-20 pr-4 nb:pr-10 sm:pr-20 py-6 h-[72px] items-center text-beige text-center lg:w-1/2 text-lg md:text-2xl"}>
-            <span className={clsx({"hidden": isUpcomingConcertPresented}, "lg:block")}>{title}</span>
-            {isUpcomingConcertPresented && <ConcertSelect isCurrentUpcoming={isCurrentUpcoming}/>}
+            <span className={clsx({ "hidden": !!scrollTo }, "lg:block")}>{title}</span>
+            {!!scrollTo && <ConcertSelect isCurrentUpcoming={isCurrentUpcoming}/>}
             <ModalCalendar/>
         </h2>
     );
@@ -31,7 +36,9 @@ const ConcertSelect = ({ isCurrentUpcoming }: {
     const t = useTranslations("Concerts");
     const forgoingTitle = t("forgoing");
     const upcomingTitle = t("upcoming");
-    const { scrollTo } = useConcertContext() as ConcertContextType;
+    const {
+        scrollTo,
+    } = useConcertContext() as ConcertContextType;
 
     const scrollFn = useCallback(() => {
             setOpen(false);
@@ -51,7 +58,8 @@ const ConcertSelect = ({ isCurrentUpcoming }: {
     return (<div className={"w-[8.75rem] mx-auto"}>
         <Select open={open} setOpen={setOpen} className={"w-full"}
                 selectedLabel={<ArrowLabel className={clsx(lightButtonStyle, "py-1 pr-2 bg-amber-50")}
-                                           arrowStyle={{ filter: "invert(29%) sepia(5%) saturate(2153%) hue-rotate(353deg) brightness(96%) contrast(86%)" }} open={open}>
+                                           arrowStyle={{ filter: "invert(29%) sepia(5%) saturate(2153%) hue-rotate(353deg) brightness(96%) contrast(86%)" }}
+                                           open={open}>
                     {currentLabel}
                 </ArrowLabel>}>
             <button key={label} type={"button"} onClick={scrollFn}

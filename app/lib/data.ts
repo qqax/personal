@@ -8,7 +8,6 @@ import type {
     Biography,
     ConcertDescription,
     Concerts,
-    ConcertsData,
     Contacts,
     Name,
     Profession,
@@ -139,7 +138,7 @@ export async function fetchContacts(): Promise<Contacts> {
     }
 }
 
-export async function fetchConcerts(locale: string): Promise<ConcertsData> {
+export async function fetchConcerts(locale: string): Promise<Concerts> {
     "use cache";
 
     const tag: CacheTag = "concerts";
@@ -156,14 +155,8 @@ export async function fetchConcerts(locale: string): Promise<ConcertsData> {
         }).from(concertsTable)
             .orderBy(concertsTable.date);
 
-        const firstUpcomingConcertIndex = concerts?.findIndex(({ date }) => {
-            return date && date.getTime() > Date.now();
-        });
 
-        return {
-            concerts,
-            firstUpcomingConcertIndex,
-        } as ConcertsData;
+        return concerts as Concerts;
     } catch (error) {
         console.error("Database Error:", error);
         throw new Error("Failed to fetch concerts.");

@@ -9,12 +9,11 @@ const ConcertsSection = async ({ children, description }: {
     description: ReactNode,
 }) => {
     const locale = await getLocale();
-    const { concerts, firstUpcomingConcertIndex } = await fetchConcerts(locale);
+    const concerts = await fetchConcerts(locale);
 
     return (
         <RenderBoundary>
-            <ConcertPage concerts={concerts} firstUpcomingConcertIndex={firstUpcomingConcertIndex}
-                         description={description}>
+            <ConcertPage concerts={concerts} description={description}>
                 {children}
             </ConcertPage>
         </RenderBoundary>

@@ -9,13 +9,14 @@ import { MdConcertsList, SmConcertsList } from "@/app/[locale]/concerts/componen
 import type { Concerts } from "@/app/lib/definitions";
 import {
     createContext,
-    type Dispatch,
+    type Dispatch, type MutableRefObject,
     type ReactNode,
     type SetStateAction,
     useCallback,
     useContext,
     useEffect,
     useMemo,
+    useRef,
     useState
 } from "react";
 import { useMd } from "@/app/components/hooks";
@@ -27,10 +28,12 @@ export type ScrollConcertType = { forgoing: () => void, upcoming: () => void } |
 
 export type ConcertContextType = {
     concerts: Concerts,
+    forgoingConcerts: Concerts,
+    upcomingConcerts: Concerts,
     currConcertID: string | undefined,
-    firstUpcomingConcertID: string | null,
-    firstUpcomingConcertIndex: number | null,
     areConcertsPresented: boolean,
+
+    concertRefs: MutableRefObject<Record<string, HTMLLIElement>>,
 
     currentConcertHandler: (isPresented: boolean) => void,
     setConcertPath: () => void,
@@ -40,8 +43,10 @@ export type ConcertContextType = {
     setCursorToNext: () => void,
     setCursorToPrev: () => void,
 
+    initialOffsetTop: number | undefined,
+
     scrollTo: ScrollConcertType | null,
-    setScrollToFunc: (fn: (id: string) => void) => void,
+    setScrollToFunc: (fn: (offset: number) => void) => void,
 };
 
 export const ConcertContext = createContext<ConcertContextType | null>(null);
@@ -50,14 +55,32 @@ export function useConcertContext() {
     return useContext(ConcertContext);
 }
 
-export default function ConcertPage({ children, description, concerts, firstUpcomingConcertIndex }: {
+export default function ConcertPage({ children, description, concerts }: {
     children: ReactNode,
     description: ReactNode,
     concerts: Concerts,
-    firstUpcomingConcertIndex: number
 }) {
+    const [forgoingConcerts, setForgoingConcerts] = useState<Concerts>([]);
+    const [upcomingConcerts, setUpcomingConcerts] = useState<Concerts>([]);
+    const date = Date.now();
+
+    useEffect(() => {
+        const forgoing: Concerts = [];
+        const upcoming: Concerts = [];
+        concerts.forEach((concert) => {
+            if (concert.date.getTime() < date) {
+                forgoing.push(concert);
+            } else {
+                upcoming.push(concert);
+            }
+        });
+
+        setForgoingConcerts(forgoing);
+        setUpcomingConcerts(upcoming);
+        setCursor(!!upcoming.length ? forgoing.length : 0);
+    }, []);
+
     const [isCurrentUpcoming, setIsCurrentUpcoming] = useState(false);
-    const isUpcomingConcertPresented: boolean = firstUpcomingConcertIndex > 0;
 
     const currentConcertHandler = useCallback((isCurrent: boolean) => {
         if (isCurrentUpcoming !== isCurrent) {
@@ -68,19 +91,33 @@ export default function ConcertPage({ children, description, concerts, firstUpco
     const path = usePathname();
     const router = useRouter();
 
+    const concertRefs: MutableRefObject<Record<string, HTMLLIElement>> = useRef({});
+    const initialOffsetTop = useMemo(() => {
+        if (!forgoingConcerts.length && !upcomingConcerts.length) {
+            return undefined;
+        }
+
+        if (!upcomingConcerts.length) {
+            return 0;
+        }
+
+        const firstConcertID  = upcomingConcerts[0]?.id as string;
+
+        return concertRefs.current[firstConcertID]?.offsetTop as number;
+    }, [forgoingConcerts.length, upcomingConcerts]);
+
+
     const [scrollTo, setScrollTo] = useState(null as ScrollConcertType);
-    const setScrollToFunc = useCallback((fn: (id: string) => void) => {
-        if (!isUpcomingConcertPresented) return;
+    const setScrollToFunc = useCallback((fn: (offset: number) => void) => {
+        if (initialOffsetTop === undefined) return;
 
         setScrollTo({
-            forgoing: () => fn("forgoing"),
-            upcoming: () => concerts[firstUpcomingConcertIndex]?.id
-                ? fn(concerts[firstUpcomingConcertIndex]?.id)
-                : null,
+            forgoing: () => fn(0),
+            upcoming: () => fn(initialOffsetTop),
         });
-    }, [isUpcomingConcertPresented, setScrollTo, concerts, firstUpcomingConcertIndex]);
+    }, [forgoingConcerts.length, upcomingConcerts.length]);
 
-    const [cursor, setCursor] = useState(isUpcomingConcertPresented ? firstUpcomingConcertIndex : 0);
+    const [cursor, setCursor] = useState(0);
     const setCursorToNext = useCallback(() => {
         const newCursor = (cursor + 1) % concerts.length;
         setCursor(newCursor);
@@ -97,7 +134,7 @@ export default function ConcertPage({ children, description, concerts, firstUpco
         return concerts.length > 0;
     }, [concerts]);
     const setConcertPath = () => {
-        if (areConcertsPresented && currConcertID) {
+        if (areConcertsPresented && !!currConcertID) {
             replaceDynamicSegmentIfExists(router, path, paths.concerts, currConcertID);
         }
     };
@@ -116,20 +153,22 @@ export default function ConcertPage({ children, description, concerts, firstUpco
             setScrollToFunc,
 
             concerts,
-            firstUpcomingConcertID: concerts[firstUpcomingConcertIndex]?.id || null,
-            firstUpcomingConcertIndex,
+            forgoingConcerts,
+            upcomingConcerts,
             areConcertsPresented,
             setConcertPath,
             currentConcertHandler,
             currConcertID,
+
+            concertRefs,
+            initialOffsetTop,
 
             cursor,
             setCursor,
             setCursorToNext,
             setCursorToPrev,
         }}>
-            <ConcertMenu isCurrentUpcoming={isCurrentUpcoming}
-                         isUpcomingConcertPresented={isUpcomingConcertPresented}/>
+            <ConcertMenu isCurrentUpcoming={isCurrentUpcoming}/>
             <section
                 className={"relative mt-24 sm:mt-40 lg:mt-20 flex md:overflow-auto w-full md:h-[88vh] gap-8 m-6"}>
                 <div className={clsx(bgStyle, "hidden xl:block max-h-max max-w-80 p-6")}>
