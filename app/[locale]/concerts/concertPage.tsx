@@ -50,7 +50,7 @@ export function useConcertContext() {
     return useContext(ConcertContext);
 }
 
-export default function ConcertPage({ children, description, concerts }: {
+export default function ConcertPage({ children,     description, concerts }: {
     children: ReactNode,
     description: ReactNode,
     concerts: Concerts,
@@ -141,14 +141,15 @@ export default function ConcertPage({ children, description, concerts }: {
         }}>
             <ConcertMenu isCurrentUpcoming={isCurrentUpcoming}/>
             <section
-                className={"relative mt-24 sm:mt-40 lg:mt-20 flex md:overflow-auto w-full md:h-[88vh] gap-8 m-6"}>
+                className={"relative mt-24 sm:mt-40 lg:mt-20 flex md:overflow-auto w-full md:h-[88vh] gap-8 m-2 nb:m-3 sm:m-4 md:mx-2"}>
                 <div className={clsx(bgStyle, "hidden xl:block max-h-max max-w-80 p-6")}>
                     <ConcertsCalendar/>
                     <NewsForm/>
                 </div>
-                <div className={"grid grid-cols-1 md:grid-cols-2 gap-8 w-full"}>
-                    <ConcertView/>
-                    {/*{isMd ? <MdConcertsList/> : <SmConcertsList/>}*/}
+                <div className={"grid grid-cols-1 md:grid-cols-2 gap-4 w-full"}>
+                    <div className={"mt-20 sm:mt-0"}>
+                        <ConcertView/>
+                    </div>
                     {description}
                 </div>
                 {children}

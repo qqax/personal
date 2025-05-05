@@ -23,7 +23,7 @@ export default function DescriptionModal({ concertDescription }: { concertDescri
         onClose();
     });
 
-    return (<Modal show={!path.endsWith(paths.concerts)}>
+    return (<Modal show={!path.endsWith(paths.concerts)} preventScroll={true}>
         <div ref={ref}
              className="relative flex w-full max-w-[450px] pt-10 m-20 min-h-[75%] mx-auto">
             <button type={"button"} onClick={onClose} className={"absolute top-0 right-0 rotate-45 px-4 text-4xl"}>

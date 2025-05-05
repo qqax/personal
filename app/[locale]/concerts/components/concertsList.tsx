@@ -43,7 +43,56 @@ export default function  ConcertView  ()  {
         }
     }, [setCursorToNext, setCursorToPrev]);
 
-    const t = useTranslations("Concerts");
+    const concertRefs: MutableRefObject<Record<string, HTMLLIElement>> = useRef({});
+
+    const [initialOffsetTop, setInitialOffsetTop] = useState<number | undefined>(undefined);
+
+    useEffect(() => {
+        if (areConcertsPresented) {
+            if (!upcomingConcerts.length) {
+                setInitialOffsetTop(0);
+
+            } else {
+                const firstConcertID = upcomingConcerts[0]?.id as string;
+                setInitialOffsetTop( concertRefs.current[firstConcertID]?.offsetTop as number)
+            }
+        }
+    }, [areConcertsPresented, upcomingConcerts]);
+
+    const isMd = useMd();
+
+    const scrollTo = useCallback((offsetTop: number) => {
+        if (isMd) {
+            ulRef.current?.scrollTo({ top: offsetTop });
+        } else {
+            window.scrollTo({ top: offsetTop, behavior: "smooth" });
+        }
+    }, [isMd]);
+
+    useEffect(() => {
+        if (initialOffsetTop === undefined) return;
+
+        setSelectConcertPeriodFunc({
+            forgoing: () => scrollTo(0),
+            upcoming: () => scrollTo(initialOffsetTop),
+        });
+    }, [initialOffsetTop, scrollTo, setSelectConcertPeriodFunc]);
+
+    const ulRef: RefObject<HTMLDivElement> = useRef(null);
+
+    const onUlScroll: UIEventHandler<HTMLDivElement> = (e) => {
+        if (initialOffsetTop) {
+            currentConcertHandler(Math.round((e.target as HTMLElement).scrollTop) >= initialOffsetTop);
+        }
+    };
+
+    useScroll(() => {
+        if (areConcertsPresented && !!initialOffsetTop) {
+            currentConcertHandler(
+                Math.round(window.scrollY) >= initialOffsetTop - 100,
+            );
+        }
+    });
 
     const [preventScroll, setPreventScroll] = useState(false);
 
@@ -65,57 +114,7 @@ export default function  ConcertView  ()  {
         focusOnConcert();
     }, [cursor]);
 
-    const concertRefs: MutableRefObject<Record<string, HTMLLIElement>> = useRef({});
-
-    const [initialOffsetTop, setInitialOffsetTop] = useState<number | undefined>(undefined);
-
-    useEffect(() => {
-        if (areConcertsPresented) {
-            if (!upcomingConcerts.length) {
-                setInitialOffsetTop(0);
-
-            } else {
-                const firstConcertID = upcomingConcerts[0]?.id as string;
-                setInitialOffsetTop( concertRefs.current[firstConcertID]?.offsetTop as number)
-            }
-        }
-    }, []);
-
-    const isMd = useMd();
-
-    const ulRef: RefObject<HTMLDivElement> = useRef(null);
-
-    const onUlScroll: UIEventHandler<HTMLDivElement> = (e) => {
-        if (initialOffsetTop) {
-            currentConcertHandler(Math.round((e.target as HTMLElement).scrollTop) >= initialOffsetTop);
-        }
-    };
-
-    const scrollTo = useCallback((offsetTop: number) => {
-        if (isMd) {
-            ulRef.current?.scrollTo({ top: offsetTop });
-        } else {
-            window.scrollTo({ top: offsetTop, behavior: "smooth" });
-        }
-    }, [isMd]);
-
-    useScroll(() => {
-        if (areConcertsPresented && !!initialOffsetTop && !isMd) {
-            currentConcertHandler(
-                Math.round(window.scrollY) >= initialOffsetTop - 100,
-            );
-        }
-    });
-
-    useEffect(() => {
-        if (initialOffsetTop === undefined) return;
-
-        setSelectConcertPeriodFunc({
-            forgoing: () => scrollTo(0),
-            upcoming: () => scrollTo(initialOffsetTop),
-        });
-    }, [initialOffsetTop, scrollTo, setSelectConcertPeriodFunc]);
-
+    const t = useTranslations("Concerts");
 
     return (
         <div ref={ulRef} onScroll={onUlScroll}
@@ -126,7 +125,6 @@ export default function  ConcertView  ()  {
                            concerts={forgoingConcerts}
                            concertRefs={concertRefs}
                            setPreventScroll={setPreventScroll}/>}
-
             {!!upcomingConcerts.length &&
                 <ListItems ulClassName={"min-h-screen"}
                            addToIndex={!!forgoingConcerts.length ? forgoingConcerts.length : 0}
@@ -152,12 +150,10 @@ const ListItems = ({ title, concerts, addToIndex, setPreventScroll, ulClassName,
         setConcertPath,
     } = useConcertContext() as ConcertContextType;
 
-    //TODO: fix focus in sm, in md delete gaps between elements, fix select displaying
-
     const t = useTranslations("Concerts");
     const moreTitle = t("more");
 
-    return (  <ul className={clsx({ [ulClassName!]: !!ulClassName }, "flex flex-col gap-6 mb-10")}>
+    return (  <ul className={clsx({ [ulClassName!]: !!ulClassName }, "flex flex-col gap-6")}>
             {concerts.map((concert, index) => {
                 const adjustedIndex = addToIndex ? addToIndex + index : index;
 
