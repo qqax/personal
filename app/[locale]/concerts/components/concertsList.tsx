@@ -1,7 +1,7 @@
 "use client";
 
 import {
-    type KeyboardEventHandler,
+    type KeyboardEventHandler, type MutableRefObject,
     type RefObject,
     type UIEventHandler,
     useCallback,
@@ -11,78 +11,27 @@ import {
 } from "react";
 import clsx from "clsx";
 import { ConcertDate } from "@/app/[locale]/concerts/components/concertDate";
-import { useScroll } from "@/app/components/hooks";
-import { type ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
+import { useMd, useScroll } from "@/app/components/hooks";
+import {
+    type ConcertContextType,
+    useConcertContext
+} from "@/app/[locale]/concerts/concertPage";
 import { bgStyle } from "@/app/ui/styles";
 import { useTranslations } from "next-intl";
 import type { Concerts } from "@/app/lib/definitions.ts";
 
-export function SmConcertsList() {
-    const {
-        areConcertsPresented,
-        currentConcertHandler,
-        initialOffsetTop,
-    } = useConcertContext() as ConcertContextType;
-
-    const scrollTo = (offsetTop: number) => {
-        window.scrollTo({ top: offsetTop, behavior: "smooth" });
-    };
-
-    useScroll(() => {
-        if (areConcertsPresented && !!initialOffsetTop) {
-            currentConcertHandler(
-                Math.round(window.scrollY) >= initialOffsetTop - 100,
-            );
-        }
-    });
-
-    return (<ConcertView scrollTo={scrollTo} setFocusOnMount={true}/>);
-}
-
-export function MdConcertsList() {
-    const {
-        currentConcertHandler,
-        initialOffsetTop,
-    } = useConcertContext() as ConcertContextType;
-
-    const ulRef: RefObject<HTMLDivElement> = useRef(null);
-
-    const onUlScroll: UIEventHandler<HTMLDivElement> = (e) => {
-        if (initialOffsetTop) {
-            currentConcertHandler(Math.round((e.target as HTMLElement).scrollTop) >= initialOffsetTop);
-        }
-    };
-
-    const scrollTo = (offsetTop: number) => {
-        ulRef.current?.scrollTo({ top: offsetTop });
-    };
-
-    return (<ConcertView ulRef={ulRef} scrollTo={scrollTo} onUlScroll={onUlScroll} setFocusOnMount={false}/>);
-}
-
-const ConcertView = ({
-                         ulRef,
-                         scrollTo,
-                         onUlScroll,
-                         setFocusOnMount,
-                     }: {
-    ulRef?: RefObject<HTMLDivElement>,
-    scrollTo: (v: number) => void,
-    onUlScroll?: UIEventHandler<HTMLDivElement>,
-    setFocusOnMount: boolean,
-}) => {
+export default function  ConcertView  ()  {
     const {
         cursor,
-        currConcertID,
-        setScrollToFunc,
+        currentConcertID,
+        setSelectConcertPeriodFunc,
         setCursorToNext,
         setCursorToPrev,
         forgoingConcerts,
         upcomingConcerts,
         areConcertsPresented,
-        concertRefs,
+        currentConcertHandler,
     } = useConcertContext() as ConcertContextType;
-
 
     const onKeyDown: KeyboardEventHandler<HTMLDivElement> = useCallback((event) => {
         if (event.key === "ArrowDown") {
@@ -99,7 +48,7 @@ const ConcertView = ({
     const [preventScroll, setPreventScroll] = useState(false);
 
     const focusOnConcert = () => {
-        const currentRef = currConcertID ? concertRefs.current[currConcertID] : undefined;
+        const currentRef = currentConcertID ? concertRefs.current[currentConcertID] : undefined;
 
         if (!!currentRef) {
             currentRef.focus();
@@ -113,17 +62,60 @@ const ConcertView = ({
     };
 
     useEffect(() => {
+        focusOnConcert();
+    }, [cursor]);
+
+    const concertRefs: MutableRefObject<Record<string, HTMLLIElement>> = useRef({});
+
+    const [initialOffsetTop, setInitialOffsetTop] = useState<number | undefined>(undefined);
+
+    useEffect(() => {
         if (areConcertsPresented) {
-            if (setFocusOnMount) {
-                focusOnConcert();
+            if (!upcomingConcerts.length) {
+                setInitialOffsetTop(0);
+
+            } else {
+                const firstConcertID = upcomingConcerts[0]?.id as string;
+                setInitialOffsetTop( concertRefs.current[firstConcertID]?.offsetTop as number)
             }
-            setScrollToFunc(scrollTo);
         }
     }, []);
 
+    const isMd = useMd();
+
+    const ulRef: RefObject<HTMLDivElement> = useRef(null);
+
+    const onUlScroll: UIEventHandler<HTMLDivElement> = (e) => {
+        if (initialOffsetTop) {
+            currentConcertHandler(Math.round((e.target as HTMLElement).scrollTop) >= initialOffsetTop);
+        }
+    };
+
+    const scrollTo = useCallback((offsetTop: number) => {
+        if (isMd) {
+            ulRef.current?.scrollTo({ top: offsetTop });
+        } else {
+            window.scrollTo({ top: offsetTop, behavior: "smooth" });
+        }
+    }, [isMd]);
+
+    useScroll(() => {
+        if (areConcertsPresented && !!initialOffsetTop && !isMd) {
+            currentConcertHandler(
+                Math.round(window.scrollY) >= initialOffsetTop - 100,
+            );
+        }
+    });
+
     useEffect(() => {
-        focusOnConcert();
-    }, [cursor]);
+        if (initialOffsetTop === undefined) return;
+
+        setSelectConcertPeriodFunc({
+            forgoing: () => scrollTo(0),
+            upcoming: () => scrollTo(initialOffsetTop),
+        });
+    }, [initialOffsetTop, scrollTo, setSelectConcertPeriodFunc]);
+
 
     return (
         <div ref={ulRef} onScroll={onUlScroll}
@@ -132,6 +124,7 @@ const ConcertView = ({
             {!!forgoingConcerts.length &&
                 <ListItems title={t("forgoing_concerts")}
                            concerts={forgoingConcerts}
+                           concertRefs={concertRefs}
                            setPreventScroll={setPreventScroll}/>}
 
             {!!upcomingConcerts.length &&
@@ -139,21 +132,22 @@ const ConcertView = ({
                            addToIndex={!!forgoingConcerts.length ? forgoingConcerts.length : 0}
                            title={t("upcoming_concerts")}
                            concerts={upcomingConcerts}
+                           concertRefs={concertRefs}
                            setPreventScroll={setPreventScroll}/>}
         </div>
     );
 };
 
-const ListItems = ({ title, concerts, addToIndex, setPreventScroll, ulClassName }: {
+const ListItems = ({ title, concerts, addToIndex, setPreventScroll, ulClassName, concertRefs }: {
     title: string,
     concerts: Concerts,
     addToIndex?: number,
     ulClassName?: string,
-    setPreventScroll: (v: boolean) => void
+    setPreventScroll: (v: boolean) => void,
+    concertRefs: MutableRefObject<Record<string, HTMLLIElement>>,
 }) => {
     const {
         cursor,
-        concertRefs,
         setCursor,
         setConcertPath,
     } = useConcertContext() as ConcertContextType;

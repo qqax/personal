@@ -5,18 +5,17 @@ import clsx from "clsx";
 import { bgStyle } from "@/app/ui/styles";
 import { ConcertsCalendar } from "@/app/[locale]/concerts/components/Calendar";
 import NewsForm from "@/app/components/forms/newsForm";
-import { MdConcertsList, SmConcertsList } from "@/app/[locale]/concerts/components/concertsList";
+import ConcertView from "@/app/[locale]/concerts/components/concertsList";
 import type { Concerts } from "@/app/lib/definitions";
 import {
     createContext,
-    type Dispatch, type MutableRefObject,
+    type Dispatch,
     type ReactNode,
     type SetStateAction,
     useCallback,
     useContext,
     useEffect,
     useMemo,
-    useRef,
     useState
 } from "react";
 import { useMd } from "@/app/components/hooks";
@@ -24,16 +23,14 @@ import { usePathname, useRouter } from "@/i18n/routing";
 import { replaceDynamicSegmentIfExists } from "@/app/utils/pathFuncs";
 import { paths } from "@/app/components/navbar/menuTypes";
 
-export type ScrollConcertType = { forgoing: () => void, upcoming: () => void } | null;
+export type SelectConcertPeriodFuncType = { forgoing: () => void, upcoming: () => void } | null;
 
 export type ConcertContextType = {
     concerts: Concerts,
     forgoingConcerts: Concerts,
     upcomingConcerts: Concerts,
-    currConcertID: string | undefined,
+    currentConcertID: string | undefined,
     areConcertsPresented: boolean,
-
-    concertRefs: MutableRefObject<Record<string, HTMLLIElement>>,
 
     currentConcertHandler: (isPresented: boolean) => void,
     setConcertPath: () => void,
@@ -43,10 +40,8 @@ export type ConcertContextType = {
     setCursorToNext: () => void,
     setCursorToPrev: () => void,
 
-    initialOffsetTop: number | undefined,
-
-    scrollTo: ScrollConcertType | null,
-    setScrollToFunc: (fn: (offset: number) => void) => void,
+    selectConcertPeriodFunc: SelectConcertPeriodFuncType | null,
+    setSelectConcertPeriodFunc: Dispatch<SetStateAction<SelectConcertPeriodFuncType>>,
 };
 
 export const ConcertContext = createContext<ConcertContextType | null>(null);
@@ -91,31 +86,12 @@ export default function ConcertPage({ children, description, concerts }: {
     const path = usePathname();
     const router = useRouter();
 
-    const concertRefs: MutableRefObject<Record<string, HTMLLIElement>> = useRef({});
-    const initialOffsetTop = useMemo(() => {
-        if (!forgoingConcerts.length && !upcomingConcerts.length) {
-            return undefined;
-        }
-
-        if (!upcomingConcerts.length) {
-            return 0;
-        }
-
-        const firstConcertID  = upcomingConcerts[0]?.id as string;
-
-        return concertRefs.current[firstConcertID]?.offsetTop as number;
-    }, [forgoingConcerts.length, upcomingConcerts]);
+    const areConcertsPresented = useMemo(() => {
+        return concerts.length > 0;
+    }, [concerts]);
 
 
-    const [scrollTo, setScrollTo] = useState(null as ScrollConcertType);
-    const setScrollToFunc = useCallback((fn: (offset: number) => void) => {
-        if (initialOffsetTop === undefined) return;
-
-        setScrollTo({
-            forgoing: () => fn(0),
-            upcoming: () => fn(initialOffsetTop),
-        });
-    }, [forgoingConcerts.length, upcomingConcerts.length]);
+    const [selectConcertPeriodFunc, setSelectConcertPeriodFunc] = useState(null as SelectConcertPeriodFuncType);
 
     const [cursor, setCursor] = useState(0);
     const setCursorToNext = useCallback(() => {
@@ -127,15 +103,13 @@ export default function ConcertPage({ children, description, concerts }: {
         setCursor(newCursor);
     }, [setCursor, cursor, concerts]);
 
-    const currConcertID = useMemo(() => {
+    const currentConcertID = useMemo(() => {
         return concerts[cursor]?.id;
     }, [concerts, cursor]);
-    const areConcertsPresented = useMemo(() => {
-        return concerts.length > 0;
-    }, [concerts]);
+
     const setConcertPath = () => {
-        if (areConcertsPresented && !!currConcertID) {
-            replaceDynamicSegmentIfExists(router, path, paths.concerts, currConcertID);
+        if (areConcertsPresented && !!currentConcertID) {
+            replaceDynamicSegmentIfExists(router, path, paths.concerts, currentConcertID);
         }
     };
 
@@ -149,8 +123,8 @@ export default function ConcertPage({ children, description, concerts }: {
 
     return (
         <ConcertContext.Provider value={{
-            scrollTo,
-            setScrollToFunc,
+            selectConcertPeriodFunc,
+            setSelectConcertPeriodFunc,
 
             concerts,
             forgoingConcerts,
@@ -158,10 +132,7 @@ export default function ConcertPage({ children, description, concerts }: {
             areConcertsPresented,
             setConcertPath,
             currentConcertHandler,
-            currConcertID,
-
-            concertRefs,
-            initialOffsetTop,
+            currentConcertID,
 
             cursor,
             setCursor,
@@ -176,7 +147,8 @@ export default function ConcertPage({ children, description, concerts }: {
                     <NewsForm/>
                 </div>
                 <div className={"grid grid-cols-1 md:grid-cols-2 gap-8 w-full"}>
-                    {isMd ? <MdConcertsList/> : <SmConcertsList/>}
+                    <ConcertView/>
+                    {/*{isMd ? <MdConcertsList/> : <SmConcertsList/>}*/}
                     {description}
                 </div>
                 {children}

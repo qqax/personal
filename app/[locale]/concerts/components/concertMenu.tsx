@@ -13,18 +13,18 @@ export const ConcertMenu = ({ isCurrentUpcoming }: {
     isCurrentUpcoming: boolean,
 }) => {
     const {
-        scrollTo,
+        selectConcertPeriodFunc,
     } = useConcertContext() as ConcertContextType;
 
     const t = useTranslations("Titles");
     const title = t("concerts");
 
-    console.log(scrollTo);
+    console.log(selectConcertPeriodFunc);
 
     return (
         <h2 className={"fixed z-50 justify-between w-full flex gap-6 pl-20 pr-4 nb:pr-10 sm:pr-20 py-6 h-[72px] items-center text-beige text-center lg:w-1/2 text-lg md:text-2xl"}>
-            <span className={clsx({ "hidden": !!scrollTo }, "lg:block")}>{title}</span>
-            {!!scrollTo && <ConcertSelect isCurrentUpcoming={isCurrentUpcoming}/>}
+            <span className={clsx({ "hidden": !!selectConcertPeriodFunc }, "lg:block")}>{title}</span>
+            {!!selectConcertPeriodFunc && <ConcertSelect isCurrentUpcoming={isCurrentUpcoming}/>}
             <ModalCalendar/>
         </h2>
     );
@@ -37,15 +37,15 @@ const ConcertSelect = ({ isCurrentUpcoming }: {
     const forgoingTitle = t("forgoing");
     const upcomingTitle = t("upcoming");
     const {
-        scrollTo,
+        selectConcertPeriodFunc,
     } = useConcertContext() as ConcertContextType;
 
     const scrollFn = useCallback(() => {
             setOpen(false);
             if (isCurrentUpcoming) {
-                scrollTo?.forgoing();
+                selectConcertPeriodFunc?.forgoing();
             } else {
-                scrollTo?.upcoming();
+                selectConcertPeriodFunc?.upcoming();
             }
         },
         [isCurrentUpcoming]);
