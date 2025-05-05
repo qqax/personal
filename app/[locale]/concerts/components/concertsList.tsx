@@ -89,7 +89,7 @@ export default function  ConcertView  ()  {
     useScroll(() => {
         if (areConcertsPresented && !!initialOffsetTop) {
             currentConcertHandler(
-                Math.round(window.scrollY) >= initialOffsetTop - 100,
+                Math.round(window.scrollY) >= initialOffsetTop,
             );
         }
     });
