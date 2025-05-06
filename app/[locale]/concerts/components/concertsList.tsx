@@ -1,7 +1,8 @@
 "use client";
 
 import {
-    type KeyboardEventHandler, type MutableRefObject,
+    type KeyboardEventHandler,
+    type MutableRefObject,
     type RefObject,
     type UIEventHandler,
     useCallback,
@@ -11,16 +12,12 @@ import {
 } from "react";
 import clsx from "clsx";
 import { ConcertDate } from "@/app/[locale]/concerts/components/concertDate";
-import { useMd, useScroll } from "@/app/components/hooks";
-import {
-    type ConcertContextType,
-    useConcertContext
-} from "@/app/[locale]/concerts/concertPage";
+import { type ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
 import { bgStyle } from "@/app/ui/styles";
 import { useTranslations } from "next-intl";
 import type { Concerts } from "@/app/lib/definitions.ts";
 
-export default function  ConcertView  ()  {
+export default function ConcertView() {
     const {
         cursor,
         currentConcertID,
@@ -54,20 +51,14 @@ export default function  ConcertView  ()  {
 
             } else {
                 const firstConcertID = upcomingConcerts[0]?.id as string;
-                setInitialOffsetTop( concertRefs.current[firstConcertID]?.offsetTop as number)
+                setInitialOffsetTop(concertRefs.current[firstConcertID]?.offsetTop as number);
             }
         }
     }, [areConcertsPresented, upcomingConcerts]);
 
-    const isMd = useMd();
-
     const scrollTo = useCallback((offsetTop: number) => {
-        if (isMd) {
-            ulRef.current?.scrollTo({ top: offsetTop });
-        } else {
-            window.scrollTo({ top: offsetTop, behavior: "smooth" });
-        }
-    }, [isMd]);
+        ulRef.current?.scrollTo({ top: offsetTop });
+    }, []);
 
     useEffect(() => {
         if (initialOffsetTop === undefined) return;
@@ -85,14 +76,6 @@ export default function  ConcertView  ()  {
             currentConcertHandler(Math.round((e.target as HTMLElement).scrollTop) >= initialOffsetTop);
         }
     };
-
-    useScroll(() => {
-        if (areConcertsPresented && !!initialOffsetTop) {
-            currentConcertHandler(
-                Math.round(window.scrollY) >= initialOffsetTop,
-            );
-        }
-    });
 
     const [preventScroll, setPreventScroll] = useState(false);
 
@@ -153,12 +136,12 @@ const ListItems = ({ title, concerts, addToIndex, setPreventScroll, ulClassName,
     const t = useTranslations("Concerts");
     const moreTitle = t("more");
 
-    return (  <ul className={clsx({ [ulClassName!]: !!ulClassName }, "flex flex-col gap-6")}>
+    return (<ul className={clsx({ [ulClassName!]: !!ulClassName }, "flex flex-col gap-6")}>
             {concerts.map((concert, index) => {
                 const adjustedIndex = addToIndex ? addToIndex + index : index;
 
                 return (
-                    <li key={concert.id}                             ref={element => {
+                    <li key={concert.id} ref={element => {
                         if (element) {
                             concertRefs.current[concert.id] = element;
                         } else {
