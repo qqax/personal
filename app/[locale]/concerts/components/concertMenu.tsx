@@ -21,7 +21,7 @@ export const ConcertMenu = ({ isCurrentUpcoming }: {
 
     return (
         <h2 className={"fixed z-50 justify-between sm:top-[72px] lg:top-0 lg:right-0 w-full lg:px-6 flex gap-6 pl-20 pr-4 nb:pr-10 sm:pr-20 py-0 h-[72px] sm:h-14 lg:h-[72px] sm:bg-amber-100 lg:bg-transparent sm:bg-opacity-20 sm:backdrop-blur lg:backdrop-blur-none items-center text-beige text-center lg:w-1/2 text-lg md:text-2xl"}>
-            <span className={clsx({ "hidden": !!selectConcertPeriodFunc }, "lg:block")}>{title}</span>
+            <span className={clsx({ "hidden": !!selectConcertPeriodFunc }, "lg:flex lg:w-1/2 lg:justify-center")}>{title}</span>
             {!!selectConcertPeriodFunc && <ConcertSelect isCurrentUpcoming={isCurrentUpcoming}/>}
             <ModalCalendar/>
         </h2>
