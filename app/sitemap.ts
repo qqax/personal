@@ -9,9 +9,9 @@ export async function generateSitemaps() {
 }
 
 export default async function sitemap({
-                                          id, date
+                                          id
                                       }: {
-    id: string, date: Date
+    id: string
 }): Promise<MetadataRoute.Sitemap> {
     // Google's limit is 50,000 URLs per sitemap
 
@@ -27,7 +27,7 @@ export default async function sitemap({
         },
         {
             url: `${BASE_URL}/concerts/${id}`,
-            lastModified: date,
+            lastModified: new Date(),
             alternates: {
                 languages: {
                     ru: `${BASE_URL}/ru/concerts/${id}`,

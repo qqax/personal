@@ -163,7 +163,7 @@ export async function fetchConcerts(locale: string): Promise<Concerts> {
     }
 }
 
-export async function fetchConcertIDs(): Promise<{ id: string; date: Date; }[] > {
+export async function fetchConcertIDs(): Promise<{ id: string }[] > {
     "use cache";
 
     const tag: CacheTag = "concerts";
