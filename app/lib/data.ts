@@ -163,7 +163,7 @@ export async function fetchConcerts(locale: string): Promise<Concerts> {
     }
 }
 
-export async function fetchConcertIDs(): Promise<{ id: string }[] > {
+export async function fetchConcertIDs(): Promise<{ id: string; date: Date }[] > {
     "use cache";
 
     const tag: CacheTag = "concerts";
@@ -172,7 +172,7 @@ export async function fetchConcertIDs(): Promise<{ id: string }[] > {
 
     try {
         return await db.select({
-            id: sql<string>`to_1char
+            id: sql<string>`to_char
                 (${concertsTable.date}, 'DD_Mon_YY_HH24_MI')`.as("id"),
             date: concertsTable.date,
         }).from(concertsTable)
