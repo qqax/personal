@@ -28,6 +28,13 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
     const concertDates = useMemo(() => new Set(
         concerts.map(({ date }) => shiftFromUTCToLocale(date))), [concerts]);
 
+    const concertMonths = useMemo(() => new Set(
+        concerts.map(({ date }) => {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            return new Date(year, month, 1).getTime();
+        })), [concerts]);
+
     const selectNewDate = (newDate: ConcertDateType) => {
         const concertIndex = concerts.findIndex(({ date }) => shiftFromUTCToLocale(date) === (newDate as DateType)?.getTime());
         if (concertIndex >= 0) {
@@ -57,17 +64,37 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
             nextAriaLabel={"Next"}
             prev2AriaLabel={"Jump backwards"}
             prevAriaLabel={"Previous"}
-            tileDisabled={({ date }) => {
-                return !concertDates.has(date.setHours(0, 0, 0, 0));
+            tileDisabled={({ date, view }) => {
+                switch (view) {
+                    case "month":
+                        return !concertDates.has(date.setHours(0, 0, 0, 0));
+                    case "year":
+                        date.setDate(1);
+                        date.setHours(0, 0, 0, 0);
+                        console.log(concertMonths, date, date.getTime());
+
+                        return !concertMonths.has(date.getTime());
+                    default:
+                        return false;
+                }
             }}
             tileClassName={({ date, view }) => {
-                if (view !== "month") return;
-
-                if (date.getTime() === (concertDate as DateType)?.getTime()) {
-                    return "react-calendar__tile--highlight";
+                switch (view) {
+                    case "month":
+                        if (date.getTime() === (concertDate as DateType)?.getTime()) {
+                            return "react-calendar__tile--highlight";
+                        }
+                        return null;
+                    case "year":
+                        if (date.getMonth() === (concertDate as DateType)?.getMonth()
+                            && date.getFullYear() === (concertDate as DateType)?.getFullYear()) {
+                            return "react-calendar__tile--highlight";
+                        }
+                        return null;
+                    default:
+                        return;
                 }
 
-                return null;
             }}
             className={"w-full h-[330px]"}/>
     );
