@@ -11,7 +11,7 @@ import React from "react";
 
 import type { MenuTitle } from "@/app/components/navbar/menuTypes";
 import Social from "@/app/components/social";
-import { homePageStyle } from "@/app/ui/styles";
+import { homePageStyle, titleStyle } from "@/app/ui/styles";
 import clsx from "clsx";
 
 export default async function ContactsPage() {
@@ -22,7 +22,7 @@ export default async function ContactsPage() {
 
     return (
         <section className={clsx(homePageStyle, "flex flex-col gap-10")}>
-            <h2 className={"text-xl sm:text-2xl text-beige text-center"}>{title}</h2>
+            <h2 className={titleStyle}>{title}</h2>
             <div className={"flex flex-col gap-10 w-full"}>
                 <div className={"flex flex-col gap-4 w-60"}>
                     {contacts[CONTACT_TYPE_EMAIL].map((item) => <Link key={item}

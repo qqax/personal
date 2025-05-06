@@ -38,36 +38,42 @@ export function useScroll(onScroll: EventListenerOrEventListenerObject) {
 type WindowDimensionType = { width: number, height: number };
 
 function getWindowDimensions(): WindowDimensionType {
-    const { innerWidth: width, innerHeight: height } = window;
     return {
-        width,
-        height,
+        width: typeof window !== 'undefined' ? window.innerWidth : 0,
+            height: typeof window !== 'undefined' ? window.innerHeight : 0,
     };
 }
 
-export function useMd() {
+function useBreakpoint(breakpoint :number) {
     const { width } = useWindowDimensions();
-    const [isMd, setIsMd] = useState(width >= 768);
+    const [isGreater, setIsGreater] = useState(width >= breakpoint);
 
     useEffect(() => {
-        setIsMd(width >= 768);
-    }, [width]);
+        setIsGreater(width >= breakpoint);
+    }, [breakpoint, width]);
 
-    return isMd;
+    return isGreater;
+}
+
+export function useMd() {
+    return useBreakpoint(768);
 }
 
 function useWindowDimensions() {
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 
     useEffect(() => {
-        setWindowDimensions(getWindowDimensions());
-
-        function handleResize() {
-            setWindowDimensions(getWindowDimensions());
+        if (typeof window !== 'undefined') {
+            function handleResize() {
+                setWindowDimensions({
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                });
+            }
+            window.addEventListener('resize', handleResize);
+            handleResize();
+            return () => window.removeEventListener('resize', handleResize);
         }
-
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     return windowDimensions;

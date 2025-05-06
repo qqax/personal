@@ -7,6 +7,19 @@ import clsx from "clsx";
 import { bgStyle } from "@/app/ui/styles";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { fetchArtistName, fetchArtistProfession } from "@/app/lib/data.ts";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
+    const t = await getTranslations("Metadata.main");
+    const artistName = await fetchArtistName(locale);
+    const profession = await fetchArtistProfession(locale);
+
+    return {
+        title: artistName,
+        description: t("description", { name: artistName, profession: profession }),
+    };
+}
 
 export default async function HomeLayout({
                                              children,

@@ -27,7 +27,7 @@ export default function Navbar() {
     }, [pathName]);
 
     return (<nav
-        className={clsx({ "backdrop-blur shadow-xl bg-amber-50 bg-opacity-25": !isHomeLayout }, "fixed h-[72px] transition duration-300 top-0 left-0 flex flex-row w-full z-40 sm:flex sm:items-end")}>
+        className={clsx( { "lg:backdrop-blur-none lg:shadow-none lg:bg-none lg:bg-opacity-0":  isHomeLayout }, "backdrop-blur shadow-xl bg-amber-50 bg-opacity-25 fixed h-[72px] transition duration-300 top-0 left-0 flex flex-row w-full z-40 sm:flex sm:items-end")}>
         <Modal show={openMobileMenu} preventScroll={true}
                element={<MobileMenuButton ref={buttonRef} openMobileMenu={openMobileMenu}
                                           setOpenMobileMenu={setOpenMobileMenu}/>}>
@@ -57,7 +57,7 @@ const MenuItems = ({ onClick }: { onClick?: (param: boolean) => void }) => {
                                   className={clsx(
                                       navClassName,
                                       regex.test(pathname)
-                                          ? "bg-opacity-40"
+                                          ? "bg-opacity-40 shadow-xl"
                                           : "bg-opacity-0",
                                   )}>
                             {translatedName}
