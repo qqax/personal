@@ -18,7 +18,7 @@ export const MobileMenuButton = ({ ref, openMobileMenu, setOpenMobileMenu }: {
     const mobileMenuStyle = "relative w-full border-[1px] border-beige transition-all duration-500";
 
     return (
-        <button ref={ref} onClick={() => setOpenMobileMenu(!openMobileMenu)}
+        <button ref={ref} name={"mobile-menu-button"} onClick={() => setOpenMobileMenu(!openMobileMenu)}
                 className={"fixed top-4 left-4 z-50 flex flex-col sm:hidden w-10 justify-evenly h-10"}>
             <div
                 className={clsx(mobileMenuStyle, "top-0", { "rotate-[135deg] top-2": openMobileMenu })}></div>

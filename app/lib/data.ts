@@ -163,6 +163,26 @@ export async function fetchConcerts(locale: string): Promise<Concerts> {
     }
 }
 
+export async function fetchConcertIDs(): Promise<{ id: string; date: Date; }[] > {
+    "use cache";
+
+    const tag: CacheTag = "concerts";
+    cacheTag(tag);
+    cacheLife("days");
+
+    try {
+        return await db.select({
+            id: sql<string>`to_1char
+                (${concertsTable.date}, 'DD_Mon_YY_HH24_MI')`.as("id"),
+            date: concertsTable.date,
+        }).from(concertsTable)
+            .orderBy(concertsTable.date);
+    } catch (error) {
+        console.error("Database Error:", error);
+        throw new Error("Failed to fetch concert IDs.");
+    }
+}
+
 export async function fetchConcertDescription(id: string, locale: string): Promise<ConcertDescription> {
     "use cache";
     const tag: CacheTag = "concerts";
