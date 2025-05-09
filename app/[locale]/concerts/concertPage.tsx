@@ -20,7 +20,7 @@ import React, {
 } from "react";
 import { useClickOutside, useMd } from "@/app/components/hooks";
 import { usePathname, useRouter } from "@/i18n/routing";
-import { replaceDynamicSegmentIfExists } from "@/app/utils/pathFuncs";
+import { deleteLastSegmentIfExists, replaceDynamicSegmentIfExists } from "@/app/utils/pathFuncs";
 import { paths } from "@/app/components/navbar/menuTypes";
 import {
     DescriptionHeader
@@ -139,6 +139,12 @@ export default function ConcertPage({ children, description, concerts }: {
         setShowModalDescription(false);
     });
 
+    const onCloseModalDescription= () => {
+        const newPath = deleteLastSegmentIfExists(path, paths.concerts);
+        router.push({ pathname: newPath });
+        setShowModalDescription(false);
+    }
+
     return (
         <ConcertContext.Provider value={{
             selectConcertPeriodFunc,
@@ -178,7 +184,7 @@ export default function ConcertPage({ children, description, concerts }: {
                     <Modal show={showModalDescription} preventScroll={true}>
                         <div ref={ref}
                              className={clsx(bgStyle, "relative flex flex-col w-full pt-10 h-full mx-auto")}>
-                            <button type={"button"} onClick={() => setShowModalDescription(false)}
+                            <button type={"button"} onClick={onCloseModalDescription}
                                     className={"absolute top-0 right-0 rotate-45 px-4 text-4xl text-beige"}>
                                 +
                             </button>
