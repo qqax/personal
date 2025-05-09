@@ -16,6 +16,7 @@ import { type ConcertContextType, useConcertContext } from "@/app/[locale]/conce
 import { bgStyle } from "@/app/ui/styles";
 import { useTranslations } from "next-intl";
 import type { Concerts } from "@/app/lib/definitions.ts";
+import { useMd } from "@/app/components/hooks.ts";
 
 export default function ConcertView() {
     const {
@@ -131,10 +132,22 @@ const ListItems = ({ title, concerts, addToIndex, setPreventScroll, ulClassName,
         cursor,
         setCursor,
         setConcertPath,
+        setShowModalDescription,
     } = useConcertContext() as ConcertContextType;
 
     const t = useTranslations("Concerts");
     const moreTitle = t("more");
+
+    const isMd = useMd();
+
+    const onClick = useCallback((adjustedIndex: number) => {
+        setCursor(adjustedIndex);
+        setConcertPath();
+        setPreventScroll(true);
+        if (!isMd) {
+            setShowModalDescription(true);
+        }
+    }, [isMd, setConcertPath, setCursor, setPreventScroll, setShowModalDescription]);
 
     return (<ul className={clsx({ [ulClassName!]: !!ulClassName }, "flex flex-col gap-6")}>
             {concerts.map((concert, index) => {
@@ -156,11 +169,7 @@ const ListItems = ({ title, concerts, addToIndex, setPreventScroll, ulClassName,
 
                         <button
                             id={concert.id}
-                            onClick={() => {
-                                setCursor(adjustedIndex);
-                                setConcertPath();
-                                setPreventScroll(true);
-                            }}
+                            onClick={() => onClick(adjustedIndex)}
                             tabIndex={adjustedIndex}
                             onFocus={() => setCursor(adjustedIndex)}
                             type={"button"}

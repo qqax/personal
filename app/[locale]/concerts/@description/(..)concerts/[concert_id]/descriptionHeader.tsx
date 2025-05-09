@@ -12,7 +12,7 @@ export function DescriptionHeader({ date }: { date: Date }) {
     const previousTitle = t("prev");
     const nextTitle = t("next");
 
-    return (<div className={"flex items-center justify-between gap-3 w-full p-4"}>
+    return (<div className={"flex z-10 items-center justify-between gap-3 w-full p-4"}>
         <button type={"button"}
                 onClick={setCursorToPrev}
                 className={clsx(buttonColors, "p-2 whitespace-nowrap transition duration-150")}>{previousTitle}</button>

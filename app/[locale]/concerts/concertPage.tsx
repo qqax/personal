@@ -7,7 +7,7 @@ import { ConcertsCalendar } from "@/app/[locale]/concerts/components/Calendar";
 import NewsForm from "@/app/components/forms/newsForm";
 import ConcertView from "@/app/[locale]/concerts/components/concertsList";
 import type { Concerts } from "@/app/lib/definitions";
-import {
+import React, {
     createContext,
     type Dispatch,
     type ReactNode,
@@ -15,13 +15,17 @@ import {
     useCallback,
     useContext,
     useEffect,
-    useMemo,
+    useMemo, useRef,
     useState
 } from "react";
-import { useMd } from "@/app/components/hooks";
+import { useClickOutside, useMd } from "@/app/components/hooks";
 import { usePathname, useRouter } from "@/i18n/routing";
 import { replaceDynamicSegmentIfExists } from "@/app/utils/pathFuncs";
 import { paths } from "@/app/components/navbar/menuTypes";
+import {
+    DescriptionHeader
+} from "@/app/[locale]/concerts/@description/(..)concerts/[concert_id]/descriptionHeader.tsx";
+import Modal from "@/app/ui/Modal.tsx";
 
 export type SelectConcertPeriodFuncType = { forgoing: () => void, upcoming: () => void } | null;
 
@@ -42,6 +46,8 @@ export type ConcertContextType = {
 
     selectConcertPeriodFunc: SelectConcertPeriodFuncType | null,
     setSelectConcertPeriodFunc: Dispatch<SetStateAction<SelectConcertPeriodFuncType>>,
+
+    setShowModalDescription: Dispatch<SetStateAction<boolean>>,
 };
 
 export const ConcertContext = createContext<ConcertContextType | null>(null);
@@ -90,7 +96,6 @@ export default function ConcertPage({ children, description, concerts }: {
         return concerts.length > 0;
     }, [concerts]);
 
-
     const [selectConcertPeriodFunc, setSelectConcertPeriodFunc] = useState(null as SelectConcertPeriodFuncType);
 
     const [cursor, setCursor] = useState(0);
@@ -121,6 +126,19 @@ export default function ConcertPage({ children, description, concerts }: {
         }
     }, [isMd, cursor]);
 
+    const [showModalDescription, setShowModalDescription] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (isMd) {
+            setShowModalDescription(false);
+        }
+    }, [isMd]);
+
+    useClickOutside(ref, () => {
+        setShowModalDescription(false);
+    });
+
     return (
         <ConcertContext.Provider value={{
             selectConcertPeriodFunc,
@@ -138,6 +156,8 @@ export default function ConcertPage({ children, description, concerts }: {
             setCursor,
             setCursorToNext,
             setCursorToPrev,
+
+            setShowModalDescription,
         }}>
             <ConcertMenu isCurrentUpcoming={isCurrentUpcoming}/>
             <section
@@ -149,7 +169,25 @@ export default function ConcertPage({ children, description, concerts }: {
                         <NewsForm/>
                     </div>
                     <ConcertView/>
-                    {description}
+                    <div className={clsx(bgStyle, "relative hidden md:block w-full overflow-hidden")}>
+                        <DescriptionHeader date={concerts[cursor]?.date as Date}/>
+                        <div className={"absolute -z-10 top-0 h-full pt-[72px] overflow-auto w-full"}>
+                            {description}
+                        </div>
+                    </div>
+                    <Modal show={showModalDescription} preventScroll={true}>
+                        <div ref={ref}
+                             className={clsx(bgStyle, "relative flex flex-col w-full pt-10 h-full mx-auto")}>
+                            <button type={"button"} onClick={() => setShowModalDescription(false)}
+                                    className={"absolute top-0 right-0 rotate-45 px-4 text-4xl text-beige"}>
+                                +
+                            </button>
+                            <DescriptionHeader date={concerts[cursor]?.date as Date}/>
+                            <div className={"absolute -z-10 top-0 h-full pt-[112px] overflow-auto w-full"}>
+                                {description}
+                            </div>
+                        </div>
+                    </Modal>
                     {children}
                 </div>
             </section>
