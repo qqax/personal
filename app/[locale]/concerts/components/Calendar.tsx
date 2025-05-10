@@ -66,54 +66,49 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
     }, [concerts, cursor]);
 
     return (
-        <div tabIndex={-1}>
-            <Calendar
-                onChange={selectNewDate}
-                value={concertDate}
-                locale={locale}
-                minDate={minDate}
-                maxDate={maxDate}
-                minDetail={"year"}
-                navigationAriaLabel={"Go up"}
-                navigationAriaLive={"polite"}
-                next2AriaLabel={"Jump forwards"}
-                nextAriaLabel={"Next"}
-                prev2AriaLabel={"Jump backwards"}
-                prevAriaLabel={"Previous"}
-                tileDisabled={({ date, view }) => {
-                    switch (view) {
-                        case "month":
-                            return !shiftedDatesWithIndexes.has(date.setHours(0, 0, 0, 0));
-                        case "year":
-                            date.setDate(1);
-                            date.setHours(0, 0, 0, 0);
-                            return !concertMonths.has(date.getTime());
-                        default:
-                            return false;
-                    }
-                }}
-                tileClassName={({ date, view }) => {
-                    switch (view) {
-                        case "month":
-                            if (date.getTime() === (concertDate as DateType)?.getTime()) {
-                                return "react-calendar__tile--highlight";
-                            }
-                            return null;
-                        case "year":
-                            if (date.getMonth() === (concertDate as DateType)?.getMonth()
-                                && date.getFullYear() === (concertDate as DateType)?.getFullYear()) {
-                                return "react-calendar__tile--highlight";
-                            }
-                            return null;
-                        default:
-                            return;
-                    }
-
-                }}
-                className={"w-full h-[330px]"}/>
-
-        </div>
-
+        <Calendar
+            onChange={selectNewDate}
+            value={concertDate}
+            locale={locale}
+            minDate={minDate}
+            maxDate={maxDate}
+            minDetail={"year"}
+            navigationAriaLabel={"Go up"}
+            navigationAriaLive={"polite"}
+            next2AriaLabel={"Jump forwards"}
+            nextAriaLabel={"Next"}
+            prev2AriaLabel={"Jump backwards"}
+            prevAriaLabel={"Previous"}
+            tileDisabled={({ date, view }) => {
+                switch (view) {
+                    case "month":
+                        return !shiftedDatesWithIndexes.has(date.setHours(0, 0, 0, 0));
+                    case "year":
+                        date.setDate(1);
+                        date.setHours(0, 0, 0, 0);
+                        return !concertMonths.has(date.getTime());
+                    default:
+                        return false;
+                }
+            }}
+            tileClassName={({ date, view }) => {
+                switch (view) {
+                    case "month":
+                        if (date.getTime() === (concertDate as DateType)?.getTime()) {
+                            return "react-calendar__tile--highlight";
+                        }
+                        return null;
+                    case "year":
+                        if (date.getMonth() === (concertDate as DateType)?.getMonth()
+                            && date.getFullYear() === (concertDate as DateType)?.getFullYear()) {
+                            return "react-calendar__tile--highlight";
+                        }
+                        return null;
+                    default:
+                        return;
+                }
+            }}
+            className={"w-full h-[330px]"}/>
     );
 }
 
