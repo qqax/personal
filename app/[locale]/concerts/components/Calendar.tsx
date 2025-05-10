@@ -25,8 +25,16 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
     const maxDate = concerts[concerts.length - 1]?.date || undefined;
     const locale = useLocale();
 
-    const concertDates = useMemo(() => new Set(
-        concerts.map(({ date }) => shiftFromUTCToLocale(date))), [concerts]);
+    const shiftedDatesWithIndexes = useMemo(() => {
+        const concertsDateMap = new Map<number, number>();
+
+        concerts.forEach(({ date }, index) => {
+            const shiftedDate = shiftFromUTCToLocale(date);
+            concertsDateMap.set(shiftedDate, index);
+        });
+
+        return concertsDateMap;
+    }, [concerts]);
 
     const concertMonths = useMemo(() => new Set(
         concerts.map(({ date }) => {
@@ -35,11 +43,19 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
             return new Date(year, month, 1).getTime();
         })), [concerts]);
 
-    const selectNewDate = (newDate: ConcertDateType) => {
-        const concertIndex = concerts.findIndex(({ date }) => shiftFromUTCToLocale(date) === (newDate as DateType)?.getTime());
+    const selectNewDate = (selectedDate: ConcertDateType) => {
+        const newDateTime = new Date((selectedDate as DateType)!.getFullYear(), (selectedDate as DateType)!.getMonth(), (selectedDate as DateType)!.getDate() ).getTime();
+        const concertIndex = shiftedDatesWithIndexes.get(newDateTime);
+
+        if (concertIndex === undefined) {
+            console.log("concert not found");
+            return;
+        }
+
         if (concertIndex >= 0) {
             setCursor(concertIndex);
         }
+
         if (!!hideCalendar) {
             hideCalendar();
         }
@@ -48,7 +64,9 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
     useEffect(() => {
         const activeDate = shiftFromUTCToLocale(concerts[cursor]?.date);
         setConcertDate(new Date(activeDate));
-    }, [cursor]);
+
+        console.log(new Date(activeDate));
+    }, [concerts, cursor]);
 
     return (
         <Calendar
@@ -67,12 +85,10 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
             tileDisabled={({ date, view }) => {
                 switch (view) {
                     case "month":
-                        return !concertDates.has(date.setHours(0, 0, 0, 0));
+                        return !shiftedDatesWithIndexes.has(date.setHours(0, 0, 0, 0));
                     case "year":
                         date.setDate(1);
                         date.setHours(0, 0, 0, 0);
-                        console.log(concertMonths, date, date.getTime());
-
                         return !concertMonths.has(date.getTime());
                     default:
                         return false;
