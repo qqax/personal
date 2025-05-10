@@ -44,7 +44,7 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
         })), [concerts]);
 
     const selectNewDate = (selectedDate: ConcertDateType) => {
-        const newDateTime = new Date((selectedDate as DateType)!.getFullYear(), (selectedDate as DateType)!.getMonth(), (selectedDate as DateType)!.getDate() ).getTime();
+        const newDateTime = new Date((selectedDate as DateType)!.getFullYear(), (selectedDate as DateType)!.getMonth(), (selectedDate as DateType)!.getDate()).getTime();
         const concertIndex = shiftedDatesWithIndexes.get(newDateTime);
 
         if (concertIndex === undefined) {
@@ -58,7 +58,7 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
         if (!!hideCalendar) {
             hideCalendar();
         }
-    }
+    };
 
     useEffect(() => {
         const activeDate = shiftFromUTCToLocale(concerts[cursor]?.date);
