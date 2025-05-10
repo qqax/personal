@@ -15,12 +15,13 @@ import React, {
     useCallback,
     useContext,
     useEffect,
-    useMemo, useRef,
+    useMemo,
+    useRef,
     useState
 } from "react";
 import { useClickOutside, useMd } from "@/app/components/hooks";
 import { usePathname, useRouter } from "@/i18n/routing";
-import { deleteLastSegmentIfExists, replaceDynamicSegmentIfExists } from "@/app/utils/pathFuncs";
+import { deleteLastSegmentIfExists, getLastPathSegment, replaceDynamicSegmentIfExists } from "@/app/utils/pathFuncs";
 import { paths } from "@/app/components/navbar/menuTypes";
 import {
     DescriptionHeader
@@ -121,10 +122,29 @@ export default function ConcertPage({ children, description, concerts }: {
     const isMd = useMd();
 
     useEffect(() => {
-        if (isMd || !path.endsWith(paths.concerts)) {
+        if (isMd || (!path.endsWith(paths.concerts) && getLastPathSegment(path) !== currentConcertID)) {
             setConcertPath();
         }
     }, [isMd, cursor]);
+
+    useEffect(() => {
+        const currentCursor = concerts.findIndex(concert => concert.id === getLastPathSegment(path));
+
+        if (currentCursor === -1) {
+            console.log(`Could not find concert with id ${path}`);
+            return;
+        }
+
+        if (isMd) {
+            if (!path.endsWith(paths.concerts) && currentCursor !== cursor) {
+                setCursor(currentCursor);
+            }
+        } else {
+            setCursor(currentCursor);
+            setShowModalDescription(!path.endsWith(paths.concerts));
+        }
+
+    }, [isMd, path, concerts]);
 
     const [showModalDescription, setShowModalDescription] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
@@ -139,11 +159,11 @@ export default function ConcertPage({ children, description, concerts }: {
         setShowModalDescription(false);
     });
 
-    const onCloseModalDescription= () => {
+    const onCloseModalDescription = () => {
         const newPath = deleteLastSegmentIfExists(path, paths.concerts);
         router.push({ pathname: newPath });
         setShowModalDescription(false);
-    }
+    };
 
     return (
         <ConcertContext.Provider value={{
@@ -183,13 +203,14 @@ export default function ConcertPage({ children, description, concerts }: {
                     </div>
                     <Modal show={showModalDescription} preventScroll={true}>
                         <div ref={ref}
-                             className={clsx(bgStyle, "relative flex flex-col w-full pt-10 h-full mx-auto")}>
+                             className={clsx(bgStyle, "relative flex flex-col w-full pt-[72px] h-full mx-auto")}>
                             <button type={"button"} onClick={onCloseModalDescription}
-                                    className={"absolute top-0 right-0 rotate-45 px-4 text-4xl text-beige"}>
-                                +
+                                    className={"absolute top-3 right-4 w-10 h-10 flex items-center justify-center font-extralight text-6xl opacity-65 hover:opacity-55 text-beige"}>
+                                <div className={"absolute border-beige w-8 border-[1px] rotate-45"}></div>
+                                <div className={"absolute  border-beige w-8 border-[1px] -rotate-45"}></div>
                             </button>
                             <DescriptionHeader date={concerts[cursor]?.date as Date}/>
-                            <div className={"absolute -z-10 top-0 h-full pt-[112px] overflow-auto w-full"}>
+                            <div className={"absolute -z-10 top-0 h-full pt-[148px] overflow-auto w-full"}>
                                 {description}
                             </div>
                         </div>

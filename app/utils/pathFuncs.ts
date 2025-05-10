@@ -19,3 +19,10 @@ export const replaceDynamicSegmentIfExists = (router: Router, fullPath: string, 
         router.push({ pathname: newPath });
     }
 };
+
+export const getLastPathSegment = (path: string)=> {
+    path = path.replace(/\/+$/, '');
+
+    const segments = path.split('/');
+    return segments[segments.length - 1];
+}
