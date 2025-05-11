@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { ConcertDate } from "@/app/[locale]/concerts/components/concertDate";
-import { buttonColors } from "@/app/ui/styles";
+import { buttonStyle } from "@/app/ui/styles";
 import { type ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
 import { useTranslations } from "next-intl";
 
@@ -15,12 +15,12 @@ export function DescriptionHeader({ date }: { date: Date }) {
     return (<div className={"flex z-10 items-center justify-between gap-3 w-full p-4"}>
         <button type={"button"}
                 onClick={setCursorToPrev}
-                className={clsx(buttonColors, "p-2 whitespace-nowrap transition duration-150")}>{previousTitle}</button>
+                className={clsx(buttonStyle, "p-2 whitespace-nowrap transition duration-150")}>{previousTitle}</button>
         <div className={"md:w-56"}>
             <ConcertDate dateTime={date}/>
         </div>
         <button type={"button"}
                 onClick={setCursorToNext}
-                className={clsx(buttonColors, "p-2 whitespace-nowrap transition duration-150")}>{nextTitle}</button>
+                className={clsx(buttonStyle, "p-2 whitespace-nowrap transition duration-150")}>{nextTitle}</button>
     </div>);
 }

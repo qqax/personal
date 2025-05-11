@@ -44,7 +44,7 @@ export default async function HomeLayout({
                         <Social/>
                     </div>
                     <Link href={"/support"}
-                          className={"hidden sm:block bg-orange-900 text-sm sm:text-base hover:bg-opacity-80 text-amber-50 p-1.5 sm:p-2 lg:p-4"}>{supportButtonText}</Link>
+                          className={"hidden sm:block rounded-md bg-orange-900 text-sm sm:text-base hover:bg-opacity-80 text-amber-50 p-1.5 sm:p-2 lg:p-4"}>{supportButtonText}</Link>
                 </div>
                 <div
                     className={clsx(bgStyle, "flex flex-col mt-[250px] lg:mt-0 lg:justify-center items-center min-h-screen lg:ml-auto lg:w-1/2")}>

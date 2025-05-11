@@ -1,18 +1,18 @@
 import { type ReactNode, useRef } from "react";
 import clsx from "clsx";
-import { buttonColors } from "@/app/ui/styles";
+import { buttonStyle } from "@/app/ui/styles";
 import { ArrowLabel } from "@/app/ui/Label.tsx";
 
 export const ExpandableDiv = ({ children, open, setOpen, title }: {
     children: ReactNode;
     open: boolean,
     setOpen: (v: boolean) => void,
-    title: string
+    title: ReactNode,
 }) => {
     const contentRef = useRef<HTMLDivElement>(null);
 
     return (<div className={"w-full flex flex-col"}>
-        <button className={clsx(buttonColors, "p-1 flex items-center gap-4")} onClick={() => setOpen(!open)}>
+        <button className={clsx(buttonStyle, "p-1 flex items-center gap-4")} onClick={() => setOpen(!open)}>
             <ArrowLabel open={open}>{title}</ArrowLabel>
         </button>
         <div

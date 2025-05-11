@@ -4,6 +4,8 @@ import CountriesSupport from "@/app/[locale]/(home)/support/countriesSupport";
 import React from "react";
 import clsx from "clsx";
 import { homePageStyle, titleStyle } from "@/app/ui/styles";
+import Image from "next/image";
+import patreonIcon from "@/public/icons/patreon.svg";
 
 export default async function SupportPage() {
     const t = await getTranslations("Support");
@@ -23,8 +25,17 @@ export default async function SupportPage() {
         }
     }
 
-    return (<section className={clsx(homePageStyle, "flex flex-col gap-10 h-full md:max-w-96 w-full mb-16")}>
+    return (<section className={clsx(homePageStyle, "flex flex-col gap-10 h-full w-full mb-16")}>
         <h2 className={titleStyle}>{mainTitle}</h2>
+        <a className={"bg-orange-900 rounded-xl bg-opacity-90 hover:bg-opacity-80 text-amber-50 text-center text-2xl flex items-center gap-2 p-6"}
+           href={"https://www.patreon.com/alexanderkudryavtsev/membership?view_as=patron&redirect=true"}>
+            <Image
+                src={patreonIcon}
+                alt={"Patreon"}
+                className={"w-5"}
+            />
+            <span className={"w-full"}>{t("Patreon")}</span>
+        </a>
         <CountriesSupport country={country}/>
     </section>);
 }
