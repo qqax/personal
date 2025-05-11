@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import patreonIcon from "@/public/icons/patreon.svg";
 import demir from "@/public/demir.jpg";
+import kicb from "@/public/kicb.jpg";
 import tinkoff from "@/public/tinkoff.jpg";
 import { ExpandableDiv } from "@/app/ui/Expandable";
 import { buttonColors } from "@/app/ui/styles";
@@ -35,6 +36,14 @@ const CountriesSupport = ({ country }: { country: string | undefined }) => {
     return (<>
         <ExpandableDiv open={openKG} setOpen={setOpenKG} title={titleKG}>
             <div className={divStyle}>
+                <span>{t("KICB")}</span>
+                <Image
+                    src={kicb}
+                    alt={"kicb_bank_qr"}
+                    width={400}
+                    height={400}/>
+                <a className={clsx(buttonColors, "ml-auto max-w-48 p-1")} href={"/demir.jpg"}
+                   download="demir_bank_qr">{download}</a>
                 <span>{t("Demir")}</span>
                 <Image
                     src={demir}

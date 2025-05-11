@@ -48,14 +48,15 @@
   },
   "Support": {
     "title": "Support the artist's work!",
-    "KG": "For citizens of Kyrgyzstan",
-    "RU": "For citizens of Russia",
+    "KG": "For Kyrgyzstan",
+    "RU": "For Russia",
     "default": "For other countries",
     "card": "Card number:",
     "download": "Download",
     "Tinkoff": "Tinkoff bank:",
     "Demir": "Demir bank:",
-    "Patreon": "Support on Patreon"
+    "KICB": "KICB bank:",
+    "Patreon": "Support on Patreon:"
   },
   "NewsForm": {
     "title": "Want to know about new recordings and concerts?",

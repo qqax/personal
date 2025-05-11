@@ -62,7 +62,7 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
 
     useEffect(() => {
         const activeDate = shiftFromUTCToLocale(concerts[cursor]?.date);
-        setConcertDate(() => new Date(activeDate));
+        setConcertDate(new Date(activeDate));
     }, [concerts, cursor]);
 
     return (
