@@ -10,11 +10,11 @@ export async function BottomMenuLink({ menuTitle }: { menuTitle: MenuTitle }) {
     const t = await getTranslations("Titles");
     const title = t(menuTitle);
 
-    return <Link href={paths[menuTitle]} className={clsx(navClassName, "bg-opacity-60")}>{title}</Link>;
+    return <Link href={paths[menuTitle]} className={clsx(navClassName, "bg-opacity-60 rounded-md")}>{title}</Link>;
 }
 
 export default async function BottomMenu({ titles }: { titles: MenuTitle[] }) {
-    return (<div className={"flex w-full sm:hidden justify-between gap-0.5"}>
+    return (<div className={"flex w-full sm:hidden justify-between gap-2 text-beige"}>
         {titles.map((title) => (
             <BottomMenuLink key={title} menuTitle={title}/>
         ))}

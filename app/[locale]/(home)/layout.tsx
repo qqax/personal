@@ -28,11 +28,13 @@ export default async function HomeLayout({
 }) {
     const t = await getTranslations("Titles");
     const supportButtonText = t("support");
+    const supportButtonStyle = "rounded-md bg-orange-900 text-sm sm:text-base hover:bg-opacity-80 text-amber-50 p-1.5";
 
     return (
         <>
-            <Link href={"/support"}
-                  className={"fixed top-5 z-50 right-10 bg-orange-900 text-sm sm:hidden hover:bg-opacity-80 text-amber-50 p-1.5 nb:p-2"}>{supportButtonText}</Link>
+            <Link href={"/support"} className={clsx(supportButtonStyle, "fixed top-5 z-50 right-10 sm:hidden nb:p-2")}>
+                {supportButtonText}
+            </Link>
             <main className={"flex flex-col lg:flex-row w-full overflow-hidden"}>
                 <div
                     className={"fixed flex flex-col xl:ml-20 lg:mt-32 top-20 p-6 sm:pl-10 sm:top-20"}>
@@ -43,8 +45,9 @@ export default async function HomeLayout({
                     <div className={"hidden lg:flex flex-col items-center gap-8"}>
                         <Social/>
                     </div>
-                    <Link href={"/support"}
-                          className={"hidden sm:block rounded-md bg-orange-900 text-sm sm:text-base hover:bg-opacity-80 text-amber-50 p-1.5 sm:p-2 lg:p-4"}>{supportButtonText}</Link>
+                    <Link href={"/support"} className={clsx(supportButtonStyle, "hidden sm:block  sm:p-2 lg:p-4")}>
+                        {supportButtonText}
+                    </Link>
                 </div>
                 <div
                     className={clsx(bgStyle, "flex flex-col mt-[250px] lg:mt-0 lg:justify-center items-center min-h-screen lg:ml-auto lg:w-1/2")}>
