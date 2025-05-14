@@ -62,7 +62,7 @@ export default function ConcertView() {
     }, []);
 
     useEffect(() => {
-        if (initialOffsetTop === undefined) return;
+        if (!initialOffsetTop) return;
 
         setSelectConcertPeriodFunc({
             forgoing: () => scrollTo(0),

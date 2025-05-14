@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import Calendar from "react-calendar";
 import "./Calendar.css";
 import { useLocale, useTranslations } from "next-intl";
-import { shiftFromUTCToLocale } from "@/app/utils/dateFuncs";
+import { shiftFromUTCToLocalTimestamp } from "@/app/utils/dateFuncs";
 import { type ConcertContextType, useConcertContext } from "@/app/[locale]/concerts/concertPage";
 import { useClickOutside } from "@/app/components/hooks.ts";
 import Modal from "@/app/ui/Modal.tsx";
@@ -12,6 +11,7 @@ import clsx from "clsx";
 import { bgStyle, lightButtonStyle } from "@/app/ui/styles.ts";
 import calendarIcon from "@/public/icons/calendar.svg";
 import Image from "next/image";
+import NewCalendar from "@/app/[locale]/concerts/components/NewCalendar.tsx";
 
 type DateType = Date | null;
 
@@ -29,7 +29,7 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
         const concertsDateMap = new Map<number, number>();
 
         concerts.forEach(({ date }, index) => {
-            const shiftedDate = shiftFromUTCToLocale(date);
+            const shiftedDate = shiftFromUTCToLocalTimestamp(date);
             concertsDateMap.set(shiftedDate, index);
         });
 
@@ -61,54 +61,56 @@ export function ConcertsCalendar({ hideCalendar }: { hideCalendar?: () => void }
     };
 
     useEffect(() => {
-        const activeDate = shiftFromUTCToLocale(concerts[cursor]?.date);
+        const activeDate = shiftFromUTCToLocalTimestamp(concerts[cursor]?.date);
         setConcertDate(new Date(activeDate));
     }, [concerts, cursor]);
 
     return (
-        <Calendar
-            onChange={selectNewDate}
-            value={concertDate}
-            locale={locale}
-            minDate={minDate}
-            maxDate={maxDate}
-            minDetail={"year"}
-            navigationAriaLabel={"Go up"}
-            navigationAriaLive={"polite"}
-            next2AriaLabel={"Jump forwards"}
-            nextAriaLabel={"Next"}
-            prev2AriaLabel={"Jump backwards"}
-            prevAriaLabel={"Previous"}
-            tileDisabled={({ date, view }) => {
-                switch (view) {
-                    case "month":
-                        return !shiftedDatesWithIndexes.has(date.setHours(0, 0, 0, 0));
-                    case "year":
-                        date.setDate(1);
-                        date.setHours(0, 0, 0, 0);
-                        return !concertMonths.has(date.getTime());
-                    default:
-                        return false;
-                }
-            }}
-            tileClassName={({ date, view }) => {
-                switch (view) {
-                    case "month":
-                        if (date.getTime() === (concertDate as DateType)?.getTime()) {
-                            return "react-calendar__tile--highlight";
-                        }
-                        return null;
-                    case "year":
-                        if (date.getMonth() === (concertDate as DateType)?.getMonth()
-                            && date.getFullYear() === (concertDate as DateType)?.getFullYear()) {
-                            return "react-calendar__tile--highlight";
-                        }
-                        return null;
-                    default:
-                        return;
-                }
-            }}
-            className={"w-full h-[330px]"}/>
+        <NewCalendar/>
+
+        // <Calendar
+        //     onChange={selectNewDate}
+        //     value={concertDate}
+        //     locale={locale}
+        //     minDate={minDate}
+        //     maxDate={maxDate}
+        //     minDetail={"year"}
+        //     navigationAriaLabel={"Go up"}
+        //     navigationAriaLive={"polite"}
+        //     next2AriaLabel={"Jump forwards"}
+        //     nextAriaLabel={"Next"}
+        //     prev2AriaLabel={"Jump backwards"}
+        //     prevAriaLabel={"Previous"}
+        //     tileDisabled={({ date, view }) => {
+        //         switch (view) {
+        //             case "month":
+        //                 return !shiftedDatesWithIndexes.has(date.setHours(0, 0, 0, 0));
+        //             case "year":
+        //                 date.setDate(1);
+        //                 date.setHours(0, 0, 0, 0);
+        //                 return !concertMonths.has(date.getTime());
+        //             default:
+        //                 return false;
+        //         }
+        //     }}
+        //     tileClassName={({ date, view }) => {
+        //         switch (view) {
+        //             case "month":
+        //                 if (date.getTime() === (concertDate as DateType)?.getTime()) {
+        //                     return "react-calendar__tile--highlight";
+        //                 }
+        //                 return null;
+        //             case "year":
+        //                 if (date.getMonth() === (concertDate as DateType)?.getMonth()
+        //                     && date.getFullYear() === (concertDate as DateType)?.getFullYear()) {
+        //                     return "react-calendar__tile--highlight";
+        //                 }
+        //                 return null;
+        //             default:
+        //                 return;
+        //         }
+        //     }}
+        //     className={"w-full h-[330px]"}/>
     );
 }
 
