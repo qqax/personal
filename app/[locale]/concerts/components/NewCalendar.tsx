@@ -125,7 +125,9 @@ const DayView = ({ data, cursor, setCursor, locale }: {
 
     const dayStyle = "w-full h-full text-center";
     const outOfMonthDayStyle = "text-gray-500";
-    const selectedDayStyle = "bg-orange-700 text-white";
+    const highlightedDayStyle = "bg-green-600 text-white rounded hover:bg-opacity-80";
+    const selectedDayStyle = "bg-amber-400 text-black rounded hover:bg-opacity-80";
+    const currentDayStyle = "border-red-600 border-[1px] rounded";
     const weekDayStyle = "text-red-600";
     const outOfMonthWeekDayStyle = "text-red-800";
 
@@ -144,19 +146,23 @@ const DayView = ({ data, cursor, setCursor, locale }: {
                 {previousMonthDays.map((day, index) => <div
                     className={clsx(dayStyle, outOfMonthDayStyle, {
                         [outOfMonthWeekDayStyle]: isWeekday(index + 1),
-                        [selectedDayStyle]: prevMonthHighlightedDays.has(day)
+                        [highlightedDayStyle]: prevMonthHighlightedDays.has(day),
+                        [selectedDayStyle]: day === currentDate.getDate(),
                     })}
                     key={day}>{day}</div>)}
                 {monthDays.map((day, index) => <div
                     className={clsx(dayStyle, {
                         [weekDayStyle]: isWeekday(previousMonthDays.length + index + 1),
-                        [selectedDayStyle]: currMonthHighlightedDays.has(day)
+                        [highlightedDayStyle]: currMonthHighlightedDays.has(day),
+                        [selectedDayStyle]: day === currentDate.getDate(),
+                        [currentDayStyle]: day === new Date().getDate(),
                     })}
                     key={day}>{day}</div>)}
                 {nextMonthDays.map((day, index) => <div
                     className={clsx(dayStyle, outOfMonthDayStyle, {
                         [outOfMonthWeekDayStyle]: isWeekday(previousMonthDays.length + monthDays.length + index + 1),
-                        [selectedDayStyle]: nextMonthHighlightedDays.has(day)
+                        [highlightedDayStyle]: nextMonthHighlightedDays.has(day),
+                        [selectedDayStyle]: day === currentDate.getDate(),
                     })}
                     key={day}>{day}</div>)}
             </div>
