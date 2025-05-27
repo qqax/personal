@@ -6,9 +6,14 @@ import verifyReCaptcha from "@/app/acitons/reCaptcha";
 import { insertEmail } from "@/app/lib/data";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
+import { type Locale, localeValues } from "@/app/lib/schema/enums.ts";
 
 const tokenValidation = z.string().min(10, { message: "Unexpected error occurred." });
 const mailValidation = z.string().email({ message: "Please Enter a Valid Email Address" });
+const localeValidation = z.string()
+    .refine((val) => localeValues.includes(val as Locale), {
+        message: "Please enter a valid locale",
+    });
 
 const ContactMailSchema = z.object({
     name: z.string().min(2, { message: "Please Enter Your Name" }),
@@ -22,6 +27,7 @@ const ContactMailSchema = z.object({
 const MailoutSchema = z.object({
     email: mailValidation,
     token: tokenValidation,
+    locale: localeValidation,
 });
 
 export type StatusState = {
@@ -64,7 +70,10 @@ export async function addMailoutEmail(prevState: MailOutState | undefined, formD
 
     const validatedFields = MakeContact.safeParse({
         email: formData.get("email"),
+        locale: formData.get("locale"),
     });
+
+    console.log(validatedFields);
 
     if (!validatedFields.success) {
         state.errors = validatedFields.error.flatten().fieldErrors;
@@ -73,9 +82,9 @@ export async function addMailoutEmail(prevState: MailOutState | undefined, formD
         return state;
     }
 
-    const { email } = validatedFields.data;
+    const { email, locale } = validatedFields.data;
 
-    const result = await insertEmail(email);
+    const result = await insertEmail(email, locale as Locale);
 
     if (result) {
         state.status = "success";

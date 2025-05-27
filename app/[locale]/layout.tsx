@@ -5,13 +5,14 @@ import NavBar from "@/app/components/navbar/navigation";
 import { Toaster } from "sonner";
 import { ReCaptchaProvider } from "next-recaptcha-v3";
 import { notFound } from "next/navigation";
-import { type Locale, routing } from "@/i18n/routing";
+import { routing } from "@/i18n/routing";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import React from "react";
 import { fetchArtistName, fetchArtistProfession } from "@/app/lib/data";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Background from "@/app/components/background";
+import type { Locale } from "@/app/lib/schema/enums.ts";
 
 const jura = Jura({ subsets: ["latin", "cyrillic"] });
 

@@ -21,13 +21,14 @@ export type FormHandlerProps = {
     buttonClassName?: string
 }
 
-export default function FormHandler({ Component, action, reCaptchaAction, toastMessages }: {
+export default function FormHandler({ Component, action, reCaptchaAction, toastMessages, customFormData }: {
     action: (state: Awaited<StatusState & { errors?: object }>, payload: FormData) => Promise<StatusState & {
         errors?: object
     }>,
     Component: FunctionComponent<FormHandlerProps>,
     reCaptchaAction: string,
-    toastMessages: string
+    toastMessages: string,
+    customFormData?: Record<string,  string | Blob>,
 }) {
     const ref = useRef<HTMLFormElement>(null);
     const initialState: StatusState = { errors: {}, status: null };
@@ -44,6 +45,12 @@ export default function FormHandler({ Component, action, reCaptchaAction, toastM
         state.errors = {};
 
         const fd = new FormData(event.currentTarget);
+
+        if (!!customFormData) {
+            Object.entries(customFormData).forEach(([key, value]) => {
+                fd.append(key, value)
+            });
+        }
 
         const token = await executeRecaptcha(reCaptchaAction);
         fd.append("token", token);

@@ -18,8 +18,13 @@ import { desc, eq, sql } from "drizzle-orm";
 import { PgColumn, type PgTableWithColumns, union } from "drizzle-orm/pg-core";
 import { cacheLife } from "next/dist/server/use-cache/cache-life";
 import { db } from "@/app/lib/connection";
-import { NotDefaultLocales } from "@/i18n/routing";
-import { type contactType, type recordType, relatedRecordTypesEnum } from "@/app/lib/schema/enums";
+import {
+    type contactType,
+    type Locale,
+    NotDefaultLocales,
+    type recordType,
+    relatedRecordTypesEnum
+} from "@/app/lib/schema/enums";
 
 type Columns = "name" | "biography" | "profession";
 type CacheTag = Columns | "concerts" | "socials" | "contacts" | "records";
@@ -163,7 +168,7 @@ export async function fetchConcerts(locale: string): Promise<Concerts> {
     }
 }
 
-export async function fetchConcertIDs(): Promise<{ id: string; date: Date }[] > {
+export async function fetchConcertIDs(): Promise<{ id: string; date: Date }[]> {
     "use cache";
 
     const tag: CacheTag = "concerts";
@@ -250,9 +255,9 @@ export async function fetchRecords(locale: string): Promise<Records> {
     }
 }
 
-export async function insertEmail(email: string): Promise<boolean> {
+export async function insertEmail(email: string, locale: Locale): Promise<boolean> {
     try {
-        await db.insert(mailingListTable).values({ email }).onConflictDoNothing();
+        await db.insert(mailingListTable).values({ email, locale }).onConflictDoNothing();
         return true;
     } catch (error) {
         console.error("Database Error:", error);

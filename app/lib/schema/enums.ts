@@ -18,6 +18,9 @@ export const RELATED_RECORD_TYPE_CONCERT = "concert";
 export const NOT_RELATED_RECORD_TYPE_STUDIO = "studio";
 export const NOT_RELATED_RECORD_TYPE_WORKSHOP = "workshop";
 
+export const LOCALE_EN = "en";
+export const LOCALE_RU = "ru";
+
 export const recordServicesEnum = pgEnum("record_services", [RECORD_SERVICES_YOUTUBE]);
 export const recordServicesValues = recordServicesEnum.enumValues;
 export type recordService = typeof recordServicesValues[number];
@@ -35,3 +38,9 @@ export const relatedRecordTypesEnum = pgEnum("related_record_types", [RELATED_RE
 export const recordTypesEnum = pgEnum("record_types", [...relatedRecordTypesEnum.enumValues, NOT_RELATED_RECORD_TYPE_STUDIO, NOT_RELATED_RECORD_TYPE_WORKSHOP]);
 export const recordTypesValues = recordTypesEnum.enumValues;
 export type recordType = typeof recordTypesValues[number];
+
+export const localesEnum = pgEnum("local", [LOCALE_EN, LOCALE_RU]);
+export const localeValues = localesEnum.enumValues;
+export type Locale = typeof localeValues[number];
+export const defaultLocale = localeValues[0];
+export const NotDefaultLocales: string[] = localeValues.filter(l => l !== defaultLocale);

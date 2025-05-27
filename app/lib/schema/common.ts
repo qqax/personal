@@ -1,6 +1,6 @@
-import { boolean, check, integer, pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { boolean, check, integer, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
-import { contactTypesEnum, socialTypesEnum } from "@/app/lib/schema/enums";
+import { contactTypesEnum, defaultLocale, localesEnum, socialTypesEnum } from "@/app/lib/schema/enums";
 
 export const artistTable = pgTable(
     "artist",
@@ -26,6 +26,9 @@ export const mailingListTable = pgTable(
         email: varchar({ length: 255 }).notNull().unique(),
         errors: integer().notNull().default(0),
         is_valid: boolean().notNull().default(true),
+        locale: localesEnum().notNull().default(defaultLocale),
+        created_at: timestamp('created_at').notNull().defaultNow(),
+        updated_at: timestamp('updated_at').notNull().defaultNow(),
     },
 );
 

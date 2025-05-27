@@ -29,6 +29,20 @@
       "when": 1745256459961,
       "tag": "0003_breezy_vertigo",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1748362317799,
+      "tag": "0004_lying_karma",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1748362396617,
+      "tag": "0005_chemical_bulldozer",
+      "breakpoints": true
     }
   ]
 }

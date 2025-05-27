@@ -69,16 +69,16 @@
   },
   "Toast": {
     "News": {
-      "success": "Email added to newsletter.",
-      "rejected": "Wrong email.",
-      "error": "Failed to add email to newsletter.",
-      "unexpected": "Unexpected error."
+      "success": "Email добавлен в рассылку.",
+      "rejected": "Неправильный email.",
+      "error": "Не получилось добавить email в рассылку.",
+      "unexpected": "Непредвиденная ошибка."
     },
     "Contacts": {
-      "success": "Email sent successfully.",
-      "rejected": "Wrong form submission.",
-      "error": "Failed to send email.",
-      "unexpected": "Unexpected error."
+      "success": "Email успешно отправлен.",
+      "rejected": "Форма заполнена неправильно.",
+      "error": "Не получилось отправить email.",
+      "unexpected": "Непредвиденная ошибка."
     }
   }
 }
