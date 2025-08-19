@@ -4,10 +4,9 @@ import createNextIntlPlugin from "next-intl/plugin";
 /** @type {import("next").NextConfig} */
 const nextConfig: NextConfig = {
     experimental: {
-        dynamicIO: true,
+        "useCache": true,
     },
     transpilePackages: ["next-mdx-remote"],
-    /* config options here */
 };
 
 const withNextIntl = createNextIntlPlugin();
