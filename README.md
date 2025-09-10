@@ -1,42 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [
-`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Musician Portfolio
 
-## Getting Started
+A multi-page musician portfolio site built with **Next.js**, showcasing musical projects, biography, and localized content.
 
-First, run the development server:
+Live demo: [piano‑nine‑nu.vercel.app](https://piano-nine-nu.vercel.app)
+
+---
+
+##  Overview
+
+This Next.js application offers a professional and responsive portfolio for a musician, featuring:
+
+- Multi-language support (English & Russian).
+- Secure authentication (e.g. NextAuth).
+- Dynamically generated `robots.txt`, sitemap, and Web App Manifest.
+- Modular structure using **Drizzle ORM** for efficient data handling.
+- Server-side middleware for authentication, localization, and internationalization (i18n).
+- Optimized styling with Tailwind CSS and custom PostCSS configuration.
+
+---
+
+##  Features at a Glance
+
+| Feature                        | Description                                                                 |
+|--------------------------------|-----------------------------------------------------------------------------|
+| **Multi-page navigation**      | Multiple sections/pages, such as Home, About, Discography, Contact, etc.    |
+| **Localization (i18n)**        | Full multilingual support via `messages/en.json` and `messages/ru.json`.   |
+| **Authentication**             | Secure login and routing powered by NextAuth and custom middleware.         |
+| **SEO & PWA support**          | Includes `robots.ts`, `sitemap.ts`, and `site.webmanifest` files.           |
+| **Organized file structure**   | Clear separation into `app`, `api`, `components`, `ui`, `lib`, and more.    |
+| **Data layer with Drizzle**    | Type-safe ORM for performant data models and configuration.                 |
+
+---
+
+##  Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+personal/
+├── app
+│ ├── actions/
+│ ├── api/
+│ ├── components/
+│ ├── lib/
+│ ├── ui/
+│ ├── utils/
+│ ├── loading.tsx
+│ ├── [locale]/
+│ ├── [...nextauth]/
+│ ├── robots.ts
+│ ├── sitemap.ts
+│ ├── site.webmanifest
+├── auth.config.ts
+├── auth.ts
+├── drizzle/
+│ └── meta/
+├── drizzle.config.ts
+├── i18n/
+│ ├── request.ts
+│ └── routing.ts
+├── messages/
+│ ├── en.json
+│ └── ru.json
+├── middlewares/
+│ ├── authHandler.ts
+│ ├── chain.ts
+│ └── withI18nMiddleware.ts
+├── middleware.ts
+├── next.config.ts
+├── postcss.config.mjs
+├── tailwind.config.ts
+├── tsconfig.json
+└── public/
+└── (static assets)
 ```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+##  Getting Started
 
-You can start editing the page by modifying `app/default.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repository**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically
-optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   git clone git@github.com:qqax/personal.git
+   cd personal
+   ```
+2. **Install dependencies**
+   ```bash
+   npm install
+    # or
+    yarn
+   ```
+3. **Run the development server**
+   ```bash
+    npm run dev
+    # or
+    yarn dev
+   ```
+4. **Build for production**
+   ```bash
+    npm run build
+    # or
+    yarn build
+   ```
+## Internationalization (i18n)
 
-## Learn More
+- Localized text stored in `messages/en.json` and `messages/ru.json`.
+- Routing and request locale detection set up via `i18n/request.ts`, `i18n/routing.ts`, and middleware in `middlewares/`.
+- Supports dynamic locale-based rendering and static generation.
 
-To learn more about Next.js, take a look at the following resources:
+## Authentication & Security (not implemented yet)
+* Powered by NextAuth via `auth.ts` and configured via `auth.config.ts.`
+* Middleware located in `middlewares/*` ensures protected routes and i18n integration.
+* Handles user sessions and seamless locale-based authentication flows.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Data Management (Drizzle)
+* The database used is Postgres.
+* The `app/actions/` folder contains `action.ts`, which defines the communication with the database using **DTOs** (Data Transfer Objects), described in `lib/definitions.ts/`.
+* Schema and ORM settings are defined in `drizzle.config.ts` and under `drizzle/meta/`.
+* Enables fast, type-safe queries and migrations in a Next.js context.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions
-are welcome!
+## Styling & Utilities
+* Tailored UI using Tailwind CSS – configured in `tailwind.config.ts`.
+* Custom PostCSS configuration via `postcss.config.mjs`.
+* Reusable UI components in `components/` and `ui/` for maintainable design.
+* Additional utilities and actions in `lib/`, `utils/`, and .
 
-## Deploy on Vercel
+## License
+This project is open-source and available under the MIT License.
 
-The easiest way to deploy your Next.js app is to use
-the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for
-more details.
+## Author
+Created and maintained by Alexander Kudryavtsev.
