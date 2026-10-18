@@ -27,15 +27,13 @@ const CountriesSupport = ({ country }: { country: string | undefined }) => {
 
     return (<>
         <ExpandableDiv open={openKG} setOpen={setOpenKG} title={<span className={"w-full"}>{titleKG}</span>}>
-            <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-2 justify-between h-full w-full"}>
-                <BankCard
-                    title={t("Demir")}
-                    alt={"demir_bank_qr"}
-                    src={demir}
-                    href={"/demir.jpg"}
-                    download={"demir_bank_qr"}
-                />
-            </div>
+            <BankCard
+              title={t("Demir")}
+              alt={"demir_bank_qr"}
+              src={demir}
+              href={"/demir.jpg"}
+              download={"demir_bank_qr"}
+            />
         </ExpandableDiv>
         <ExpandableDiv open={openRU} setOpen={setOpenRU} title={<span className={"w-full"}>{titleRU}</span>}>
             <BankCard
