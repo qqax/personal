@@ -4,7 +4,6 @@ import { type ReactNode, useEffect, useState } from "react";
 import Image, { type StaticImageData } from "next/image";
 import { useTranslations } from "next-intl";
 import demir from "@/public/demir.jpg";
-import kicb from "@/public/kicb.jpg";
 import tinkoff from "@/public/tinkoff.jpg";
 import { ExpandableDiv } from "@/app/ui/Expandable";
 import { buttonStyle } from "@/app/ui/styles";
@@ -29,13 +28,6 @@ const CountriesSupport = ({ country }: { country: string | undefined }) => {
     return (<>
         <ExpandableDiv open={openKG} setOpen={setOpenKG} title={<span className={"w-full"}>{titleKG}</span>}>
             <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-2 justify-between h-full w-full"}>
-                <BankCard
-                    title={t("KICB")}
-                    alt={"kicb_bank_qr"}
-                    src={kicb}
-                    href={"/kicb.jpg"}
-                    download={"kicb_bank_qr"}
-                />
                 <BankCard
                     title={t("Demir")}
                     alt={"demir_bank_qr"}
