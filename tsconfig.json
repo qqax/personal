@@ -7,7 +7,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "allowJs": true,
     //    "lib": ["dom", "dom.iterable", "esnext"],
     //    "target": "ES2017",
@@ -51,7 +51,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
