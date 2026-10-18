@@ -22,7 +22,7 @@
     "next": "16.4.0-canary.39",
     "next-auth": "5.0.0-beta.32",
     "next-intl": "4.9.2",
-    "next-mdx-remote": "^5.0.0",
+    "next-mdx-remote": "^6.0.0",
     "next-recaptcha-v3": "^1.5.0",
     "nodemailer": "10.0.13",
     "pg": "^8.13.1",
